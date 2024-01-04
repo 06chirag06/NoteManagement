@@ -2,7 +2,7 @@ const express = require('express');
 const Connection = require('./database/db.js')
 // const UserModel = require('./models/Users');
 const dotenv = require('dotenv');  
-const Router = require('./router.js')
+const Router = require('./Routes/router.js')
 var bodyParser = require('body-parser');
 const cors = require('cors');
 

@@ -17,6 +17,7 @@ const connection = async (username,password) => {
     } catch (err) {
         console.log("Error while connectiong database", err);
     }
+    
 }
 
 module.exports = connection;

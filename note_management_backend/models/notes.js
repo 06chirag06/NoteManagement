@@ -21,7 +21,7 @@ const NotesSchema = new mongoose.Schema({
 
 
 //model has two properties collection name and schema.
-const NotesModel = mongoose.model("users", NotesSchema)
+const NotesModel = mongoose.model("notes", NotesSchema)
 
 module.exports = NotesModel
 

@@ -40,7 +40,7 @@ export default function LoginForm() {
 
     try {
       const response = await axios.post(
-        "http://192.168.149.33:8000/login",
+        "http://[::1]:8000/login",
         reqBody
       );
       if (response.data.token) {

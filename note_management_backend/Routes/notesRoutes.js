@@ -1,7 +1,7 @@
 const NotesModel = require('../models/notes');
 const notesRouter = require('express').Router();
 
-router.post('/Add', async (req, res) => {
+notesRouter.post('/Add', async (req, res) => {
     var data = new NotesModel({
         username: req.body.username,
         title: req.body.title,
@@ -17,7 +17,7 @@ router.post('/Add', async (req, res) => {
 });
 
 
-router.get('/getAll', async (req, res) => {
+notesRouter.get('/getAll', async (req, res) => {
     try {
         const data = await NotesModel.find();
         res.json(data);
@@ -37,7 +37,7 @@ router.get('/getAll', async (req, res) => {
 //     }
 // });
 
-router.patch('/modify/:id', async (req, res) => {
+notesRouter.patch('/modify/:id', async (req, res) => {
     try {
         const id = req.params.id;
         const updatedData = req.body;
@@ -50,7 +50,7 @@ router.patch('/modify/:id', async (req, res) => {
 });
 
 
-router.delete('/delete', async (req, res) => {
+notesRouter.delete('/delete', async (req, res) => {
     try {
         const data = await NotesModel.findOneAndDelete({
             username: req.body.username

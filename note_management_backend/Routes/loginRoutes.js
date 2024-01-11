@@ -12,6 +12,7 @@ const loginRouter = require('express').Router();
 //     }
 //   });
 
+//Try to use JWT
 
 const login = (req, res) => {
   const data = req.body;

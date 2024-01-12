@@ -36,3 +36,13 @@
     transform: rotate(360deg);
   }
 }
+
+.bg-terrific-orange{
+  /* background-color: #ff2600; */
+  background:#FF4848
+}
+
+.bg-terrific-orange2{
+  background:rgb(255, 72, 72);
+  backdrop-filter: invert(80%);
+}

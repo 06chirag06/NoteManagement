@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../images/logo2.jpg";
+import "../Style/App.css";
 
 export default function HomeNavbar() {
   return (
@@ -23,12 +24,12 @@ export default function HomeNavbar() {
         <div className="collapse navbar-collapse me-4" id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <Link className="nav-link text-light" to="/login">
+              <Link className="nav-link text-light fw-semibold" to="/login">
                 Login
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link text-light" to="/signup">
+              <Link className="nav-link text-light fw-semibold" to="/signup">
                 Signup
               </Link>
             </li>

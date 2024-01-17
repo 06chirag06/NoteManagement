@@ -1,5 +1,7 @@
-import React from "react";
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import React from 'react';
 
+// eslint-disable-next-line react/prop-types
 function UserPass({ onChange }) {
   const handleInput = (e) => {
     const { name, value } = e.target;

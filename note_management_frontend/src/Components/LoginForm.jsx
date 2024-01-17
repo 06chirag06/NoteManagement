@@ -1,7 +1,9 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import UserPass from "./UserPass";
-import axios from "axios";
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+// import UserPass from "./UserPass";
+import axios from 'axios';
 
 export default function LoginForm() {
   const navigate = useNavigate();
@@ -9,19 +11,18 @@ export default function LoginForm() {
   //   userInfo: {},
   // });
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleInput = (e) => {
     switch (e.target.id) {
-      case "username":
+      case 'username':
         setUsername(e.target.value);
-        console.log(e.target.value);
         break;
-      case "password":
+      case 'password':
         setPassword(e.target.value);
-        console.log(e.target.value);
         break;
+      default:
     }
   };
 
@@ -34,32 +35,40 @@ export default function LoginForm() {
     e.preventDefault();
 
     const reqBody = {
+      // eslint-disable-next-line object-shorthand
       username: username,
+      // eslint-disable-next-line object-shorthand
       password: password,
     };
 
     try {
       const response = await axios.post(
-        "http://[::1]:8000/login",
-        reqBody
+        'http://[::1]:8000/login',
+        reqBody,
       );
       if (response.data.token) {
-        localStorage.setItem("token", response.data.token);
-        navigate("/userID/home", { replace: true });
+        localStorage.setItem('token', response.data.token);
+        navigate('/userID/home', { replace: true });
       } else {
-        const err = { Error: "Invalid Credentials" };
+        const err = { Error: 'Invalid Credentials' };
         throw err;
       }
     } catch (err) {
-      console.log(err);
-      alert("Invalid Credentials");
+      // eslint-disable-next-line no-alert
+      alert('Invalid Credentials');
       // setFormData({ ...formData, {} });
     }
     // navigate("/userId/home", { replace: true });
   };
 
-  const handleSignUp = (e) => {
-    navigate("/signup", { replace: true });
+  const handleKeyDown = (e) => {
+    if (e.keyCode === 13) {
+      handleSubmit(e);
+    }
+  };
+
+  const handleSignUp = () => {
+    navigate('/signup', { replace: true });
   };
 
   return (
@@ -98,11 +107,14 @@ export default function LoginForm() {
         </button>
       </div>
       <div>
-        <span onClick={handleSignUp}>
-          New User?{" "}
-          <a hrefLang="/signup" className="text-decoration-underline">
+        <span onClick={handleSignUp} onKeyDown={handleKeyDown}>
+          New User?
+          {/* <a href="/signup" className="text-decoration-underline">
             SignUp
-          </a>
+          </a> */}
+          <Link to="/signup">
+            SignUp
+          </Link>
         </span>
       </div>
     </form>

@@ -1,10 +1,11 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import UserPass from "./UserPass";
-import axios from "axios";
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import UserPass from './UserPass';
 // import { Form } from "react-router-dom";
 
-//Try to use Form from react-router-dom
+// Try to use Form from react-router-dom
 
 export default function SignupForm() {
   const navigate = useNavigate();
@@ -13,9 +14,9 @@ export default function SignupForm() {
   const [formData, setFormData] = useState({
     userInfo: {},
   });
-  const [rePassword, setRePassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [dob, setDob] = useState("");
+  const [rePassword, setRePassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [dob, setDob] = useState('');
 
   const handleInput = (e) => {
     switch (e.target.id) {
@@ -27,17 +28,14 @@ export default function SignupForm() {
       //   setPassword(e.target.value);
       //   console.log(e.target.value);
       //   break;
-      case "rePassword":
+      case 'rePassword':
         setRePassword(e.target.value);
-        console.log(e.target.value);
         break;
-      case "email":
+      case 'email':
         setEmail(e.target.value);
-        console.log(e.target.value);
         break;
-      case "dob":
+      case 'dob':
         setDob(e.target.value);
-        console.log(e.target.value);
         break;
       default:
         break;
@@ -48,39 +46,34 @@ export default function SignupForm() {
     e.preventDefault();
 
     const reqBody = {
-      username: formData.userInfo["username"],
-      password: formData.userInfo["password"],
-      email: email,
-      dob: dob,
+      username: formData.userInfo.username,
+      password: formData.userInfo.password,
+      email,
+      dob,
     };
 
     try {
       const response = await axios.post(
-        "http://192.168.149.33:8000/Add",
-        reqBody
+        'http://[::1]:8000/Add',
+        reqBody,
       );
       if (response.statusText) {
         // localStorage.setItem("token", response.data.token);
-        navigate("/login", { replace: true });
+        navigate('/login', { replace: true });
       } else {
-        const err = { Error: "Invalid Credentials" };
+        const err = { Error: 'Invalid Credentials' };
         throw err;
       }
     } catch (err) {
-      console.log("err");
-      alert("Invalid Credentials");
+      // eslint-disable-next-line no-alert
+      alert('Invalid Credentials');
     }
 
     // navigate("/login", { replace: true });
   };
 
-  const handleLogin = (e) => {
-    navigate("/login", { replace: true });
-  };
-
   const handleUserPassChange = (userInfo) => {
     setFormData({ ...formData, userInfo });
-    console.log(formData.userInfo);
   };
 
   return (

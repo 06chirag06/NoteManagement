@@ -1,0 +1,16 @@
+.main-wrapper {
+  height: 100vh;
+  background-color: rgb(2, 161, 161);
+}
+
+.sidebar {
+  /* position: ; */
+  /* margin: 0; */
+  /* padding: 0; */
+  height: 100%;
+  /* overflow: auto; */
+}
+
+.bg-viridian-green{
+    background-color: #02a1a1;
+}

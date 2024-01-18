@@ -11,6 +11,20 @@
   /* overflow: auto; */
 }
 
-.bg-viridian-green{
-    background-color: rgba(0,0,0,0.2);
+.bg-viridian-green {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+#background-text-notes {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  color: #22242c;
+  font-weight: bold;
+  font-size: 20rem;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  z-index: 1;
 }

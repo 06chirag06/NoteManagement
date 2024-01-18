@@ -24,3 +24,8 @@
   outline: none;
   box-shadow: none;
 }
+
+.focus-selector:hover{
+  background-color: #546A7B;
+  color: #333741;
+}

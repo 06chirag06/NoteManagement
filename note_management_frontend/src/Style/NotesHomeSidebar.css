@@ -14,5 +14,14 @@
 } */
 
 .font-yellow{
-  color: #EEE5E9;
+  color: rgb(238, 229, 233);
+}
+
+.focus-selector:active{
+  background-color: aqua;
+}
+
+.focus-selector:hover{
+  background-color: #546A7B;
+  /* border-radius: 0 30% 30% 0; */
 }

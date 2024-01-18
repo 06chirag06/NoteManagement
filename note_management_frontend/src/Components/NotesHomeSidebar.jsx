@@ -13,11 +13,11 @@ import "../Style/NotesHomeSidebar.css";
 
 export default function NotesHomeSidebar() {
   const iconStyles = {
-    color: "yellow",
+    color: "#EEE5E9",
     fontSize: "1.25rem",
   };
   const iconStyles1={
-    color:"yellow",
+    color:"#EEE5E9",
     fontSize:"1.75rem",
   }
   return (

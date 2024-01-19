@@ -9,25 +9,25 @@ import UserPass from './UserPass';
 
 export default function SignupForm() {
   const navigate = useNavigate();
-  // const [username, setUsername] = useState("");
-  // const [password, setPassword] = useState("");
-  const [formData, setFormData] = useState({
-    userInfo: {},
-  });
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  // const [formData, setFormData] = useState({
+  //   userInfo: {},
+  // });
   const [rePassword, setRePassword] = useState('');
   const [email, setEmail] = useState('');
   const [dob, setDob] = useState('');
 
   const handleInput = (e) => {
     switch (e.target.id) {
-      // case "username":
-      //   setUsername(e.target.value);
-      //   console.log(e.target.value);
-      //   break;
-      // case "password":
-      //   setPassword(e.target.value);
-      //   console.log(e.target.value);
-      //   break;
+      case "username":
+        setUsername(e.target.value);
+        console.log(e.target.value);
+        break;
+      case "password":
+        setPassword(e.target.value);
+        console.log(e.target.value);
+        break;
       case 'rePassword':
         setRePassword(e.target.value);
         break;
@@ -46,15 +46,15 @@ export default function SignupForm() {
     e.preventDefault();
 
     const reqBody = {
-      username: formData.userInfo.username,
-      password: formData.userInfo.password,
-      email,
-      dob,
+      username: username,
+      password: password,
+      email: email,
+      dob: dob,
     };
 
     try {
       const response = await axios.post(
-        'http://[::1]:8000/Add',
+        'http://[::1]:8000/signUp/Add',
         reqBody,
       );
       if (response.statusText) {
@@ -72,9 +72,9 @@ export default function SignupForm() {
     // navigate("/login", { replace: true });
   };
 
-  const handleUserPassChange = (userInfo) => {
-    setFormData({ ...formData, userInfo });
-  };
+  // const handleUserPassChange = (userInfo) => {
+  //   setFormData({ ...formData, userInfo });
+  // };
 
   return (
     <form
@@ -82,7 +82,7 @@ export default function SignupForm() {
       className="form-group border border-4 border-dark rounded rounded-4 p-3 bg-light-blue mt-4"
     >
       <div className="offset-4 fw-bold fs-2 mt-2">SignUp</div>
-      {/* <div>
+      <div>
         <label htmlFor="username" className="form-label mt-2">
           Username
         </label>
@@ -107,8 +107,8 @@ export default function SignupForm() {
           value={password}
           onChange={handleInput}
         />
-      </div> */}
-      <UserPass onChange={handleUserPassChange} />
+      </div>
+      {/* <UserPass onChange={handleUserPassChange} /> */}
       <div>
         <label htmlFor="rePassword" className="form-label mt-2">
           Re-Type Password

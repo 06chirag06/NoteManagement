@@ -13,14 +13,24 @@ const UserModel = require('../models/Users');
 
 // Try to use JWT
 
-const login = (req, res) => {
+const login = async (req, res) => {
   const data = req.body;
-  if (data.username === 'admin' && data.password === 'admin') {
-    const token = crypto.randomBytes(32).toString('hex'); // Generating a random token
-    res.json({ token });
-  } else {
-    res.status(401).send('Invalid Credential');
+  const user = await UserModel.findOne({ username: data.username });
+  console.log(data.username);
+  console.log(user.username);
+  console.log(data.password);
+  console.log(user.password);
+  if (!user) {
+    return res.status(401).send('Invalid Credentials');
   }
+  const isPasswordValid = (data.password == user.password);
+  if (!isPasswordValid) {
+    return res.status(401).send('Invalid Credentials');
+  }
+
+  //Generating a JWT token
+  const token = crypto.randomBytes(64).toString('hex'); // Generating a random token
+  res.json({ token });
 };
 
 loginRouter.patch('/modify/:id', async (req, res) => {

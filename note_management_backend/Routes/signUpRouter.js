@@ -11,7 +11,7 @@ signUpRouter.post('/Add', async (req, res) => {
   try {
     const dataToSave = await data.save();
     res.status(200).json(dataToSave);
-    // console.log(req.body);
+    console.log(req.body);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }

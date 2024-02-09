@@ -1,43 +1,41 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import UserPass from "./UserPass";
-import axios from "axios";
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import UserPass from './UserPass';
 // import { Form } from "react-router-dom";
 
-//Try to use Form from react-router-dom
+// Try to use Form from react-router-dom
 
 export default function SignupForm() {
   const navigate = useNavigate();
-  // const [username, setUsername] = useState("");
-  // const [password, setPassword] = useState("");
-  const [formData, setFormData] = useState({
-    userInfo: {},
-  });
-  const [rePassword, setRePassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [dob, setDob] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  // const [formData, setFormData] = useState({
+  //   userInfo: {},
+  // });
+  const [rePassword, setRePassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [dob, setDob] = useState('');
 
   const handleInput = (e) => {
     switch (e.target.id) {
-      // case "username":
-      //   setUsername(e.target.value);
-      //   console.log(e.target.value);
-      //   break;
-      // case "password":
-      //   setPassword(e.target.value);
-      //   console.log(e.target.value);
-      //   break;
-      case "rePassword":
+      case "username":
+        setUsername(e.target.value);
+        console.log(e.target.value);
+        break;
+      case "password":
+        setPassword(e.target.value);
+        console.log(e.target.value);
+        break;
+      case 'rePassword':
         setRePassword(e.target.value);
-        console.log(e.target.value);
         break;
-      case "email":
+      case 'email':
         setEmail(e.target.value);
-        console.log(e.target.value);
         break;
-      case "dob":
+      case 'dob':
         setDob(e.target.value);
-        console.log(e.target.value);
         break;
       default:
         break;
@@ -48,40 +46,35 @@ export default function SignupForm() {
     e.preventDefault();
 
     const reqBody = {
-      username: formData.userInfo["username"],
-      password: formData.userInfo["password"],
+      username: username,
+      password: password,
       email: email,
       dob: dob,
     };
 
     try {
       const response = await axios.post(
-        "http://192.168.149.33:8000/Add",
-        reqBody
+        'http://[::1]:8000/signUp/Add',
+        reqBody,
       );
       if (response.statusText) {
         // localStorage.setItem("token", response.data.token);
-        navigate("/login", { replace: true });
+        navigate('/login', { replace: true });
       } else {
-        const err = { Error: "Invalid Credentials" };
+        const err = { Error: 'Invalid Credentials' };
         throw err;
       }
     } catch (err) {
-      console.log("err");
-      alert("Invalid Credentials");
+      // eslint-disable-next-line no-alert
+      alert('Invalid Credentials');
     }
 
     // navigate("/login", { replace: true });
   };
 
-  const handleLogin = (e) => {
-    navigate("/login", { replace: true });
-  };
-
-  const handleUserPassChange = (userInfo) => {
-    setFormData({ ...formData, userInfo });
-    console.log(formData.userInfo);
-  };
+  // const handleUserPassChange = (userInfo) => {
+  //   setFormData({ ...formData, userInfo });
+  // };
 
   return (
     <form
@@ -89,7 +82,7 @@ export default function SignupForm() {
       className="form-group border border-4 border-dark rounded rounded-4 p-3 bg-light-blue mt-4"
     >
       <div className="offset-4 fw-bold fs-2 mt-2">SignUp</div>
-      {/* <div>
+      <div>
         <label htmlFor="username" className="form-label mt-2">
           Username
         </label>
@@ -114,8 +107,8 @@ export default function SignupForm() {
           value={password}
           onChange={handleInput}
         />
-      </div> */}
-      <UserPass onChange={handleUserPassChange} />
+      </div>
+      {/* <UserPass onChange={handleUserPassChange} /> */}
       <div>
         <label htmlFor="rePassword" className="form-label mt-2">
           Re-Type Password

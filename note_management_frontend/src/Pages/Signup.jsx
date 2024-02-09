@@ -1,6 +1,6 @@
-import React from "react";
-import SignupForm from "../Components/SignupForm";
-import SignUpNavbar from "../Components/SignUpNavbar";
+import React from 'react';
+import SignupForm from '../Components/SignupForm';
+import SignUpNavbar from '../Components/SignUpNavbar';
 
 export default function Signup() {
   return (

@@ -1,64 +1,53 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 // import UserPass from "./UserPass";
-import axios from 'axios';
+import axios from "axios";
+import { FaLock, FaUser, FaFacebook, FaGithub } from "react-icons/fa6";
+import { FcGoogle } from "react-icons/fc";
 
 export default function LoginForm() {
   const navigate = useNavigate();
-  // const [formData, setFormData] = useState({
-  //   userInfo: {},
-  // });
 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const usernamePlaceholder = "Enter Username";
+  const passwordPlaceholder = "Enter Password";
 
   const handleInput = (e) => {
     switch (e.target.id) {
-      case 'username':
+      case "username":
         setUsername(e.target.value);
         break;
-      case 'password':
+      case "password":
         setPassword(e.target.value);
         break;
       default:
     }
   };
 
-  // const handleUserPassChange = (userInfo) => {
-  //   setFormData({ ...formData, userInfo });
-  //   console.log(formData.userInfo["username"]);
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const reqBody = {
-      // eslint-disable-next-line object-shorthand
       username: username,
-      // eslint-disable-next-line object-shorthand
       password: password,
     };
 
     try {
-      const response = await axios.post(
-        'http://[::1]:8000/login',
-        reqBody,
-      );
+      const response = await axios.post("http://[::1]:8000/login", reqBody);
       if (response.data.token) {
-        localStorage.setItem('token', response.data.token);
-        navigate('/userID/home', { replace: true });
+        // if(data.)
+        localStorage.setItem("token", response.data.token);
+        navigate("/userID/home", { replace: true });
       } else {
-        const err = { Error: 'Invalid Credentials' };
+        const err = { Error: "Invalid Credentials" };
         throw err;
       }
     } catch (err) {
-      // eslint-disable-next-line no-alert
-      alert('Invalid Credentials');
-      // setFormData({ ...formData, {} });
+      alert("Invalid Credentials");
     }
-    // navigate("/userId/home", { replace: true });
   };
 
   const handleKeyDown = (e) => {
@@ -68,54 +57,123 @@ export default function LoginForm() {
   };
 
   const handleSignUp = () => {
-    navigate('/signup', { replace: true });
+    navigate("/signup", { replace: true });
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="offset-5 fw-bold fs-2">Login</div>
-      {/* <UserPass onChange={handleUserPassChange} />p */}
-      <div>
-        <label htmlFor="username" className="form-label mt-2">
-          Username
-        </label>
-        <input
-          className="form-control"
-          type="text"
-          id="username"
-          name="username"
-          onChange={handleInput}
-          value={username}
-        />
-      </div>
-      <div>
-        <label htmlFor="password" className="form-label mt-2">
-          Password
-        </label>
-        <input
-          className="form-control"
-          type="password"
-          id="password"
-          name="password"
-          onChange={handleInput}
-          value={password}
-        />
-      </div>
-      <div>
-        <button type="submit" className="btn btn-primary mt-2 offset-5 mb-2">
-          Login
-        </button>
-      </div>
-      <div>
-        <span onClick={handleSignUp} onKeyDown={handleKeyDown}>
-          New User?
-          {/* <a href="/signup" className="text-decoration-underline">
+      <div className="row p-0 m-0">
+        <div className="col-lg-4 col-0 p-0 m-0 login-side-image"></div>
+        <div className="col-12 col-lg-8 p-3">
+          <div className="row">
+            <div className="col-12 fw-bold fs-1 text-center">Welcome Back</div>
+            {/* <UserPass onChange={handleUserPassChange} />p */}
+          </div>
+          <div className="row">
+            <label
+              htmlFor="username"
+              className="form-label m-0 p-0 ms-3 mt-2 fs-5"
+            >
+              Username<span className="text-danger">*</span>
+            </label>
+            <div className="input-group">
+              <div className="input-group-text">
+                <FaUser />
+              </div>
+              <input
+                className="form-control"
+                type="text"
+                id="username"
+                name="username"
+                onChange={handleInput}
+                value={username}
+                placeholder={usernamePlaceholder}
+              />
+            </div>
+          </div>
+          <div className="row">
+            <label
+              htmlFor="password"
+              className="form-label m-0 p-0 ms-3 mt-2 fs-5"
+            >
+              Password<span className="text-danger">*</span>
+            </label>
+            <div className="input-group">
+              <div className="input-group-text">
+                <FaLock />
+              </div>
+              <input
+                className="form-control"
+                type="password"
+                id="password"
+                name="password"
+                onChange={handleInput}
+                value={password}
+                placeholder={passwordPlaceholder}
+              />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-sm-6 fs-6 mt-3">
+              <div className="form-check">
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  id="rememberMe"
+                />
+                <label className="form-check-label" htmlFor="rememberMe">
+                  Remember Me
+                </label>
+              </div>
+            </div>
+            <div className="col-sm-6 fs-6 mt-3">
+              <a href="#" className="float-end text-primary">
+                Forgot Password?
+              </a>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-12">
+              <button
+                type="submit"
+                className="btn btn-primary px-4 text-center mt-4 offset-5 mb-2"
+              >
+                Login
+              </button>
+            </div>
+          </div>
+          {/* <div className="row mt-4">
+            <div className="offset-1 col-4">
+              <hr className="border border-1 border-dark opacity-100" />
+            </div>
+            <div className="col-2 fw-bold fs-5 text-center">OR</div>
+            <div className="col-4">
+              <hr className="border border-1 border-dark opacity-100" />
+            </div>
+          </div> */}
+          <div className="row mt-4 mb-4">
+            <div className="offset-3 col-2 text-center">
+              <FcGoogle size={30} />
+            </div>
+            <div className="col-2 text-center">
+              <FaFacebook size={30} />
+            </div>
+            <div className="col-2 text-center">
+              <FaGithub size={30} />
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-12 fs-6">
+              <span onClick={handleSignUp} onKeyDown={handleKeyDown}>
+                Yet to become a member?&nbsp;
+                {/* <a href="/signup" className="text-decoration-underline">
             SignUp
           </a> */}
-          <Link to="/signup">
-            SignUp
-          </Link>
-        </span>
+                <Link to="/signup">SignUp</Link>
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
     </form>
   );

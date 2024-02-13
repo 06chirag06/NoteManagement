@@ -20,3 +20,15 @@
   left: 40%; */
   font-size: 3rem;
 }
+
+.note-icon-hover{
+  background-color: transparent;
+}
+
+.note-icon-hover:hover{
+  cursor: pointer;
+}
+
+.dp-sec{
+  transition: transform 5s ease-in-out;
+}

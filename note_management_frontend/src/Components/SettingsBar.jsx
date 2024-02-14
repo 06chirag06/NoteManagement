@@ -1,5 +1,5 @@
 import React from "react";
-import { Nav, NavDropdown, Navbar, Tooltip } from "react-bootstrap";
+import { Nav, NavDropdown, Navbar} from "react-bootstrap";
 import { settingsBar, fontSize, fontStyles } from "../data/settingsBarData";
 import "../Style/SettingsBar.css";
 
@@ -35,7 +35,7 @@ export default function SettingsBar() {
               </NavDropdown>
             )
           ) : (
-            <Nav.Item className="border border-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title={setting.title}>{setting.icon}</Nav.Item>
+            <Nav.Item className="border border-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title={setting.title} role="button">{setting.icon}</Nav.Item>
           )
         )}
       </div>

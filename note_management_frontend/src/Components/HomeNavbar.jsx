@@ -9,19 +9,22 @@ import "../Style/HomeNavbar.css";
 // import "../Style/HomeNavbar.scss";
 
 export default function HomeNavbar() {
-
   const url = window.location.pathname;
 
   useEffect(() => {
     if (url === "/login") {
       document.getElementById("login").style.display = "none";
-    } else if(url === "/signup"){
+    } else if (url === "/signup") {
       document.getElementById("signup").style.display = "none";
     }
   }, []);
 
   return (
-    <Navbar bg="dark" expand="lg" className="mb-4 p-lg-2 border-bottom border-2">
+    <Navbar
+      bg="dark"
+      expand="lg"
+      className="mb-4 p-lg-2 border-bottom border-2"
+    >
       <div className="container-fluid">
         <Navbar.Brand href="/">
           <img src={logo} height="50%" width="50%" alt="" />
@@ -41,9 +44,12 @@ export default function HomeNavbar() {
         </NavbarToggle>
         <Navbar.Collapse id="basic-navbar-nav" className="border-0">
           <Nav className="ms-auto">
-            <Nav.Link className="focus-selector" active={url === "/login"}  id="login">
+            <Nav.Link
+              className="focus-selector"
+              id="login"
+            >
               <Link
-                className="nav-link text-light ps-lg-3 pe-lg-3 fw-semibold fs-4"
+                className="nav-link text-light ps-lg-3 pe-lg-3 fw-semibold fs-4 fs-5"
                 to="/login"
               >
                 Login
@@ -58,6 +64,22 @@ export default function HomeNavbar() {
               </Link>
             </Nav.Link>
           </Nav>
+          {/* <Nav.Item>
+            <Link
+              className="nav-link text-light ps-lg-3 pe-lg-3 fw-semibold fs-4"
+              to="/login"
+            >
+              Login
+            </Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Link
+              className="nav-link text-light fw-semibold fs-4"
+              to="/signup"
+            >
+              Signup
+            </Link>
+          </Nav.Item> */}
         </Navbar.Collapse>
       </div>
     </Navbar>

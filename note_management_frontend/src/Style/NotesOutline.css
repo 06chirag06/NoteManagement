@@ -1,7 +1,7 @@
 .note-dimensions {
   background-color: #546a7b;
-  height: 300px;
-  width: 300px;
+  height: 15rem;
+  width: 12rem;
   border-radius: 5%;
   z-index: 2;
 }
@@ -29,6 +29,11 @@
   cursor: pointer;
 }
 
-.dp-sec{
+/* .dp-sec{
   transition: transform 5s ease-in-out;
+} */
+
+.placement-icons{
+  bottom: 3%;
+  left: 10%;
 }

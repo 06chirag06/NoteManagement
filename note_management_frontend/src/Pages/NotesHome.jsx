@@ -12,6 +12,7 @@ import NotesHomeSidebar from "../Components/NotesHomeSidebar";
 import NotesOutline from "../Components/NotesOutline";
 import { IoAddCircleOutline } from "react-icons/io5";
 import "../Style/NotesHome.css";
+import { fakeNotesRepo } from "../data/fakeNotesRepo";
 
 export default function Users() {
   const url = window.location.pathname;
@@ -93,12 +94,13 @@ export default function Users() {
             <NotesHomeSidebar />
           </div>
           <div className="col-10 m-0 p-0 bg-viridian-green">
-            <div className="row m-0 p-0 ps-5 pe-5 pt-5 note-card">
-              <div className="col-3">
-                <NotesOutline
-                  title="Java"
-                  content="This is a sample java note"
-                />
+            <div className="row m-0 p-0">
+              <div className="d-inline-block m-0 p-0 ps-5 pe-5 pt-5 note-card">
+                {fakeNotesRepo.map((note) => (
+                  <div className="m-0 p-0 mt-2" key={note.id}>
+                    <NotesOutline title={note.title} content={note.content} />
+                  </div>
+                ))}
               </div>
             </div>
             <Link to="/userId/home/newNote">

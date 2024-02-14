@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../Style/NotesOutline.css";
-import { FaCopy, FaPalette, FaTrash, FaUserPlus } from "react-icons/fa6";
-import { FaArchive } from "react-icons/fa";
+import { notesHomeIcons } from "../data/notesHomeIcons";
 
 export default function NotesOutline(props) {
   const [isHovering, setIsHovering] = useState(false);
@@ -30,28 +29,21 @@ export default function NotesOutline(props) {
 
   return (
     <div
-      className="text-light note-dimensions p-2 border border-1 me-5"
+      className="text-light note-dimensions p-2 border border-1 position-relative"
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
     >
       <div className="row notes-title p-2">{props.title}</div>
       <div className="row p-2">{props.content}</div>
       {isHovering && (
-        <div className="float-bottom">
-          <div className="row">&nbsp;</div>
-          <div className="row">&nbsp;</div>
-          <div className="row">&nbsp;</div>
-          <div className="row">&nbsp;</div>
-          <div className="row">&nbsp;</div>
-          <div className="row dp-sec">
-            <div className="offset-1 col-2">
-              <FaArchive
-                className="p-1 note-icon-hover"
-                size={30}
-                onClick={handleArchiveClick}
-              />
-            </div>
-            <div className="col-2 note-icon-hover">
+        <div>
+          <div className="row dp-sec position-absolute placement-icons">
+            {notesHomeIcons.map((icons) => (
+              <div className="col-2" key={icons.icon}>
+                {icons.icon}
+              </div>
+            ))}
+            {/* <div className="col-2 note-icon-hover">
               <FaPalette className="p-1" size={30} onClick={handleThemeClick} />
             </div>
             <div className="col-2">
@@ -74,7 +66,7 @@ export default function NotesOutline(props) {
                 size={30}
                 onClick={handleTrashClick}
               />
-            </div>
+            </div> */}
           </div>
         </div>
       )}

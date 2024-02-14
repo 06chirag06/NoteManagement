@@ -6,14 +6,26 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaLock, FaUser, FaFacebook, FaGithub } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
+import { useDispatch } from "react-redux";
+import { updateUsername } from "../App/reducers/usernameSlice";
+// import { GoogleLogin } from "react-google-login";
 
 export default function LoginForm() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const usernamePlaceholder = "Enter Username";
   const passwordPlaceholder = "Enter Password";
+
+  // const responseSuccessGoogle = (response) => {
+  //   console.log(response);
+  // };
+
+  // const responseFailureGoogle = (response)=>{
+  //   console.log(response);
+  // }
 
   const handleInput = (e) => {
     switch (e.target.id) {
@@ -38,6 +50,7 @@ export default function LoginForm() {
     try {
       const response = await axios.post("http://[::1]:8000/login", reqBody);
       if (response.data.token) {
+        dispatch(updateUsername(reqBody.username));
         // if(data.)
         localStorage.setItem("token", response.data.token);
         navigate("/userID/home", { replace: true });
@@ -152,14 +165,21 @@ export default function LoginForm() {
             </div>
           </div> */}
           <div className="row mt-4 mb-4">
-            <div className="offset-3 col-2 text-center">
-              <FcGoogle size={30} />
+            <div className="col text-center">
+              {/* <GoogleLogin
+                className="text-dark"
+                clientId="522859746627-0hmr8ng9qk6ugt968s31o8amfj503h3l.apps.googleusercontent.com"
+                buttonText="Login with Google"
+                onSuccess={responseSuccessGoogle}
+                onFailure={responseFailureGoogle}
+                cookiePolicy={"single_host_origin"}
+              /> */}
             </div>
-            <div className="col-2 text-center">
-              <FaFacebook size={30} />
-            </div>
-            <div className="col-2 text-center">
-              <FaGithub size={30} />
+            {/* <div className="col-2 text-center">
+              <FaFacebook size={30} role="button" />
+            </div> */}
+            <div className="col text-center">
+              <FaGithub size={30} role="button" />
             </div>
           </div>
           <div className="row">

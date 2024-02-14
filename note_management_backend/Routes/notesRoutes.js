@@ -1,7 +1,7 @@
-const notesRouter = require('express').Router();
-const NotesModel = require('../models/notes');
+const notesRouter = require("express").Router();
+const NotesModel = require("../models/notes");
 
-notesRouter.post('/Add', async (req, res) => {
+notesRouter.post("/Add", async (req, res) => {
   const data = new NotesModel({
     username: req.body.username,
     title: req.body.title,
@@ -16,7 +16,7 @@ notesRouter.post('/Add', async (req, res) => {
   }
 });
 
-notesRouter.get('/getAll', async (req, res) => {
+notesRouter.get("/getAll", async (req, res) => {
   try {
     const data = await NotesModel.find();
     res.json(data);
@@ -35,19 +35,28 @@ notesRouter.get('/getAll', async (req, res) => {
 //     }
 // });
 
-notesRouter.patch('/modify/:id', async (req, res) => {
+notesRouter.patch("/modify/:username", async (req, res) => {
   try {
-    const { id } = req.params;
+    const { username } = req.params;
+    const data = await NotesModel.find({username:username});
+
     const updatedData = req.body;
+    console.log(updatedData);
+    const { base64 } = req.body.image;
+    updatedData.image = base64;
     const options = { new: true };
-    const result = await NotesModel.findByIdAndUpdate(id, updatedData, options);
+    const result = await NotesModel.findByIdAndUpdate(
+      username,
+      updatedData,
+      options
+    );
     res.send(result);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
 });
 
-notesRouter.delete('/delete', async (req, res) => {
+notesRouter.delete("/delete", async (req, res) => {
   try {
     const data = await NotesModel.findOneAndDelete({
       username: req.body.username,

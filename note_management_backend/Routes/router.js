@@ -1,11 +1,13 @@
-const router = require('express').Router();
-const loginRouter = require('./loginRoutes');
-const notesRouter = require('./notesRoutes');
-const signUpRouter = require('./signUpRouter');
+const router = require("express").Router();
+const loginRouter = require("./loginRoutes");
+const notesRouter = require("./notesRoutes");
+const signUpRouter = require("./signUpRouter");
+// const authRouter = require("./authRouter");
 
-router.use('/login', loginRouter);
-router.use('/signUp', signUpRouter);
-router.use('/notes', notesRouter);
+router.use("/login", loginRouter);
+router.use("/signUp", signUpRouter);
+router.use("/notes", notesRouter);
+//router.use("/auth", authRouter);
 
 // router.get('/getAll', async (req, res) => {
 //     try {

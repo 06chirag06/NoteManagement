@@ -1,7 +1,3 @@
-// title
-//  username
-// content
-
 const mongoose = require("mongoose");
 
 const NotesSchema = new mongoose.Schema({
@@ -25,7 +21,6 @@ const NotesSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-
   image: {
     type: String,
     required: false,

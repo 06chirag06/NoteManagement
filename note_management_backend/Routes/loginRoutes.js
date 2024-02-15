@@ -2,49 +2,77 @@ const crypto = require("crypto");
 const loginRouter = require("express").Router(); //
 const UserModel = require("../models/Users");
 const bcrypt = require("bcryptjs");
+const nodemailer = require("nodemailer");
+const randomstring = require("randomstring");
+const config = require("../config/config");
+// const { isJWT } = require("validator");
+const jwt = require("jsonwebtoken");
 
-// router.post('/login',(req, res) => {
-//     const data = req.body;
-//     if (data.username === "admin" && data.password === "admin") {
-//       res.json({ token: "thisismytoken" });
-//     } else {
-//       res.status(401).sent("Invalid Credintail");
-//     }
-//   });
+const SendResetPasswordMail = async (name, email, token) => {
+  try {
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
+      requireTLs: true,
+      auth: {
+        user: config.emailUser,
+        pass: config.emailPassword,
+      },
+    });
 
-// Try to use JWT
+    const mailOptions = {
+      from: config.emailUser,
+      to: email,
+      subject: "For Reset Password",
+      html:
+        "<p> Hii " +
+        name +
+        ', Please copy  the link and <a href ="http://127.0.0.1:3000/login/resetpassword?token=' +
+        token +
+        '"> reset your password.</a>',
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("mail has been sent:-", info.response);
+      }
+    });
+  } catch (error) {
+    res.status(400).send({ success: false, msg: error.message });
+  }
+};
 
 const login = async (req, res) => {
-  const data = req.body; //here in this data variable sinin lage ka login wale me username an dpassword ka data body me bhar ke ajatata hai data me
-  const user = await UserModel.findOne({ username: data.username }); //here  then data.username se databse me username check kar rahe aur hamara username primary key hai sab alag hai and match hone par username usss username ka sara data emailid dob sab kuch store karlerahe hai const user me  atah hai databse hi return karta hai agar milta hai username toh
-  // console.log(data.username);
-  // console.log(user.username);
-  // console.log(data.password);
-  // console.log(user.password);
+  const data = req.body;
+  const user = await UserModel.findOne({ username: data.username });
   if (!user) {
-    return res.status(401).send("Invalid Credentials"); //this line is for if database doesnot return username jo data.username se match kara rahe the toh neeche ka line hoga print invalid crendentials
+    return res.status(401).send("Invalid Credentials"); 
   }
-  bcrypt.compare(data.password, user.password, (err, response) => {
+  bcrypt.compare(data.password, user.password, async (err, response) => {
     if (err) {
       console.log(err);
     }
     const isPasswordValid = response;
-    // console.log(res); // return true
     if (!isPasswordValid) {
       return res.status(401).send("Invalid Credentials");
     }
-    const token = crypto.randomBytes(64).toString("hex"); // Generating a random token //here token genrate kia hai
-    res.json({ token }); //on okay we send token to login page
+    const accessToken = await generateAccessToken({user:user});
+    return res.status(200).json({
+      success:true,
+      msg:'Login Successfully!',
+      user:user,
+      accessToken:accessToken,
+      tokenType:'Bearer'
+    });
   });
-  //here data.password ka password gets checked here but before to check password i need to encrypt it check kyuki alreday data me jo datahai usme password encrypted form me hai toh here encrypt karna hoga tab jake woh mila payega agar  match hoga toh next token wali me jayega
-  // console.log(isPasswordValid)
-
-  //Generating a JWT token
 };
 
 loginRouter.patch("/modify/:id", async (req, res) => {
   try {
-    const { id } = req.params;
+    const { id } = req.params.id;
     const updatedData = req.body;
     const options = { new: true };
     const result = await UserModel.findByIdAndUpdate(id, updatedData, options);
@@ -65,6 +93,92 @@ loginRouter.delete("/delete", async (req, res) => {
   }
 });
 
+const forgetPassword = async (req, res) => {
+  try {
+    const email = req.body.email;
+    const userData = await UserModel.findOne({ email: email });
+
+    if (userData) {
+      const randomString = randomstring.generate();
+      const data = await UserModel.updateOne(
+        { email: email },
+        { $set: { token: randomString } }
+      );
+
+      SendResetPasswordMail(userData.username, userData.email, randomString);
+      res.status(200).send({
+        success: true,
+        msg: "please check your mail inbox and reset the password.",
+      });
+    } else {
+      res
+        .status(200)
+        .send({ success: true, msg: "This email does not exists." });
+    }
+  } catch (error) {
+    res.status(400).send({ success: false, msg: error.message });
+  }
+};
+
+const resetpassword = async (req, res) => {
+  try {
+    const token = req.query.token;
+    console.log(token);
+    const tokenData = await UserModel.findOne({ token: token });
+    console.log(tokenData);
+    if (tokenData) {
+      const password = req.body.password;
+      const passwordRegex =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()])(.{8,20})$/;
+      if (!passwordRegex.test(password)) {
+        return res.status(400).json({ error: "Invalid password format" });
+      }
+      const saltRounds = 10; // Adjust as needed
+
+      bcrypt.genSalt(saltRounds, (err, salt) => {
+        bcrypt.hash(password, salt, async (err, hash) => {
+          if (err) {
+            console.error("Error hashing password:", err);
+            // Handle error gracefully (e.g., log, inform user)
+            return;
+          }
+
+          const newpassword = hash;
+          console.log("Hashed password:", hash);
+          // Store the hash in your database securely
+          try {
+            // const dataToSave = await data.save();
+            const data = await UserModel.findByIdAndUpdate(
+              { _id: tokenData._id },
+              { $set: { password: newpassword, token: "" } },
+              { new: true }
+            );
+            console.log(data);
+            return res.status(200).json("Password Updated");
+          } catch (err) {
+            res.status(400).json({ message: err.message });
+          }
+        });
+      });
+    } else {
+      return res
+        .status(200)
+        .send({ success: false, msg: "This Link has been expired" });
+    }
+  } catch (error) {
+    return res.send(400).send({ success: false, msg: error.message });
+  }
+};
+
+const generateAccessToken = async(user)=>{
+ const token = jwt.sign(user,process.env.ACCESS_TOKEN_SECRET);
+ return token;
+}
+
 loginRouter.post("/", login);
+
+loginRouter.post("/forgetpassword", forgetPassword);
+
+loginRouter.get("/resetpassword", resetpassword);
 
 module.exports = loginRouter;

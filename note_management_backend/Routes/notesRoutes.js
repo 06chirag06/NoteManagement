@@ -7,6 +7,7 @@ notesRouter.post("/Add", async (req, res) => {
     title: req.body.title,
     content: req.body.content,
   });
+
   try {
     const dataToSave = await data.save();
     res.status(200).json(dataToSave);
@@ -35,15 +36,15 @@ notesRouter.get("/getAll", async (req, res) => {
 //     }
 // });
 
-notesRouter.patch("/modify/:username", async (req, res) => {
+notesRouter.patch("/modify/:id", async (req, res) => {
   try {
-    const { username } = req.params;
-    const data = await NotesModel.find({username:username});
+    const { id } = req.params;
+    const data = await NotesModel.find({username:id});
 
     const updatedData = req.body;
     console.log(updatedData);
-    const { base64 } = req.body.image;
-    updatedData.image = base64;
+    // const { base64 } = req.body.image;
+    // updatedData.image = base64;
     const options = { new: true };
     const result = await NotesModel.findByIdAndUpdate(
       username,

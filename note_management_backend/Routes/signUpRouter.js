@@ -28,6 +28,7 @@ signUpRouter.post("/Add", async (req, res) => {
   if (!passwordRegex.test(data.password)) {
     return res.status(400).json({ error: "Invalid password format" });
   }
+
   if (!validator.isEmail(data.email)) {
     return res.status(400).json({ error: "Invalid Email " });
   } //=> true
@@ -36,7 +37,7 @@ signUpRouter.post("/Add", async (req, res) => {
     return res.status(400).json({ error: "Invalid DOB " });
   }
 
-  const saltRounds = 10; // Adjust as needed
+  const saltRounds = 10;
 
   bcrypt.genSalt(saltRounds, (err, salt) => {
     bcrypt.hash(data.password, salt, async (err, hash) => {
@@ -59,6 +60,7 @@ signUpRouter.post("/Add", async (req, res) => {
     });
   });
 });
+
 function validateDateOfBirth(dateOfBirth) {
   // Get today's date
   const today = new Date();

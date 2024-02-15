@@ -21,6 +21,18 @@ const NotesSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  image: {
+    type: String,
+    required: false,
+  },
+  theme: {
+    type: String,
+    required: false,
+  },
+  collaborator: {
+    type: String,
+    required: false,
+  },
 });
 
 // model has two properties collection name and schema.

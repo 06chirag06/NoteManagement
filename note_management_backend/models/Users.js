@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema({
   username: {
@@ -17,9 +17,14 @@ const UserSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  token: {
+    type: String,
+    default: "",
+    required: false,
+  },
 });
 
 // model has two properties collection name and schema.
-const UserModel = mongoose.model('users', UserSchema);
+const UserModel = mongoose.model("users", UserSchema);
 
 module.exports = UserModel;

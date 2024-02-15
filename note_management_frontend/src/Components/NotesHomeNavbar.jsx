@@ -34,7 +34,11 @@ export default function NotesHomeNavbar() {
     <>
       <Navbar bg="dark" expand="lg" className="border-bottom border-1">
         <div className="container-fluid">
-          <FaBars style={iconStyles1} className="ms-5 ps-2 me-5" />
+          <FaBars
+            style={iconStyles1}
+            className="ms-5 ps-2 me-5"
+            role="button"
+          />
           <Navbar.Brand>
             <img src={logo} height="30%" width="20%" alt="" className="ms-0" />
           </Navbar.Brand>

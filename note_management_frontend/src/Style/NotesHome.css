@@ -44,3 +44,45 @@ body{
 .add-button:hover{
   transform: scale(1.1);
 }
+
+input:focus, textarea:focus{
+  outline: none;
+}
+
+.title-input{
+  padding: 1% 2%;
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 1px solid white;
+}
+
+textarea{
+  resize: none;
+}
+
+.note-card{
+  justify-content: space-between;
+  flex-direction: row;
+}
+
+/* .chatcontainer{
+  background: white;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 5px;
+} */
+
+/* .container1{
+  background-color: aliceblue;
+} */
+
+#note-content{
+  /* background-color: aliceblue; */
+  display: flex ;
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-content: flex-start;
+  /* justify-content: space-around; */
+  flex-wrap: wrap;
+  gap: 10px;
+}

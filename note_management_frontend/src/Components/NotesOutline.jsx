@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Style/NotesOutline.css";
 import { notesHomeIcons } from "../data/notesHomeIcons";
+import "../Style/NotesOutline.css";
 
 export default function NotesOutline(props) {
   const [isHovering, setIsHovering] = useState(false);
@@ -17,6 +17,8 @@ export default function NotesOutline(props) {
     setIsHovering(false);
   };
 
+  const handleNoteClick = () => {};
+
   const handleArchiveClick = () => {};
 
   const handleCollaboratorClick = () => {};
@@ -29,9 +31,11 @@ export default function NotesOutline(props) {
 
   return (
     <div
-      className="text-light note-dimensions p-2 border border-1 position-relative"
+      className="text-light note-dimensions p-2 border border-1 position-relative notes-box"
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
+      onClick={handleNoteClick}
+      role="button"
     >
       <div className="row notes-title p-2">{props.title}</div>
       <div className="row p-2">{props.content}</div>
@@ -39,34 +43,10 @@ export default function NotesOutline(props) {
         <div>
           <div className="row dp-sec position-absolute placement-icons">
             {notesHomeIcons.map((icons) => (
-              <div className="col-2" key={icons.icon}>
+              <div className="col-2" key={icons.title}>
                 {icons.icon}
               </div>
             ))}
-            {/* <div className="col-2 note-icon-hover">
-              <FaPalette className="p-1" size={30} onClick={handleThemeClick} />
-            </div>
-            <div className="col-2">
-              <FaUserPlus
-                className="p-1 note-icon-hover"
-                size={30}
-                onClick={handleCollaboratorClick}
-              />
-            </div>
-            <div className="col-2">
-              <FaCopy
-                className="p-1 note-icon-hover"
-                size={30}
-                onClick={handleCopyClick}
-              />
-            </div>
-            <div className="col-2">
-              <FaTrash
-                className="p-0 pt-1 pb-1 note-icon-hover"
-                size={30}
-                onClick={handleTrashClick}
-              />
-            </div> */}
           </div>
         </div>
       )}

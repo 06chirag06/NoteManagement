@@ -5,7 +5,7 @@ import Home from './Pages/Home';
 import Login from './Pages/Login';
 import Signup from './Pages/Signup';
 import NotesHome from './Pages/NotesHome';
-import InsertNote from './Pages/InsertNote';
+// import InsertNote from './Pages/InsertNote';
 import UserProfile from './Pages/UserProfile';
 
 function App() {
@@ -15,8 +15,11 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/userId/home" element={<NotesHome />} />
-        <Route path='/userId/home/newNote' element={<InsertNote />}/>
+        <Route path="/userid/home" element={<NotesHome />} />
+        <Route path='/userid/newnote' element={<NotesHome />}/>
+        <Route path='/userid/labels' element={<NotesHome />}/>
+        <Route path='/userid/archive' element={<NotesHome />}/>
+        <Route path='/userid/trash' element={<NotesHome />}/>
         <Route path='/userId/profile' element={<UserProfile />} />
       </Routes>
     </BrowserRouter>

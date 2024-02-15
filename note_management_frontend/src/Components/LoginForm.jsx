@@ -8,7 +8,7 @@ import { FaLock, FaUser, FaFacebook, FaGithub } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import { useDispatch } from "react-redux";
 import { updateUsername } from "../App/reducers/usernameSlice";
-// import { GoogleLogin } from "react-google-login";
+// import { GoogleLogin } from "@react-oauth/google";
 
 export default function LoginForm() {
   const navigate = useNavigate();
@@ -18,14 +18,6 @@ export default function LoginForm() {
   const [password, setPassword] = useState("");
   const usernamePlaceholder = "Enter Username";
   const passwordPlaceholder = "Enter Password";
-
-  // const responseSuccessGoogle = (response) => {
-  //   console.log(response);
-  // };
-
-  // const responseFailureGoogle = (response)=>{
-  //   console.log(response);
-  // }
 
   const handleInput = (e) => {
     switch (e.target.id) {
@@ -167,12 +159,14 @@ export default function LoginForm() {
           <div className="row mt-4 mb-4">
             <div className="col text-center">
               {/* <GoogleLogin
-                className="text-dark"
-                clientId="522859746627-0hmr8ng9qk6ugt968s31o8amfj503h3l.apps.googleusercontent.com"
-                buttonText="Login with Google"
-                onSuccess={responseSuccessGoogle}
-                onFailure={responseFailureGoogle}
-                cookiePolicy={"single_host_origin"}
+                onSuccess={async (credentialResponse) => {
+                  console.log(credentialResponse);
+                  const data = await axios.get("http://192.168.236.70:8000/auth/google", credentialResponse.tokenId);
+                  console.log(data);
+                }}
+                onError={() => {
+                  console.log("Login Failed");
+                }}
               /> */}
             </div>
             {/* <div className="col-2 text-center">

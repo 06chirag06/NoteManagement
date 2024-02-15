@@ -17,7 +17,7 @@ export default function HomeNavbar() {
     } else if (url === "/signup") {
       document.getElementById("signup").style.display = "none";
     }
-  }, []);
+  }, [url]);
 
   return (
     <Navbar

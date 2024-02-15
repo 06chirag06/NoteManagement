@@ -35,7 +35,7 @@ export default function SettingsBar() {
               </NavDropdown>
             )
           ) : (
-            <Nav.Item className="border border-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title={setting.title} role="button">{setting.icon}</Nav.Item>
+            <Nav.Item className="border border-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title={setting.title} role="button" key={setting.title}>{setting.icon}</Nav.Item>
           )
         )}
       </div>

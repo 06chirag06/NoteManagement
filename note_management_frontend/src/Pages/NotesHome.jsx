@@ -5,14 +5,15 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import NotesHomeNavbar from "../Components/NotesHomeNavbar";
 import NotesHomeSidebar from "../Components/NotesHomeSidebar";
-import NotesOutline from "../Components/NotesOutline";
-import { IoAddCircleOutline } from "react-icons/io5";
+import NotesContent from "../Components/NotesContent";
+import InsertNote from "../Components/InsertNote";
+import Labels from "../Components/Labels";
+import ArchiveNotes from "../Components/ArchiveNotes";
+import Trash from "../Components/Trash";
 import "../Style/NotesHome.css";
-import { fakeNotesRepo } from "../data/fakeNotesRepo";
 
 export default function Users() {
   const url = window.location.pathname;
@@ -29,6 +30,7 @@ export default function Users() {
   const navigate = useNavigate();
 
   const changeView = useCallback(() => {
+    console.log(url);
     if (url.includes("home")) {
       setIsHome(true);
       setIsArchive(false);
@@ -36,25 +38,24 @@ export default function Users() {
       setIsTrash(false);
       setIsNewNote(false);
     } else if (url.includes("labels")) {
-      setIsHome(true);
+      setIsHome(false);
       setIsArchive(false);
       setIsLabels(true);
       setIsTrash(false);
       setIsNewNote(false);
     } else if (url.includes("archive")) {
-      setIsHome(true);
+      setIsHome(false);
       setIsArchive(true);
       setIsLabels(false);
       setIsTrash(false);
       setIsNewNote(false);
     } else if (url.includes("trash")) {
-      setIsHome(true);
+      setIsHome(false);
       setIsArchive(false);
       setIsLabels(false);
       setIsTrash(true);
       setIsNewNote(false);
-    }
-    if (url.includes("newNote")) {
+    } else if (url.includes("newnote")) {
       setIsNewNote(true);
       setIsHome(false);
       setIsArchive(false);
@@ -76,46 +77,53 @@ export default function Users() {
     console.log(height);
   }, [height]);
 
-  const plusStyle = {
-    position: "fixed",
-    bottom: "4%",
-    right: "2%",
-    color: "yellow",
-  };
-
   return (
-    <>
-      <div className="container-fluid main-wrapper bg-viridian-green">
-        <div className="row" ref={container}>
-          <NotesHomeNavbar />
+    <div className="container-fluid bg-viridian-green">
+      {/* style={{ minHeight: height + container.current.offsetHeight }} */}
+      <div className="row" ref={container}>
+        <NotesHomeNavbar />
+      </div>
+      <div className="row" style={{ minHeight: height }}>
+        <div className="col-2 m-0 p-0 border-end border-1">
+          <NotesHomeSidebar />
         </div>
-        <div className="row" style={{ minHeight: height }}>
-          <div className="col-2 m-0 p-0 border-end border-1">
-            <NotesHomeSidebar />
-          </div>
-          <div className="col-10 m-0 p-0 bg-viridian-green">
-            <div className="row m-0 p-0">
-              <div className="d-inline-block m-0 p-0 ps-5 pe-5 pt-5 note-card">
-                {fakeNotesRepo.map((note) => (
-                  <div className="m-0 p-0 mt-2" key={note.id}>
-                    <NotesOutline title={note.title} content={note.content} />
-                  </div>
-                ))}
-              </div>
+        {isHome && (
+          <>
+            <div
+              className="d-flex col-10 m-0 bg-viridian-green p-5"
+              id="note-content"
+            >
+              <NotesContent />
             </div>
-            <Link to="/userId/home/newNote">
-              <IoAddCircleOutline
-                style={plusStyle}
-                size={50}
-                className="add-button"
-              />
-            </Link>
-            {/* <div>
+          </>
+        )}
+        {isNewNote && (
+          <div className="col-10 m-0 p-0 pb-5">
+            <InsertNote />
+          </div>
+        )}
+
+        {isArchive && (
+          <div className="col-10 m-0 p-0 pb-5">
+            <ArchiveNotes />
+          </div>
+        )}
+
+        {isLabels && (
+          <div className="col-10 m-0 p-0 pb-5">
+            <Labels />
+          </div>
+        )}
+
+        {isTrash && (
+          <div className="col-10 m-0 p-0 pb-5">
+            <Trash />
+          </div>
+        )}
+        {/* <div>
               <span id="background-text-notes">INLINE</span>
             </div> */}
-          </div>
-        </div>
       </div>
-    </>
+    </div>
   );
 }

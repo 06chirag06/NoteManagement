@@ -8,6 +8,8 @@ import {
   FaAlignRight,
   FaAlignJustify,
   FaPalette,
+  FaListUl,
+  FaListOl,
 } from "react-icons/fa6";
 import { AiOutlineFontSize } from "react-icons/ai";
 
@@ -15,53 +17,63 @@ export const settingsBar = [
   {
     icon: <FaBold />,
     isDropdown: false,
-    title:"Bold",
+    title: "Bold",
   },
   {
     icon: <FaUnderline />,
     isDropdown: false,
-    title:"Underline",
+    title: "Underline",
   },
   {
     icon: <FaItalic />,
     isDropdown: false,
-    title:"Italic",
+    title: "Italic",
   },
   {
     icon: <AiOutlineFontSize />,
     isDropdown: true,
     isFontSize: true,
-    title:"Font Size",
+    title: "Font Size",
   },
   {
     icon: <FaFont />,
     isDropdown: true,
-    title:"Fonts",
+    title: "Fonts",
   },
   {
     icon: <FaAlignLeft />,
     isDropdown: false,
-    title:"Left Align",
+    title: "Left Align",
   },
   {
     icon: <FaAlignCenter />,
     isDropdown: false,
-    title:"Center Align",
+    title: "Center Align",
   },
   {
     icon: <FaAlignRight />,
     isDropdown: false,
-    title:"Right Align",
+    title: "Right Align",
   },
   {
     icon: <FaAlignJustify />,
     isDropdown: false,
-    title:"Justify",
+    title: "Justify",
   },
   {
     icon: <FaPalette />,
     isDropdown: false,
-    title:"Theme",
+    title: "Theme",
+  },
+  {
+    icon: <FaListUl />,
+    isDropdown: false,
+    title: "Unordered list",
+  },
+  {
+    icon: <FaListOl />,
+    isDropdown: false,
+    title: "Ordered list",
   },
 ];
 

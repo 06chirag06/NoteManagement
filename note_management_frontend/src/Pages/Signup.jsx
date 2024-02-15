@@ -1,14 +1,14 @@
 import React from 'react';
 import SignupForm from '../Components/SignupForm';
-import SignUpNavbar from '../Components/SignUpNavbar';
+import HomeNavbar from '../Components/HomeNavbar';
 
 export default function Signup() {
   return (
     <>
-      <SignUpNavbar />
+      <HomeNavbar />
       <div className="container-fluid">
         <div className="row">
-          <div className="offset-4 col-5">
+          <div className="offset-1 offset-md-2 offset-xl-4 col-10 col-md-8 col-xl-4">
             <SignupForm />
           </div>
         </div>

@@ -26,8 +26,14 @@ export default function Users() {
   const [isNewNote, setIsNewNote] = useState(false);
 
   const [height, setHeight] = useState(0); // to find height of component except navbar
+  const [toggleSidebar, setToggleSidebar] = useState(true);
+  const [noNote, setNoNote] = useState(true);
 
   const navigate = useNavigate();
+
+  const handleToggle = () => {
+    setToggleSidebar(!toggleSidebar);
+  };
 
   const changeView = useCallback(() => {
     console.log(url);
@@ -64,12 +70,13 @@ export default function Users() {
     }
   }, [url]);
 
+  const handleNoNote = () => {
+    setNoNote(false);
+  };
+
   useEffect(() => {
-    // if (!localStorage.getItem("token")) {
-    //   navigate("/", { replace: true });
-    // }
     changeView();
-  }, [navigate, changeView]);
+  }, [changeView]);
 
   useLayoutEffect(() => {
     setHeight(window.innerHeight - container.current.offsetHeight);
@@ -81,42 +88,69 @@ export default function Users() {
     <div className="container-fluid bg-viridian-green">
       {/* style={{ minHeight: height + container.current.offsetHeight }} */}
       <div className="row" ref={container}>
-        <NotesHomeNavbar />
+        <NotesHomeNavbar handleToggle={handleToggle} />
       </div>
       <div className="row" style={{ minHeight: height }}>
-        <div className="col-2 m-0 p-0 border-end border-1">
-          <NotesHomeSidebar />
-        </div>
+        {toggleSidebar && (
+          <div className="col-2 m-0 p-0 border-end border-1">
+            <NotesHomeSidebar />
+          </div>
+        )}
         {isHome && (
           <>
             <div
-              className="d-flex col-10 m-0 bg-viridian-green p-5"
+              className={
+                toggleSidebar
+                  ? "d-flex col-10 m-0 bg-viridian-green p-5"
+                  : "d-flex col-12 m-0 bg-viridian-green p-5"
+              }
               id="note-content"
             >
-              <NotesContent />
+              <NotesContent handleNoNote={handleNoNote} />
             </div>
+            {/* {noNote && (
+              <div className="col-10 m-0 p-0 pb-5">
+                <h1 className="text-center text-light">No Notes</h1>
+              </div>
+            )} */}
           </>
         )}
         {isNewNote && (
-          <div className="col-10 m-0 p-0 pb-5">
+          <div
+            className={
+              toggleSidebar ? "col-10 m-0 p-0 pb-5" : "col-12 m-0 p-0 pb-5"
+            }
+          >
             <InsertNote />
           </div>
         )}
 
         {isArchive && (
-          <div className="col-10 m-0 p-0 pb-5">
+          <div
+            className={
+              toggleSidebar ? "col-10 m-0 p-0 pb-5" : "col-12 m-0 p-0 pb-5"
+            }
+          >
             <ArchiveNotes />
           </div>
         )}
 
         {isLabels && (
-          <div className="col-10 m-0 p-0 pb-5">
+          <div
+            className={
+              toggleSidebar ? "col-10 m-0 p-0 pb-5" : "col-12 m-0 p-0 pb-5"
+            }
+          >
             <Labels />
           </div>
         )}
 
         {isTrash && (
-          <div className="col-10 m-0 p-0 pb-5">
+          <div
+            className={
+              toggleSidebar ? "col-10 m-0 p-0 pb-5" : "col-12 m-0 p-0 pb-5"
+            }
+          >
             <Trash />
           </div>
         )}

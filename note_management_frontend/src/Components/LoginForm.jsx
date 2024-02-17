@@ -4,10 +4,10 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 // import UserPass from "./UserPass";
 import axios from "axios";
-import { FaLock, FaUser, FaFacebook, FaGithub } from "react-icons/fa6";
-import { FcGoogle } from "react-icons/fc";
+import { FaLock, FaUser } from "react-icons/fa6";
 import { useDispatch } from "react-redux";
-import { updateUsername } from "../App/reducers/usernameSlice";
+import { login } from "../App/reducers/usernameSlice";
+import { endpoints } from "../utils/Constants";
 // import { GoogleLogin } from "@react-oauth/google";
 
 export default function LoginForm() {
@@ -40,9 +40,11 @@ export default function LoginForm() {
     };
 
     try {
-      const response = await axios.post("http://[::1]:8000/login", reqBody);
+      const response = await axios.post(endpoints.login, reqBody);
       if (response.data.token) {
-        dispatch(updateUsername(reqBody.username));
+        dispatch(
+          login({ username: reqBody.username, token: response.data.token })
+        );
         // if(data.)
         localStorage.setItem("token", response.data.token);
         navigate("/userID/home", { replace: true });
@@ -55,11 +57,11 @@ export default function LoginForm() {
     }
   };
 
-  const handleKeyDown = (e) => {
-    if (e.keyCode === 13) {
-      handleSubmit(e);
-    }
-  };
+  // const handleKeyDown = (e) => {
+  //   if (e.keyCode === 13) {
+  //     handleSubmit(e);
+  //   }
+  // };
 
   const handleSignUp = () => {
     navigate("/signup", { replace: true });
@@ -156,9 +158,9 @@ export default function LoginForm() {
               <hr className="border border-1 border-dark opacity-100" />
             </div>
           </div> */}
-          <div className="row mt-4 mb-4">
-            <div className="col text-center">
-              {/* <GoogleLogin
+          {/* <div className="row mt-4 mb-4">
+            <div className="col text-center"> */}
+          {/* <GoogleLogin
                 onSuccess={async (credentialResponse) => {
                   console.log(credentialResponse);
                   const data = await axios.get("http://192.168.236.70:8000/auth/google", credentialResponse.tokenId);
@@ -168,17 +170,17 @@ export default function LoginForm() {
                   console.log("Login Failed");
                 }}
               /> */}
-            </div>
-            {/* <div className="col-2 text-center">
+          {/* </div> */}
+          {/* <div className="col-2 text-center">
               <FaFacebook size={30} role="button" />
             </div> */}
-            <div className="col text-center">
+          {/* <div className="col text-center">
               <FaGithub size={30} role="button" />
             </div>
-          </div>
+          </div> */}
           <div className="row">
             <div className="col-12 fs-6">
-              <span onClick={handleSignUp} onKeyDown={handleKeyDown}>
+              <span onClick={handleSignUp}>
                 Yet to become a member?&nbsp;
                 {/* <a href="/signup" className="text-decoration-underline">
             SignUp

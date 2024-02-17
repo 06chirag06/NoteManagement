@@ -61,11 +61,6 @@ export const settingsBar = [
     title: "Justify",
   },
   {
-    icon: <FaPalette />,
-    isDropdown: false,
-    title: "Theme",
-  },
-  {
     icon: <FaListUl />,
     isDropdown: false,
     title: "Unordered list",

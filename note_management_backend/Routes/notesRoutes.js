@@ -6,6 +6,8 @@ notesRouter.post("/Add", async (req, res) => {
     username: req.body.username,
     title: req.body.title,
     content: req.body.content,
+    location: req.body.location,
+    collaborator: req.body.collaborator,
   });
 
   try {
@@ -17,9 +19,10 @@ notesRouter.post("/Add", async (req, res) => {
   }
 });
 
-notesRouter.get("/getAll", async (req, res) => {
+notesRouter.get("/getAll/:username", async (req, res) => {
   try {
-    const data = await NotesModel.find();
+    const username = req.params.username;
+    const data = await NotesModel.find({ username: username });
     res.json(data);
     // console.log(data);
   } catch (err) {
@@ -27,19 +30,10 @@ notesRouter.get("/getAll", async (req, res) => {
   }
 });
 
-// router.get('/get/:id', async (req, res) => {
-//     try {
-//         const data = await NotesModel.findById(req.params.id);
-//         res.json(data);
-//     } catch (err) {
-//         res.status(500).json({ message: err.message });
-//     }
-// });
-
 notesRouter.patch("/modify/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const data = await NotesModel.find({username:id});
+    const data = await NotesModel.find({ _id: id });
 
     const updatedData = req.body;
     console.log(updatedData);
@@ -47,7 +41,7 @@ notesRouter.patch("/modify/:id", async (req, res) => {
     // updatedData.image = base64;
     const options = { new: true };
     const result = await NotesModel.findByIdAndUpdate(
-      username,
+      data._id,
       updatedData,
       options
     );

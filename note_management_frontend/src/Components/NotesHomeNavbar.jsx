@@ -5,19 +5,24 @@ import { useNavigate } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import { IoIosSunny, IoIosMoon } from "react-icons/io";
 import { Nav, Navbar, NavDropdown } from "react-bootstrap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import logout from "../App/reducers/usernameSlice";
 import "../Style/NotesHomeNavbar.css";
 import logo from "../images/navLogo.jpg";
 
-export default function NotesHomeNavbar() {
+export default function NotesHomeNavbar(props) {
   const navigate = useNavigate();
 
   const username = useSelector((state) => state.username.value);
 
+  // const [toggle, setToggle] = useState(true);
+
   const [isDark, setIsDark] = useState(true);
+  const dispatch = useDispatch();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    dispatch(logout());
     navigate("/", { replace: true });
   };
 
@@ -38,6 +43,7 @@ export default function NotesHomeNavbar() {
             style={iconStyles1}
             className="ms-5 ps-2 me-5"
             role="button"
+            onClick={props.handleToggle}
           />
           <Navbar.Brand>
             <img src={logo} height="30%" width="20%" alt="" className="ms-0" />

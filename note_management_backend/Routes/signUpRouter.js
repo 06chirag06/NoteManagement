@@ -17,24 +17,32 @@ signUpRouter.post("/Add", async (req, res) => {
     return res.status(400).json({error: "username already exists"})
   }
 
-  const usernameRegex = /^(?=.{8,20}$)[a-zA-Z0-9]+$/;
+  const usernameRegex = /^(?=.{6,20}$)[a-zA-Z0-9]+$/;
+
+  if (data.username.length < 6 || data.username.length > 20) {
+    return res.status(400).json({ error: "Username should be more than 6 and less than 20 characters" });
+  }
 
   if (!usernameRegex.test(data.username)) {
-    return res.status(400).json({ error: "Invalid username format" });
+    return res.status(400).json({ error: "Username must not contain any special characters" });
   }
 
   const passwordRegex =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()])(.{8,20})$/;
+
+  if(data.password.length < 8 || data.password.length > 20){
+    return res.status(400).json({ error: "Password should be more than 8 and less than 20 characters" });
+  }
   if (!passwordRegex.test(data.password)) {
-    return res.status(400).json({ error: "Invalid password format" });
+    return res.status(400).json({ error: "Password must contain a capital letter, a small letter, a number and a special character" });
   }
 
   if (!validator.isEmail(data.email)) {
-    return res.status(400).json({ error: "Invalid Email " });
+    return res.status(400).json({ error: "Invalid Email" });
   } //=> true
 
   if (!validateDateOfBirth(data.dob)) {
-    return res.status(400).json({ error: "Invalid DOB " });
+    return res.status(400).json({ error: "You should be at least 5 years old" });
   }
 
   const saltRounds = 10;

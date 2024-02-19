@@ -10,17 +10,18 @@ import NotesHomeNavbar from "../Components/NotesHomeNavbar";
 import NotesHomeSidebar from "../Components/NotesHomeSidebar";
 import NotesContent from "../Components/NotesContent";
 import InsertNote from "../Components/InsertNote";
-import Labels from "../Components/Labels";
 import ArchiveNotes from "../Components/ArchiveNotes";
 import Trash from "../Components/Trash";
+import setBodyColor from "../utils/setBodyColor";
 import "../Style/NotesHome.css";
 
 export default function Users() {
   const url = window.location.pathname;
   let container = useRef(null); //to access the DOM element
+  const darkBackground = "#000000";
+  const lightBackground = "#ffffff";
 
   const [isHome, setIsHome] = useState(false);
-  const [isLabels, setIsLabels] = useState(false);
   const [isArchive, setIsArchive] = useState(false);
   const [isTrash, setIsTrash] = useState(false);
   const [isNewNote, setIsNewNote] = useState(false);
@@ -28,6 +29,8 @@ export default function Users() {
   const [height, setHeight] = useState(0); // to find height of component except navbar
   const [toggleSidebar, setToggleSidebar] = useState(true);
   const [noNote, setNoNote] = useState(true);
+
+  const [isDark, setIsDark] = useState(true);
 
   const navigate = useNavigate();
 
@@ -40,32 +43,22 @@ export default function Users() {
     if (url.includes("home")) {
       setIsHome(true);
       setIsArchive(false);
-      setIsLabels(false);
-      setIsTrash(false);
-      setIsNewNote(false);
-    } else if (url.includes("labels")) {
-      setIsHome(false);
-      setIsArchive(false);
-      setIsLabels(true);
       setIsTrash(false);
       setIsNewNote(false);
     } else if (url.includes("archive")) {
       setIsHome(false);
       setIsArchive(true);
-      setIsLabels(false);
       setIsTrash(false);
       setIsNewNote(false);
     } else if (url.includes("trash")) {
       setIsHome(false);
       setIsArchive(false);
-      setIsLabels(false);
       setIsTrash(true);
       setIsNewNote(false);
     } else if (url.includes("newnote")) {
       setIsNewNote(true);
       setIsHome(false);
       setIsArchive(false);
-      setIsLabels(false);
       setIsTrash(false);
     }
   }, [url]);
@@ -74,9 +67,13 @@ export default function Users() {
     setNoNote(false);
   };
 
+  isDark
+    ? setBodyColor({ color: darkBackground })
+    : setBodyColor({ color: lightBackground });
+
   useEffect(() => {
     changeView();
-  }, [changeView]);
+  }, [changeView, isDark]);
 
   useLayoutEffect(() => {
     setHeight(window.innerHeight - container.current.offsetHeight);
@@ -85,75 +82,91 @@ export default function Users() {
   }, [height]);
 
   return (
-    <div className="container-fluid bg-viridian-green">
+    <div
+      className="container-fluid bg-viridian-green"
+      // style={{ "background-color": isDark ? "#000" : "#fff" }}
+      data-theme={isDark}
+    >
       {/* style={{ minHeight: height + container.current.offsetHeight }} */}
       <div className="row" ref={container}>
-        <NotesHomeNavbar handleToggle={handleToggle} />
+        <NotesHomeNavbar
+          handleToggle={handleToggle}
+          isDark={isDark}
+          setIsDark={setIsDark}
+        />
       </div>
       <div className="row" style={{ minHeight: height }}>
         {toggleSidebar && (
-          <div className="col-2 m-0 p-0 border-end border-1">
-            <NotesHomeSidebar />
+          <div
+            className={
+              "col-2 m-0 p-0 border-end border-1 " +
+              (isDark ? "border-light" : "border-dark")
+            }
+          >
+            <NotesHomeSidebar isDark={isDark} url={url} />
           </div>
         )}
-        {isHome && (
+        {(isHome || isArchive || isTrash) && (
           <>
             <div
               className={
-                toggleSidebar
-                  ? "d-flex col-10 m-0 bg-viridian-green p-5"
-                  : "d-flex col-12 m-0 bg-viridian-green p-5"
+                "d-flex m-0 bg-viridian-green p-5 " +
+                (toggleSidebar ? "col-10" : "col-12")
               }
               id="note-content"
             >
-              <NotesContent handleNoNote={handleNoNote} />
+              <NotesContent
+                isDark={isDark}
+                handleNoNote={handleNoNote}
+                url={url}
+              />
             </div>
             {/* {noNote && (
               <div className="col-10 m-0 p-0 pb-5">
-                <h1 className="text-center text-light">No Notes</h1>
+              <h1 className="text-center text-light">No Notes</h1>
               </div>
             )} */}
           </>
         )}
         {isNewNote && (
           <div
-            className={
-              toggleSidebar ? "col-10 m-0 p-0 pb-5" : "col-12 m-0 p-0 pb-5"
-            }
+            className={"m-0 p-0 pb-5 " + (toggleSidebar ? "col-10" : "col-12")}
           >
-            <InsertNote />
+            <InsertNote isDark={isDark} />
           </div>
         )}
 
-        {isArchive && (
+        {/* {isArchive && (
           <div
             className={
-              toggleSidebar ? "col-10 m-0 p-0 pb-5" : "col-12 m-0 p-0 pb-5"
+              "d-flex m-0 bg-viridian-green p-5 " +
+              (toggleSidebar ? "col-10" : "col-12")
             }
-          >
-            <ArchiveNotes />
-          </div>
-        )}
-
-        {isLabels && (
-          <div
-            className={
-              toggleSidebar ? "col-10 m-0 p-0 pb-5" : "col-12 m-0 p-0 pb-5"
-            }
-          >
-            <Labels />
+          > */}
+        {/* <ArchiveNotes isDark={isDark} /> */}
+        {/* <NotesContent
+              isDark={isDark}
+              handleNoNote={handleNoNote}
+              url={url}
+            />
           </div>
         )}
 
         {isTrash && (
           <div
             className={
-              toggleSidebar ? "col-10 m-0 p-0 pb-5" : "col-12 m-0 p-0 pb-5"
+              "d-flex m-0 bg-viridian-green p-5 " +
+              (toggleSidebar ? "col-10" : "col-12")
             }
-          >
-            <Trash />
+          > */}
+        {/* <Trash isDark={isDark} /> */}
+        {/* <NotesContent
+              isDark={isDark}
+              handleNoNote={handleNoNote}
+              url={url}
+            />
           </div>
-        )}
+        )} */}
         {/* <div>
               <span id="background-text-notes">INLINE</span>
             </div> */}

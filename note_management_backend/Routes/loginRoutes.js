@@ -49,23 +49,24 @@ const login = async (req, res) => {
   const data = req.body;
   const user = await UserModel.findOne({ username: data.username });
   if (!user) {
-    return res.status(401).send("Invalid Credentials"); 
+    return res.status(401).send("Invalid Username or Password");
   }
   bcrypt.compare(data.password, user.password, async (err, response) => {
     if (err) {
       console.log(err);
     }
-    const isPasswordValid = response;
-    if (!isPasswordValid) {
-      return res.status(401).send("Invalid Credentials");
+    console.log(response);
+    // const isPasswordValid = response;
+    if (!response) {
+      return res.status(401).send("Invalid Username or Password");
     }
-    const accessToken = await generateAccessToken({user:user});
+    const accessToken = await generateAccessToken({ user: user });
     return res.status(200).json({
-      success:true,
-      msg:'Login Successfully!',
-      user:user,
-      accessToken:accessToken,
-      tokenType:'Bearer'
+      success: true,
+      msg: "Login Successfully!",
+      user: user,
+      accessToken: accessToken,
+      tokenType: "Bearer",
     });
   });
 };
@@ -170,10 +171,10 @@ const resetpassword = async (req, res) => {
   }
 };
 
-const generateAccessToken = async(user)=>{
- const token = jwt.sign(user,process.env.ACCESS_TOKEN_SECRET);
- return token;
-}
+const generateAccessToken = async (user) => {
+  const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+  return token;
+};
 
 loginRouter.post("/", login);
 

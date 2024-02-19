@@ -1,9 +1,16 @@
-import React from "react";
-import "../Style/Login.css";
+import React, { useEffect } from "react";
 import LoginForm from "../Components/LoginForm";
 import HomeNavbar from "../Components/HomeNavbar";
+import setBodyColor from "../utils/setBodyColor";
+import "../Style/Login.css";
 
 export default function Login() {
+  const bgColor = "#283044";
+
+  useEffect(() => {
+    setBodyColor({ color: bgColor });
+  }, [bgColor]);
+
   return (
     <>
       <HomeNavbar />

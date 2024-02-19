@@ -66,7 +66,7 @@ export default function InsertNote(props) {
       dispatch(updateNotes({ title: title, content: content }));
     }
   };
-  
+
   const handleBoldClick = (e) => {
     e.preventDefault();
     let cursorStart = inputRef.current;
@@ -80,7 +80,12 @@ export default function InsertNote(props) {
     console.log(content, "content");
     const newContent = `<b>${selectedText}</b>`;
     setContent(prevText + newContent + nextText);
-    dispatch(updateNotes({ title: title, content: `${prevText}${newContent}${nextText}` }));
+    dispatch(
+      updateNotes({
+        title: title,
+        content: `${prevText}${newContent}${nextText}`,
+      })
+    );
     console.log(selectedText);
   };
 
@@ -107,14 +112,19 @@ export default function InsertNote(props) {
   return (
     <>
       <div className="row m-0 p-0">
-        <SettingsBar handleBoldClick={handleBoldClick} />
+        <SettingsBar handleBoldClick={handleBoldClick} isDark={props.isDark} />
       </div>
       <div className="row m-0 p-0">
         <form>
           <div className="row m-0 p-0 mt-5">
             <input
               type="text"
-              className="bg-transparent text-light fs-3 title-input"
+              className={
+                "bg-transparent fs-3 " +
+                (props.isDark
+                  ? "text-light title-input"
+                  : "text-dark title-input-light")
+              }
               placeholder="Enter Title"
               value={title}
               onChange={handleInput}
@@ -123,12 +133,12 @@ export default function InsertNote(props) {
           </div>
           <div className="row m-0 p-0 mt-5 mh-100">
             <ContentEditable
+              className={"border border-1 rounded editable " + (props.isDark ? "border-light text-light" : "text-dark border-dark")}
               ref={inputRef}
               onChange={handleInput}
               html={content}
               id="content"
               suppressContentEditableWarning={true}
-              className="border border-1 rounded text-light editable"
               onKeyDown={handleTabPress}
             />
           </div>

@@ -23,7 +23,7 @@ export default function HomeNavbar() {
     <Navbar
       bg="dark"
       expand="lg"
-      className="mb-4 p-lg-2 border-bottom border-2"
+      className="mb-4 p-lg-2 border-bottom border-2 position-sticky"
     >
       <div className="container-fluid">
         <Navbar.Brand href="/">

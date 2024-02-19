@@ -28,7 +28,6 @@ export default function SignupForm() {
   const [maxDate, setMaxDate] = useState(getFormattedDate(new Date()));
 
   const handleInput = (e) => {
-    console.log(maxDate);
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
     // switch (e.target.id) {
@@ -89,30 +88,31 @@ export default function SignupForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setFormErrors(validate(formValues));
-    setIsSubmit(true);
-
+    // setFormErrors(validate(formValues));
+    // setIsSubmit(true);
+    console.log(formValues);
+    let response;
     try {
-      const response = await axios.post(
-        endpoints,
-        formValues
-      );
+      response = await axios.post(endpoints.signup, formValues);
+      console.log(response);
       if (response.statusText) {
         // localStorage.setItem("token", response.data.token);
         navigate("/login", { replace: true });
       } else {
-        const err = { Error: "Invalid Credentials" };
+        const err = { Error: response.statusText.error };
         throw err;
       }
     } catch (err) {
-      alert("Invalid Credentials");
+      console.log(err);
+      alert(err.response.data.error);
     }
   };
 
-  useEffect(() => {
-    if (Object.keys(formErrors).length === 0 && isSubmit) {
-    }
-  }, [formErrors]);
+  // useEffect(() => {
+  //   if (Object.keys(formErrors).length === 0 && isSubmit) {
+
+  //   }
+  // }, [formErrors]);
 
   return (
     <form

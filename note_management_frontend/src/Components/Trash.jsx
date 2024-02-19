@@ -3,14 +3,9 @@ import { Link } from "react-router-dom";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import AddNoteButton from "./AddNoteButton";
 
-export default function Trash() {
-  const plusStyle = {
-    position: "fixed",
-    bottom: "4%",
-    right: "2%",
-    color: "yellow",
-  };
+export default function Trash(props) {
 
   // const username = useSelector((state) => state.username.value);
   const username = "adarsh";
@@ -24,13 +19,7 @@ export default function Trash() {
   return (
     <>
       <div>Trash</div>
-      <Link to="/userid/newnote">
-        <IoAddCircleOutline
-          style={plusStyle}
-          size={50}
-          className="add-button"
-        />
-      </Link>
+      <AddNoteButton isDark={props.isDark}/>
     </>
   );
 }

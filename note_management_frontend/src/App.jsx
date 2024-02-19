@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import "./Style/App.css";
 import Home from "./Pages/Home";
@@ -21,17 +21,18 @@ function App() {
   //     window.location.href='/';
   //   }
   // }, [url]);
+  const [color, setColor] = useState("#283044");
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} caseSensitive />
-        <Route path="/signup" element={<Signup />} caseSensitive />
-        <Route element={<PrivateRoutes />}>
-          <Route path="/userid/home" element={<NotesHome />} caseSensitive />
+    <div style={{ backgroundColor: "#283044" }}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} caseSensitive />
+          <Route path="/signup" element={<Signup />} caseSensitive />
+          {/* <Route element={<PrivateRoutes />}> */}
+          <Route path="/userid/home" onClick={()=>setColor("#000")} element={<NotesHome />} caseSensitive />
           <Route path="/userid/newnote" element={<NotesHome />} caseSensitive />
-          <Route path="/userid/labels" element={<NotesHome />} caseSensitive />
           <Route path="/userid/archive" element={<NotesHome />} caseSensitive />
           <Route path="/userid/trash" element={<NotesHome />} caseSensitive />
           <Route
@@ -39,9 +40,10 @@ function App() {
             element={<UserProfile />}
             caseSensitive
           />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+          {/* </Route> */}
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 }
 

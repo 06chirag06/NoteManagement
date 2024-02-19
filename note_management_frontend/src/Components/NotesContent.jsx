@@ -5,22 +5,15 @@ import React, {
   useLayoutEffect,
 } from "react";
 import { fakeNotesRepo } from "../data/fakeNotesRepo";
-import { IoAddCircleOutline } from "react-icons/io5";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import NotesOutline from "./NotesOutline";
 import { endpoints } from "../utils/Constants";
 import { updateNotesId } from "../App/reducers/notesIdSlice";
+import AddNoteButton from "./AddNoteButton";
 
 export default function NotesContent(props) {
-  const plusStyle = {
-    position: "fixed",
-    bottom: "4%",
-    right: "2%",
-    color: "yellow",
-  };
-
   // const _id = useSelector((state) => state.notesId.value);
 
   const [data, setData] = useState([]);
@@ -28,22 +21,22 @@ export default function NotesContent(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleInsertNote = async () => {
-    const data = {
-      username: username,
-      title: "Untitled Note",
-      content: "",
-      location: "main",
-      collaborator: "",
-    };
-    try {
-      // const response = await axios.post(endpoints.insertNote, data);
-      // dispatch(updateNotesId(response.data._id));
-      navigate("/userid/newnote", { replace: true });
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  // const handleInsertNote = async () => {
+  //   const data = {
+  //     username: username,
+  //     title: "Untitled Note",
+  //     content: "",
+  //     location: "main",
+  //     collaborator: "",
+  //   };
+  //   try {
+  //     // const response = await axios.post(endpoints.insertNote, data);
+  //     // dispatch(updateNotesId(response.data._id));
+  //     navigate("/userid/newnote", { replace: true });
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
   // const username = useSelector((state) => state.userInfo.username);
 
   // const fetchData = useCallback(async () => {
@@ -58,29 +51,31 @@ export default function NotesContent(props) {
   // setString(newString);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          `${endpoints.getAllNotes}/${username}`
-        );
-        setData(response.data);
-        props.handleNoNote(false);
-        console.log(data);
-      } catch (err) {
-        props.handleNoNote(true);
-        console.log(err);
-      }
-    };
-    fetchData();
+    // const fetchData = async () => {
+    //   try {
+    //     const response = await axios.get(
+    //       `${endpoints.getAllNotes}/${username}`
+    //     );
+    //     setData(response.data);
+    //     props.handleNoNote(false);
+    //     console.log(data);
+    //   } catch (err) {
+    //     props.handleNoNote(true);
+    //     console.log(err);
+    //   }
+    // };
+    // fetchData();
   }, []);
 
   return (
     <>
-      {/* <div className="grid m-0 p-0"> */}
-      {/* <div className="col m-0 p-0 ps-5 pe-5 pt-5 note-card"> */}
       {fakeNotesRepo.map((note) => (
         <div className="m-0 p-0" key={note.id}>
-          <NotesOutline title={note.title} content={note.content} />
+          <NotesOutline
+            title={note.title}
+            content={note.content}
+            isDark={props.isDark}
+          />
         </div>
       ))}
 
@@ -98,13 +93,7 @@ export default function NotesContent(props) {
       ))} */}
       {/* </div> */}
       {/* </div> */}
-      <IoAddCircleOutline
-        style={plusStyle}
-        size={50}
-        className="add-button"
-        onClick={handleInsertNote}
-        role="button"
-      />
+      <AddNoteButton isDark={props.isDark} />
     </>
   );
 }

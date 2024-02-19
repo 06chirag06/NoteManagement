@@ -40,20 +40,24 @@ export default function LoginForm() {
     };
 
     try {
+      console.log(reqBody);
+      console.log(endpoints.login);
       const response = await axios.post(endpoints.login, reqBody);
-      if (response.data.token) {
+      console.log(response);
+      if (response.data.accessToken) {
         dispatch(
-          login({ username: reqBody.username, token: response.data.token })
+          login({ username: reqBody.username, token: response.data.accessToken })
         );
         // if(data.)
-        localStorage.setItem("token", response.data.token);
-        navigate("/userID/home", { replace: true });
+        localStorage.setItem("JWTToken", response.data.accessToken);
+        navigate("/userid/home", { replace: true });
       } else {
-        const err = { Error: "Invalid Credentials" };
+        const err = { Error: "Internal Server Error" };
         throw err;
       }
     } catch (err) {
-      alert("Invalid Credentials");
+      console.log(err);
+      alert(err.response.data);
     }
   };
 

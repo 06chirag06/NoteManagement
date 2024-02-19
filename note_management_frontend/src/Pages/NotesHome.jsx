@@ -5,7 +5,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import NotesHomeNavbar from "../Components/NotesHomeNavbar";
 import NotesHomeSidebar from "../Components/NotesHomeSidebar";
 import NotesContent from "../Components/NotesContent";
@@ -14,6 +14,7 @@ import ArchiveNotes from "../Components/ArchiveNotes";
 import Trash from "../Components/Trash";
 import setBodyColor from "../utils/setBodyColor";
 import "../Style/NotesHome.css";
+import "../index.css";
 
 export default function Users() {
   const url = window.location.pathname;
@@ -21,10 +22,13 @@ export default function Users() {
   const darkBackground = "#000000";
   const lightBackground = "#ffffff";
 
+  const { state } = useLocation();
+
   const [isHome, setIsHome] = useState(false);
   const [isArchive, setIsArchive] = useState(false);
   const [isTrash, setIsTrash] = useState(false);
   const [isNewNote, setIsNewNote] = useState(false);
+  const [isUpdateNote, setIsUpdateNote] = useState(false);
 
   const [height, setHeight] = useState(0); // to find height of component except navbar
   const [toggleSidebar, setToggleSidebar] = useState(true);
@@ -45,21 +49,31 @@ export default function Users() {
       setIsArchive(false);
       setIsTrash(false);
       setIsNewNote(false);
+      setIsUpdateNote(false);
     } else if (url.includes("archive")) {
       setIsHome(false);
       setIsArchive(true);
       setIsTrash(false);
       setIsNewNote(false);
+      setIsUpdateNote(false);
     } else if (url.includes("trash")) {
       setIsHome(false);
       setIsArchive(false);
       setIsTrash(true);
       setIsNewNote(false);
+      setIsUpdateNote(false);
     } else if (url.includes("newnote")) {
       setIsNewNote(true);
       setIsHome(false);
       setIsArchive(false);
       setIsTrash(false);
+      setIsUpdateNote(false);
+    } else if (url.includes("updatenote")) {
+      setIsNewNote(false);
+      setIsHome(false);
+      setIsArchive(false);
+      setIsTrash(false);
+      setIsUpdateNote(true);
     }
   }, [url]);
 
@@ -132,7 +146,21 @@ export default function Users() {
           <div
             className={"m-0 p-0 pb-5 " + (toggleSidebar ? "col-10" : "col-12")}
           >
-            <InsertNote isDark={isDark} />
+            <InsertNote isDark={isDark} url={url} />
+          </div>
+        )}
+
+        {isUpdateNote && (
+          <div
+            className={"m-0 p-0 pb-5 " + (toggleSidebar ? "col-10" : "col-12")}
+          >
+            <InsertNote
+              isDark={isDark}
+              title={state ? state.title : null}
+              content={state ? state.content : null}
+              _id={state ? state._id : null}
+              url={url}
+            />
           </div>
         )}
 

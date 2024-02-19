@@ -4,15 +4,13 @@ import { FaArchive } from "react-icons/fa";
 import { FaCopy, FaPalette, FaTrash, FaUserPlus } from "react-icons/fa6";
 import axios from "axios";
 import "../Style/NotesHome.css";
+import { endpoints } from "../utils/Constants";
 
 export default function NotesOutline(props) {
+  const url = window.location.pathname;
   const [isHovering, setIsHovering] = useState(false);
-
-  useEffect(() => {
-    //fetch data from notes for a particular username
-  });
-
-  const _id = "65cda20925b96ddfda3c356d";
+  const [id, setId] = useState(props.id);
+  // const [data, setData] = useState(props.);
 
   const handleMouseOver = () => {
     setIsHovering(true);
@@ -22,31 +20,38 @@ export default function NotesOutline(props) {
     setIsHovering(false);
   };
 
-  const handleNoteClick = () => {};
-
   const handleArchiveClick = async () => {
-    const response = await axios.patch(
-      `http://[::1]:8000/notes/modify/${_id}`,
-      {
-        location: "archive",
-      }
-    );
+    const response = await axios.patch(`${endpoints.updateNotes}/${id}`, {
+      location: "archive",
+    });
     console.log(response.data);
-    alert(`Note with title ${response.data.title} moved to archive`);
+    alert(`Note with title ${response.data.title} archived.`);
+    // props.fetchData();
+    // window.location.reload();
+  };
+
+  const handleNonArchiveClick = async () => {
+    console.log(url);
+    const response = await axios.patch(`http://[::1]:8000/notes/modify/${id}`, {
+      location: "main",
+    });
+    console.log(response.data);
+    alert(`Note with title ${response.data.title} moved to notes`);
   };
 
   const handleCollaboratorClick = () => {};
 
   const handleTrashClick = async () => {
-    const response = await axios.patch(
-      `http://[::1]:8000/notes/modify/${_id}`,
-      {
-        location: "trash",
-      }
-    );
+    const response = await axios.patch(`http://[::1]:8000/notes/modify/${id}`, {
+      location: "trash",
+    });
     console.log(response.data);
     alert(`Note with title ${response.data.title} moved to trash`);
   };
+
+  // useEffect(() => {
+
+  // }, [handleArchiveClick]);
 
   return (
     <div
@@ -58,10 +63,14 @@ export default function NotesOutline(props) {
       }
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
-      onClick={handleNoteClick}
+      // onClick={props.handleNoteClick(id)}
     >
-      <div className="row notes-title p-2">{props.title}</div>
-      <div className="row p-2">{props.content}</div>
+      <div className="row notes-title">
+        <div className="col-12">{props.title}</div>
+      </div>
+      <div className="row">
+        <div className="col-12">{props.content}</div>
+      </div>
       {isHovering && (
         <div className="row position-absolute placement-icons">
           {/* {notesHomeIcons.map((icons) => (
@@ -70,7 +79,15 @@ export default function NotesOutline(props) {
               </div>
             ))} */}
           <div className="col-4 text-center">
-            <FaArchive size={20} onClick={handleArchiveClick} role="button" />
+            <FaArchive
+              size={20}
+              onClick={
+                url.includes("home")
+                  ? handleArchiveClick
+                  : handleNonArchiveClick
+              }
+              role="button"
+            />
           </div>
           <div className="col-4 text-center">
             <FaUserPlus

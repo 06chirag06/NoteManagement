@@ -46,10 +46,14 @@ export default function LoginForm() {
       console.log(response);
       if (response.data.accessToken) {
         dispatch(
-          login({ username: reqBody.username, token: response.data.accessToken })
+          login({
+            username: reqBody.username,
+            token: response.data.accessToken,
+          })
         );
         // if(data.)
         localStorage.setItem("JWTToken", response.data.accessToken);
+        localStorage.setItem("username", reqBody.username);
         navigate("/userid/home", { replace: true });
       } else {
         const err = { Error: "Internal Server Error" };

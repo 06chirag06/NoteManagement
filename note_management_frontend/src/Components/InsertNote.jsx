@@ -4,18 +4,23 @@ import ContentEditable from "react-contenteditable";
 // import sanitizeHTML from "sanitize-html";
 import { useDispatch, useSelector } from "react-redux";
 import { updateNotes } from "../App/reducers/notesSlice";
+import axios from "axios";
 import "../Style/InsertNote.css";
+import { endpoints } from "../utils/Constants";
 
 export default function InsertNote(props) {
   const [title, setTitle] = useState(
     props.title ? props.title : "Untitled Note"
   );
+  const url = props.url;
   const inputRef = useRef();
   const dispatch = useDispatch();
+  const username = localStorage.getItem("username");
+  const [_id, set_id] = useState(props._id ? props._id : "");
 
   // const notes = useSelector((state) => state.notes);
 
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState(props.content ? props.content : "");
 
   // const [sanitizeConf, setSanitizeConf] = useState({
   //   allowedTags: [
@@ -89,6 +94,44 @@ export default function InsertNote(props) {
     console.log(selectedText);
   };
 
+  const handleInsert = async (e) => {
+    e.preventDefault();
+    try {
+      const reqBody = {
+        username: username,
+        title: title,
+        content: content,
+        location: "main",
+        collaborator: "",
+      };
+      const response = await axios.post(endpoints.insertNote, reqBody);
+      alert("Note Saved");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleFocus = () => {
+    // console.log(inputRef.current.select());
+  };
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      const updatedData = {
+        title: title,
+        content: content,
+      };
+      const response = await axios.patch(
+        `${endpoints.updateNotes}/${_id}`,
+        updatedData
+      );
+      alert("Note Updated");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   // const sanitizeInput = () => {
   //   setContent(sanitizeHTML(content, sanitizeConf));
   //   // console.log(content);
@@ -115,7 +158,9 @@ export default function InsertNote(props) {
         <SettingsBar handleBoldClick={handleBoldClick} isDark={props.isDark} />
       </div>
       <div className="row m-0 p-0">
-        <form>
+        <form
+          onSubmit={url.includes("insertnote") ? handleInsert : handleUpdate}
+        >
           <div className="row m-0 p-0 mt-5">
             <input
               type="text"
@@ -133,15 +178,24 @@ export default function InsertNote(props) {
           </div>
           <div className="row m-0 p-0 mt-5 mh-100">
             <ContentEditable
-              className={"border border-1 rounded editable " + (props.isDark ? "border-light text-light" : "text-dark border-dark")}
+              className={
+                "border border-1 rounded editable " +
+                (props.isDark
+                  ? "border-light text-light"
+                  : "text-dark border-dark")
+              }
               ref={inputRef}
               onChange={handleInput}
               html={content}
               id="content"
               suppressContentEditableWarning={true}
               onKeyDown={handleTabPress}
+              onFocus={handleFocus}
             />
           </div>
+          <button className="btn mt-2 btn-warning float-right">
+            {url.includes("newnote") ? "Save" : "Update"}
+          </button>
         </form>
       </div>
     </>

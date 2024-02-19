@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { IoAddCircleOutline } from "react-icons/io5";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 // import { useState } from "react";
 
 const AddNoteButton = (props) => {
   const [data, setData] = useState([]);
-  const username = "adarsh";
+  const username = localStorage.getItem("username");
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -18,13 +18,6 @@ const AddNoteButton = (props) => {
   };
 
   const handleInsertNote = async () => {
-    const data = {
-      username: username,
-      title: "Untitled Note",
-      content: "",
-      location: "main",
-      collaborator: "",
-    };
     try {
       // const response = await axios.post(endpoints.insertNote, data);
       // dispatch(updateNotesId(response.data._id));
@@ -35,13 +28,15 @@ const AddNoteButton = (props) => {
   };
 
   return (
-    <IoAddCircleOutline
-      style={plusStyle}
-      size={50}
-      className="add-button"
-      onClick={handleInsertNote}
-      role="button"
-    />
+    <Link to="/userid/newnote">
+      <IoAddCircleOutline
+        style={plusStyle}
+        size={50}
+        className="add-button"
+        // onClick={handleInsertNote}
+        role="button"
+      />
+    </Link>
   );
 };
 

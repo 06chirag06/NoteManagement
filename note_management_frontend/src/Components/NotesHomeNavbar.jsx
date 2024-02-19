@@ -14,13 +14,14 @@ import "../Style/NotesHome.css";
 export default function NotesHomeNavbar(props) {
   const navigate = useNavigate();
 
-  const username = useSelector((state) => state.username.username);
+  const username = localStorage.getItem("username");
   // const isDark = useSelector((state) => state.theme);
   // const [toggle, setToggle] = useState(true);
   const dispatch = useDispatch();
 
   const handleLogout = () => {
     localStorage.removeItem("JWTToken");
+    localStorage.removeItem("username");
     // dispatch(logout());
     navigate("/", { replace: true });
   };
@@ -33,7 +34,7 @@ export default function NotesHomeNavbar(props) {
   const iconStylesLight = {
     color: "#111A16",
     fontSize: "1.75rem",
-  }
+  };
 
   const changeDarkMode = () => {
     // dispatch(toggleTheme(isDark));
@@ -46,7 +47,13 @@ export default function NotesHomeNavbar(props) {
 
   return (
     <>
-      <Navbar bg={props.isDark ? "dark":"light"} className={"border-bottom border-1 " + (props.isDark ? "border-light": "border-dark")}>
+      <Navbar
+        bg={props.isDark ? "dark" : "light"}
+        className={
+          "border-bottom border-1 " +
+          (props.isDark ? "border-light" : "border-dark")
+        }
+      >
         <div className="container-fluid">
           <Nav.Item>
             <FaBars
@@ -86,16 +93,20 @@ export default function NotesHomeNavbar(props) {
             role="button"
             data-bs-toggle="tooltip"
             data-bs-placement="bottom"
-            title={"Switch To "+(props.isDark ? "Light Mode" : "Dark Mode")}
+            title={"Switch To " + (props.isDark ? "Light Mode" : "Dark Mode")}
           >
             {props.isDark ? (
-              <IoIosMoon className="text-light"/>
+              <IoIosMoon className="text-light" />
             ) : (
               <IoIosSunny className="text-dark" />
             )}
           </Nav.Item>
           <Nav.Item>
-            <NavDropdown title={<FaUserCircle />} className={"fs-3 " + (props.isDark ? "text-warning" : "")} style={props.isDark? {}:{"color":"#003ef8"}}>
+            <NavDropdown
+              title={<FaUserCircle />}
+              className={"fs-3 " + (props.isDark ? "text-warning" : "")}
+              style={props.isDark ? {} : { color: "#003ef8" }}
+            >
               <NavDropdown.Item className="text-light disabled">
                 Hi, {username}
               </NavDropdown.Item>

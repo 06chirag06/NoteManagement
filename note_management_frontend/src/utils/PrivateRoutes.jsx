@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
 
 export default function PrivateRoutes() {
-  let auth = useSelector((state) => state.username);
-  return auth.token ? <Outlet /> : <Navigate to="/" />;
+  const auth = localStorage.getItem("JWTToken");
+  const username = localStorage.getItem("username");
+  return auth && username ? <Outlet /> : <Navigate to="/" />;
 }

@@ -8,6 +8,8 @@ import NotesHome from "./Pages/NotesHome";
 // import InsertNote from './Pages/InsertNote';
 import UserProfile from "./Pages/UserProfile";
 import PrivateRoutes from "./utils/PrivateRoutes";
+import NavigateHome from "./utils/NavigateHome";
+import UpdateNote from "./Components/UpdateNote";
 
 function App() {
   // const url = window.location.pathname;
@@ -27,20 +29,40 @@ function App() {
     <div style={{ backgroundColor: "#283044" }}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} caseSensitive />
-          <Route path="/signup" element={<Signup />} caseSensitive />
-          {/* <Route element={<PrivateRoutes />}> */}
-          <Route path="/userid/home" onClick={()=>setColor("#000")} element={<NotesHome />} caseSensitive />
-          <Route path="/userid/newnote" element={<NotesHome />} caseSensitive />
-          <Route path="/userid/archive" element={<NotesHome />} caseSensitive />
-          <Route path="/userid/trash" element={<NotesHome />} caseSensitive />
-          <Route
-            path="/userid/profile"
-            element={<UserProfile />}
-            caseSensitive
-          />
-          {/* </Route> */}
+          <Route element={<NavigateHome />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} caseSensitive />
+            <Route path="/signup" element={<Signup />} caseSensitive />
+          </Route>
+          <Route element={<PrivateRoutes />}>
+            <Route
+              path="/userid/home"
+              onClick={() => setColor("#000")}
+              element={<NotesHome />}
+              caseSensitive
+            />
+            <Route
+              path="/userid/newnote"
+              element={<NotesHome />}
+              caseSensitive
+            />
+            <Route
+              path="/userid/archive"
+              element={<NotesHome />}
+              caseSensitive
+            />
+            <Route path="/userid/trash" element={<NotesHome />} caseSensitive />
+            <Route
+              path="/userid/updatenote"
+              element={<NotesHome />}
+              caseSensitive
+            />
+            <Route
+              path="/userid/profile"
+              element={<UserProfile />}
+              caseSensitive
+            />
+          </Route>
         </Routes>
       </BrowserRouter>
     </div>

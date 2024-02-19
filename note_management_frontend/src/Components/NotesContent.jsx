@@ -17,7 +17,8 @@ export default function NotesContent(props) {
   // const _id = useSelector((state) => state.notesId.value);
 
   const [data, setData] = useState([]);
-  const username = "adarsh";
+  const username = useSelector((state) => state.username.username);
+  // const username = "adarsh";
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

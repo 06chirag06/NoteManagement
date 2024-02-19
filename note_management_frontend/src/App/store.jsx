@@ -1,8 +1,8 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, createStore } from "@reduxjs/toolkit";
 import usernameReducer from "./reducers/usernameSlice";
+import { createStoreHook } from "react-redux";
+import rootReducer from "./rootReducer";
 
-export default configureStore({
-  reducer: {
-    username: usernameReducer,
-  },
-});
+const store = createStore(rootReducer);
+
+export default store;

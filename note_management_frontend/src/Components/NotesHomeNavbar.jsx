@@ -6,8 +6,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { IoIosSunny, IoIosMoon } from "react-icons/io";
 import { Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import logout from "../App/reducers/usernameSlice";
-import toggleTheme from "../App/reducers/themeSlice";
+// import toggleTheme from "../App/reducers/themeSlice";
 import logo from "../images/navLogo.jpg";
 import logoLight from "../images/lightLogo.jpg";
 import "../Style/NotesHome.css";
@@ -15,15 +14,14 @@ import "../Style/NotesHome.css";
 export default function NotesHomeNavbar(props) {
   const navigate = useNavigate();
 
-  // const username = useSelector((state) => state.username.value);
-  const username = "adarsh";
+  const username = useSelector((state) => state.username.username);
   // const isDark = useSelector((state) => state.theme);
   // const [toggle, setToggle] = useState(true);
   const dispatch = useDispatch();
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    dispatch(logout());
+    localStorage.removeItem("JWTToken");
+    // dispatch(logout());
     navigate("/", { replace: true });
   };
 

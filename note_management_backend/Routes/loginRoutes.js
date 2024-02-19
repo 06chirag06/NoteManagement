@@ -55,7 +55,6 @@ const login = async (req, res) => {
     if (err) {
       console.log(err);
     }
-    console.log(response);
     // const isPasswordValid = response;
     if (!response) {
       return res.status(401).send("Invalid Username or Password");

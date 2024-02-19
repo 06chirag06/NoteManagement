@@ -1,38 +1,75 @@
-.App {
-  text-align: center;
+.bg-terrific-orange {
+  /* background-color: #ff2600; */
+  background: #ff4848;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.bg-terrific-orange2 {
+  background: #ff4848;
+  backdrop-filter: invert(80%);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.bg-images {
+  background-image: url("../images/backgroundPostIt.jpg");
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.zoom {
+  transition: transform 0.3s;
 }
 
-.App-link {
-  color: #61dafb;
+.zoom:hover {
+  transform: scale(1.1);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.navbar-toggler-no-border.collapsed .navbar-toggler-icon {
+  border: none;
 }
+
+.navbar-toggler:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.focus-selector:hover {
+  background-color: #546a7b;
+  color: #333741;
+}
+
+.bg-very-light-blue {
+  background-color: #d6e3e4;
+}
+
+.pic {
+  overflow: hidden;
+  border-radius: 50%;
+  height: 250px;
+  width: 450px;
+}
+
+/* .background-note{
+  background-image: url("../images/backgroundHomeNote.jpg");
+} */
+
+/* body::-webkit-scrollbar {
+  width: 0.35rem;
+  height: 1rem;
+} */
+
+/* body::-webkit-scrollbar-track {
+  background: transparent;
+  margin-bottom: 10px;
+} */
+
+/* body::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 15px;
+  --tw-border-opacity: 1;
+  background-color: transparent;
+  border-color: rgba(0, 0, 0, var(--tw-border-opacity));
+  border-radius: 9999px;
+  border-width: 1px;
+  border-right: 5px transparent solid;
+} */
+
+/* body::-webkit-scrollbar-button {
+  width: 10px;
+} */

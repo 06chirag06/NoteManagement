@@ -1,14 +1,16 @@
-const express = require('express');
-const Connection = require('./database/db.js')
+const express = require("express");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const bodyParser = require("body-parser");
+const Connection = require("./database/db");
 // const UserModel = require('./models/Users');
-const dotenv = require('dotenv');  
-const Router = require('./Routes/router.js')
-var bodyParser = require('body-parser');
-const cors = require('cors');
+const Router = require("./Routes/router");
+// const session = require("express-session");
+// const passport = require("passport");
+// const MongoStore = require("connect-mongo");
 
 const app = express();
 app.use(bodyParser.json());
-
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
@@ -17,13 +19,15 @@ dotenv.config();
 const username = process.env.DB_USERNAME;
 const password = process.env.DB_PASSWORD;
 
-Connection(username,password);
+Connection(username, password);
 
 // Connection();
 app.use(Router);
 
 const port = 8000;
+// app.use(passport.initialize());
+// app.use(passport.session());
 
-app.listen(port, (err) => {
-    console.log(`server is running on ${port}`);
-})
+app.listen(port, () => {
+  console.log(`server is running on ${port}`);
+});

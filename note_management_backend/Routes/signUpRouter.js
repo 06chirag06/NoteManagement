@@ -9,6 +9,7 @@ signUpRouter.post("/Add", async (req, res) => {
     email: req.body.email,
     password: req.body.password, 
     dob: req.body.dob,
+    rePassword:req.body.rePassword,
   });
 
   const user = await UserModel.findOne({ username: data.username });
@@ -43,6 +44,10 @@ signUpRouter.post("/Add", async (req, res) => {
 
   if (!validateDateOfBirth(data.dob)) {
     return res.status(400).json({ error: "You should be at least 5 years old" });
+  }
+
+  if(data.password !== data.rePassword){
+    return res.status(400).json({ error: "Passwords doesn't match" });
   }
 
   const saltRounds = 10;

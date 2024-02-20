@@ -26,8 +26,10 @@ export default function HomeNavbar() {
       className="mb-4 p-lg-2 border-bottom border-2 position-sticky"
     >
       <div className="container-fluid">
-        <Navbar.Brand href="/">
-          <img src={logo} height="50%" width="50%" alt="" />
+        <Navbar.Brand>
+          <Link to="/">
+            <img src={logo} height="50%" width="50%" alt="" />
+          </Link>
         </Navbar.Brand>
         <NavbarToggle className="border-0">
           <button
@@ -44,10 +46,7 @@ export default function HomeNavbar() {
         </NavbarToggle>
         <Navbar.Collapse id="basic-navbar-nav" className="border-0">
           <Nav className="ms-auto">
-            <Nav.Link
-              className="focus-selector"
-              id="login"
-            >
+            <Nav.Link className="focus-selector" id="login">
               <Link
                 className="nav-link text-light ps-lg-3 pe-lg-3 fw-semibold fs-4 fs-5"
                 to="/login"

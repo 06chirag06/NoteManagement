@@ -210,7 +210,14 @@ export default function InsertNote(props) {
             />
           </div>
           {url.includes("newnote") && (
-            <button className="btn mt-2 btn-warning float-right"></button>
+            <button
+              className={
+                "btn mt-2 float-end " +
+                (props.isDark ? "btn-warning" : "btn-primary")
+              }
+            >
+              Save Note
+            </button>
           )}
         </form>
       </div>

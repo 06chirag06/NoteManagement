@@ -87,7 +87,7 @@ const ResetPassword = () => {
                   htmlFor="rePassword"
                   className="form-label m-0 p-0 ms-3 mt-2 fs-5"
                 >
-                  Password<span className="text-danger">*</span>
+                  Re-Enter Password<span className="text-danger">*</span>
                 </label>
                 <div className="input-group">
                   <div className="input-group-text">
@@ -101,6 +101,16 @@ const ResetPassword = () => {
                     onChange={handleInput}
                     value={rePassword}
                   />
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-12">
+                  <button
+                    type="submit"
+                    className="btn btn-primary px-4 text-center mt-4 offset-5 mb-2"
+                  >
+                    Reset Password
+                  </button>
                 </div>
               </div>
             </div>

@@ -6,7 +6,7 @@ import { FaUser } from "react-icons/fa6";
 
 const ForgotPassword = () => {
   const [username, setUsername] = useState("");
-  const [OTP, setOTP] = useState("");
+  // const [OTP, setOTP] = useState("");
   const usernamePlaceholder = "Enter Username";
   const navigate = useNavigate();
 
@@ -16,20 +16,23 @@ const ForgotPassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (username) {
-      const OTP = Math.floor(Math.random() * 9000 + 1000);
-      console.log(OTP);
-      setOTP(OTP);
-    }
+    // if (username) {
+    //   console.log(OTP);
+    //   setOTP(OTP);
+    // }
     try {
-      const response = await axios.post(
-        "http://localhost:8000/login/forgotpassword/${username}",
-        {
-          OTP: OTP,
+      if (username) {
+        const OTP = Math.floor(Math.random() * 9000 + 1000);
+        const response = await axios.post(
+          `http://localhost:8000/login/forgetpassword/${username}`,
+          {
+            OTP: OTP,
+          }
+        );
+        console.log(OTP);
+        if (response.data) {
+          navigate("/otp", { state: { OTP, username } }, { replace: true });
         }
-      );
-      if (response.data) {
-        navigate("/otp", { state: { OTP, username } }, { replace: true });
       }
     } catch (err) {
       console.log(err.message);

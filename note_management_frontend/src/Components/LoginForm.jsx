@@ -4,10 +4,12 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 // import UserPass from "./UserPass";
 import axios from "axios";
-import { FaLock, FaUser, FaFacebook, FaGithub } from "react-icons/fa6";
-import { FcGoogle } from "react-icons/fc";
+import { FaEye, FaEyeSlash, FaLock, FaUser } from "react-icons/fa6";
 import { useDispatch } from "react-redux";
-import { updateUsername } from "../App/reducers/usernameSlice";
+import { login } from "../App/reducers/usernameSlice";
+import { endpoints } from "../utils/Constants";
+import Lottie from "lottie-react";
+import loginLeft from "../images/login-left.json";
 // import { GoogleLogin } from "@react-oauth/google";
 
 export default function LoginForm() {
@@ -16,8 +18,13 @@ export default function LoginForm() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isVisible, setIsVisible] = useState(false);
   const usernamePlaceholder = "Enter Username";
   const passwordPlaceholder = "Enter Password";
+
+  const handleTogglePassword = () => {
+    setIsVisible(!isVisible);
+  };
 
   const handleInput = (e) => {
     switch (e.target.id) {
@@ -40,26 +47,36 @@ export default function LoginForm() {
     };
 
     try {
-      const response = await axios.post("http://[::1]:8000/login", reqBody);
-      if (response.data.token) {
-        dispatch(updateUsername(reqBody.username));
+      console.log(reqBody);
+      console.log(endpoints.login);
+      const response = await axios.post(endpoints.login, reqBody);
+      console.log(response);
+      if (response.data.accessToken) {
+        dispatch(
+          login({
+            username: reqBody.username,
+            token: response.data.accessToken,
+          })
+        );
         // if(data.)
-        localStorage.setItem("token", response.data.token);
-        navigate("/userID/home", { replace: true });
+        localStorage.setItem("JWTToken", response.data.accessToken);
+        localStorage.setItem("username", reqBody.username);
+        navigate("/userid/home", { replace: true });
       } else {
-        const err = { Error: "Invalid Credentials" };
+        const err = { Error: "Internal Server Error" };
         throw err;
       }
     } catch (err) {
-      alert("Invalid Credentials");
+      console.log(err);
+      alert(err.response.data);
     }
   };
 
-  const handleKeyDown = (e) => {
-    if (e.keyCode === 13) {
-      handleSubmit(e);
-    }
-  };
+  // const handleKeyDown = (e) => {
+  //   if (e.keyCode === 13) {
+  //     handleSubmit(e);
+  //   }
+  // };
 
   const handleSignUp = () => {
     navigate("/signup", { replace: true });
@@ -68,7 +85,9 @@ export default function LoginForm() {
   return (
     <form onSubmit={handleSubmit}>
       <div className="row p-0 m-0">
-        <div className="col-lg-4 col-0 p-0 m-0 login-side-image"></div>
+        <div className="d-lg-flex d-none col-lg-4 col-0 p-0 m-0 login-side-image justify-contents-center">
+          <Lottie animationData={loginLeft} loop={true} />
+        </div>
         <div className="col-12 col-lg-8 p-3">
           <div className="row">
             <div className="col-12 fw-bold fs-1 text-center">Welcome Back</div>
@@ -109,13 +128,21 @@ export default function LoginForm() {
               </div>
               <input
                 className="form-control"
-                type="password"
+                type={isVisible ? "text" : "password"}
                 id="password"
                 name="password"
                 onChange={handleInput}
                 value={password}
                 placeholder={passwordPlaceholder}
               />
+              <span
+                className="input-group-btn p-2 bg-light rounded-end"
+                role="button"
+                title="View Password"
+                onClick={handleTogglePassword}
+              >
+                {isVisible ? <FaEye /> : <FaEyeSlash />}
+              </span>
             </div>
           </div>
           <div className="row">
@@ -132,7 +159,10 @@ export default function LoginForm() {
               </div>
             </div>
             <div className="col-sm-6 fs-6 mt-3">
-              <a href="#" className="float-end text-primary">
+              <a
+                href="http://localhost:3000/forgotpassword"
+                className="float-end text-primary"
+              >
                 Forgot Password?
               </a>
             </div>
@@ -156,9 +186,9 @@ export default function LoginForm() {
               <hr className="border border-1 border-dark opacity-100" />
             </div>
           </div> */}
-          <div className="row mt-4 mb-4">
-            <div className="col text-center">
-              {/* <GoogleLogin
+          {/* <div className="row mt-4 mb-4">
+            <div className="col text-center"> */}
+          {/* <GoogleLogin
                 onSuccess={async (credentialResponse) => {
                   console.log(credentialResponse);
                   const data = await axios.get("http://192.168.236.70:8000/auth/google", credentialResponse.tokenId);
@@ -168,17 +198,17 @@ export default function LoginForm() {
                   console.log("Login Failed");
                 }}
               /> */}
-            </div>
-            {/* <div className="col-2 text-center">
+          {/* </div> */}
+          {/* <div className="col-2 text-center">
               <FaFacebook size={30} role="button" />
             </div> */}
-            <div className="col text-center">
+          {/* <div className="col text-center">
               <FaGithub size={30} role="button" />
             </div>
-          </div>
+          </div> */}
           <div className="row">
             <div className="col-12 fs-6">
-              <span onClick={handleSignUp} onKeyDown={handleKeyDown}>
+              <span onClick={handleSignUp}>
                 Yet to become a member?&nbsp;
                 {/* <a href="/signup" className="text-decoration-underline">
             SignUp

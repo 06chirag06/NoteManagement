@@ -6,14 +6,15 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import store from "./App/store";
+import "./index.css";
 // import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // <GoogleOAuthProvider clientId="522859746627-0hmr8ng9qk6ugt968s31o8amfj503h3l.apps.googleusercontent.com">
-    <Provider store={store}>
-      <App />
-    </Provider>
+  <Provider store={store}>
+    <App />
+  </Provider>
   // </GoogleOAuthProvider>
 );
 

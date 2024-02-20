@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { notesHomeIcons } from "../data/notesHomeIcons";
-import "../Style/NotesOutline.css";
+import { FaArchive, FaTrashRestore } from "react-icons/fa";
+import { FaCopy, FaPalette, FaTrash, FaUserPlus } from "react-icons/fa6";
+import { BiSolidArchiveIn, BiSolidArchiveOut } from "react-icons/bi";
+import axios from "axios";
+import { endpoints } from "../utils/Constants";
+import "../Style/NotesHome.css";
 
 export default function NotesOutline(props) {
+  const url = window.location.pathname;
   const [isHovering, setIsHovering] = useState(false);
-
-  useEffect(() => {
-    //fetch data from notes for a particular username
-  });
+  const [id, setId] = useState(props.id);
+  // const [data, setData] = useState(props.);
 
   const handleMouseOver = () => {
     setIsHovering(true);
@@ -17,36 +21,184 @@ export default function NotesOutline(props) {
     setIsHovering(false);
   };
 
-  const handleNoteClick = () => {};
+  const handleArchiveClick = async (e) => {
+    e.stopPropagation();
+    try {
+      const response = await axios.patch(`${endpoints.updateNotes}/${id}`, {
+        location: "archive",
+      });
+      console.log(response.data);
+      alert(`Note with title ${response.data.title} archived.`);
+    } catch (err) {
+      console.log(err.message);
+    }
+    // props.fetchData();
+  };
 
-  const handleArchiveClick = () => {};
+  const handleNonArchiveClick = async (e) => {
+    e.stopPropagation();
+    try {
+      console.log(url);
+      const response = await axios.patch(
+        `http://[::1]:8000/notes/modify/${id}`,
+        {
+          location: "main",
+        }
+      );
+      console.log(response.data);
+      alert(`Note with title ${response.data.title} moved to notes`);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
 
-  const handleCollaboratorClick = () => {};
+  const handleCollaboratorClick = (e) => {
+    e.stopPropagation();
+    
+  };
 
-  const handleThemeClick = () => {};
+  const handleTrashClick = async (e) => {
+    e.stopPropagation();
+    try {
+      const response = await axios.patch(
+        `http://[::1]:8000/notes/modify/${id}`,
+        {
+          location: "trash",
+        }
+      );
+      console.log(response.data);
+      alert(`Note with title ${response.data.title} moved to trash`);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
 
-  const handleCopyClick = () => {};
+  const handleNonTrashClick = async (e) => {
+    e.stopPropagation();
+    try {
+      const response = await axios.patch(
+        `http://[::1]:8000/notes/modify/${id}`,
+        {
+          location: "main",
+        }
+      );
+      console.log(response.data);
+      alert(`Note with title ${response.data.title} moved to notes`);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
 
-  const handleTrashClick = () => {};
+  const handleDeleteClick = async (e) => {
+    e.stopPropagation();
+    try {
+      const response = await axios.delete(
+        `http://localhost:8000/notes/delete/${id}`
+      );
+      alert(`Note Deleted`);
+      console.log(response.data);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  // useEffect(() => {
+
+  // }, [handleArchiveClick]);
 
   return (
     <div
-      className="text-light note-dimensions p-2 border border-1 position-relative notes-box"
+      className={
+        "p-2 border border-1 position-relative " +
+        (props.isDark
+          ? "text-light note-dimensions"
+          : "text-dark note-dimensions-light")
+      }
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
-      onClick={handleNoteClick}
-      role="button"
+      // onClick={props.handleNoteClick(id)}
     >
-      <div className="row notes-title p-2">{props.title}</div>
-      <div className="row p-2">{props.content}</div>
+      <div className="row notes-title">
+        <div className="col-12">{props.title}</div>
+      </div>
+      <div className="row">
+        <div className="col-12">{props.content}</div>
+      </div>
       {isHovering && (
-        <div>
-          <div className="row dp-sec position-absolute placement-icons">
-            {notesHomeIcons.map((icons) => (
-              <div className="col-2" key={icons.title}>
+        <div className="row position-absolute placement-icons">
+          {/* {notesHomeIcons.map((icons) => (
+              <div className="col-2" key={icons.title} onClick={`handle${icons.method}Click`}>
                 {icons.icon}
               </div>
-            ))}
+            ))} */}
+          {props.location === "archive" && (
+            <div className="col text-center">
+              <BiSolidArchiveOut
+                size={20}
+                onClick={handleNonArchiveClick}
+                role="button"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                title="Remove From Archive"
+              />
+            </div>
+          )}
+          {props.location === "main" && (
+            <div className="col text-center">
+              <BiSolidArchiveIn
+                size={20}
+                onClick={handleArchiveClick}
+                role="button"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                title="Add To Archive"
+              />
+            </div>
+          )}
+          {props.location !== "trash" && (
+            <div className="col text-center">
+              <FaUserPlus
+                size={20}
+                onClick={handleCollaboratorClick}
+                role="button"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                title="Add Collaborator"
+              />
+            </div>
+          )}
+          {props.location === "trash" && (
+            <div className="col text-center">
+              <FaTrash
+                size={20}
+                onClick={handleDeleteClick}
+                role="button"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                title="Delete Permanently"
+              />
+            </div>
+          )}
+          <div className="col text-center">
+            {props.location !== "trash" ? (
+              <FaTrash
+                size={20}
+                onClick={handleTrashClick}
+                role="button"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                title="Move to Trash"
+              />
+            ) : (
+              <FaTrashRestore
+                size={20}
+                onClick={handleNonTrashClick}
+                role="button"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                title="Restore Note"
+              />
+            )}
           </div>
         </div>
       )}

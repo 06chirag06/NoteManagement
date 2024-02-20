@@ -12,6 +12,7 @@ import NotesOutline from "./NotesOutline";
 import { endpoints } from "../utils/Constants";
 import { updateNotesId } from "../App/reducers/notesIdSlice";
 import AddNoteButton from "./AddNoteButton";
+import TrashBar from "./TrashBar";
 
 export default function NotesContent(props) {
   // const _id = useSelector((state) => state.notesId.value);
@@ -34,7 +35,9 @@ export default function NotesContent(props) {
       : contentBody;
   };
 
-  const handleNoteClick = async (id) => {
+  const handleNoteClick = async (event, id) => {
+    // event.stopPropagation();
+    console.log(event.currentTarget);
     try {
       const response = await axios.get(`${endpoints.getNote}/${id}`);
       console.log(response);
@@ -79,20 +82,28 @@ export default function NotesContent(props) {
           />
         </div>
       ))} */}
-      {location === "trash" && (
-        <div className="row m-0 p-0">
-          <div className={"col-12 text-center fst-italic " + props.isDark? "text-light":"text-dark"}>
-            Notes in the Trash are deleted after 7 days. &nbsp;&nbsp;
-            <button className="">Empty Trash</button>
+         {/* <div className="row m-0 p-0">
+           <div
+             className={
+               "col-12 text-center fst-italic " + props.isDark
+                 ? "text-light"
+                 : "text-dark"
+             }
+           >
+             Notes in the Trash are deleted after 7 days. &nbsp;&nbsp;
+             <button className="">Empty Trash</button>
+           </div>
+         </div> */}
+         <div className="row d-block">
+          <div className="col-12">
+            Notes will automatically delete after 7 days
           </div>
-        </div>
-      )}
-
+         </div>
       {data.map((dataItems) => (
         <div
           className="m-0 p-0"
           key={dataItems._id}
-          onClick={() => handleNoteClick(dataItems._id)}
+          onClick={(event) => handleNoteClick(event, dataItems._id)}
         >
           <NotesOutline
             title={dataItems.title}

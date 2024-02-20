@@ -1,8 +1,8 @@
 :root {
   --background-color: rgb(0, 0, 0);
   --background-color-light: #fff;
-  --bg-viridian-green: #00000033;
-  --bg-viridian-green-dark: #ffffff33;
+  --bg-viridian-green: #000000;
+  --bg-viridian-green-dark: #ffffff;
   --background-color-navbar: #212529;
   --background-color-navbar-light: #dedad6;
   --input-border-color: #fff;
@@ -13,7 +13,7 @@
   --sidebar-font-color-light: #111a16;
   --sidebar-item-hover: #546a7b;
   /* --sidebar-item-hover-light: #ab9584; */
-  --sidebar-item-hover-light: #E3E36A;
+  --sidebar-item-hover-light: #e3e36a;
   --dropdown-text-color: #ffc107;
   --dropdown-text-color-light: #00f8f8;
 }
@@ -38,6 +38,10 @@
 
 .bg-viridian-green {
   background-color: var(--bg-viridian-green);
+}
+
+.bg-viridian-green-light {
+  background-color: var(--bg-viridian-green-dark);
 }
 
 #background-text-notes {
@@ -80,7 +84,7 @@ textarea:focus {
   border-bottom-color: var(--input-border-color);
 }
 
-.title-input-light{
+.title-input-light {
   padding: 1% 2%;
   box-sizing: border-box;
   border: none;
@@ -188,6 +192,23 @@ div.dropdown-menu.show {
   min-width: auto !important;
 }
 
-[data-theme="false"] body {
-  background-color: var(--background-color-light);
+.loading {
+  display: inline-block;
+  font-size: 20px;
+}
+
+.loading:after {
+  animation: dots 1.5s steps(3) infinite;
+  content: ".";
+  margin-left: 5px;
+}
+
+@keyframes dots {
+  0%,
+  80% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
 }

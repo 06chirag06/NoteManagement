@@ -10,6 +10,9 @@ import UserProfile from "./Pages/UserProfile";
 import PrivateRoutes from "./utils/PrivateRoutes";
 import NavigateHome from "./utils/NavigateHome";
 import UpdateNote from "./Components/UpdateNote";
+import ForgotPassword from "./Components/ForgotPassword";
+import OtpInput from "./Components/OtpInput";
+import ResetPassword from "./Components/ResetPassword";
 
 function App() {
   // const url = window.location.pathname;
@@ -25,6 +28,10 @@ function App() {
   // }, [url]);
   const [color, setColor] = useState("#283044");
 
+  useEffect(() => {
+    document.body.style.backgroundColor = color;
+  }, [color]);
+
   return (
     <div style={{ backgroundColor: "#283044" }}>
       <BrowserRouter>
@@ -33,6 +40,17 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} caseSensitive />
             <Route path="/signup" element={<Signup />} caseSensitive />
+            <Route
+              path="/forgotpassword"
+              element={<ForgotPassword />}
+              caseSensitive
+            />
+            <Route path="/otp" element={<OtpInput />} caseSensitive />
+            <Route
+              path="/resetpassword"
+              element={<ResetPassword />}
+              caseSensitive
+            />
           </Route>
           <Route element={<PrivateRoutes />}>
             <Route

@@ -36,7 +36,10 @@ notesRouter.get("/getAll/:username", async (req, res) => {
 notesRouter.get("/getAll/:username/:location", async (req, res) => {
   try {
     const data = await NotesModel.find({
-      username: req.params.username,
+      $or: [
+        { username: req.params.username },
+        { collaborator: req.params.username },
+      ],
       location: req.params.location,
     });
     res.json(data);
@@ -62,12 +65,10 @@ notesRouter.patch("/modify/:id", async (req, res) => {
   }
 });
 
-notesRouter.delete("/delete", async (req, res) => {
+notesRouter.delete("/delete/:id", async (req, res) => {
   try {
-    const data = await NotesModel.findOneAndDelete({
-      username: req.body.username,
-    });
-    res.send(`document with ${data.username} has been deleted`);
+    const data = await NotesModel.findByIdAndDelete(req.params.id);
+    res.send(`Note has been deleted`);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }

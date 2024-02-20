@@ -35,6 +35,9 @@ const AddNoteButton = (props) => {
         className="add-button"
         // onClick={handleInsertNote}
         role="button"
+        data-bs-toggle="tooltip"
+        data-bs-placement="bottom"
+        title="Add A Note"
       />
     </Link>
   );

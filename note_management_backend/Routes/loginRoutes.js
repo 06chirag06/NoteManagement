@@ -8,32 +8,28 @@ const config = require("../config/config");
 // const { isJWT } = require("validator");
 const jwt = require("jsonwebtoken");
 
-const SendResetPasswordMail = async (name, email, token) => {
+const SendResetPasswordMail = async (name, email, OTP) => {
   try {
     const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 587,
-      secure: false,
-      requireTLs: true,
+      // host: "smtp.gmail.com",
+      service: "gmail",
       auth: {
         user: config.emailUser,
         pass: config.emailPassword,
       },
+      // port: 587,
+      // secure: false,
+      // requireTLs: true,
     });
 
     const mailOptions = {
       from: config.emailUser,
       to: email,
-      subject: "For Reset Password",
-      html:
-        "<p> Hii " +
-        name +
-        ', Please copy  the link and <a href ="http://127.0.0.1:3000/login/resetpassword?token=' +
-        token +
-        '"> reset your password.</a>',
+      subject: "InLine Password Recovery",
+      html: `<p>Hi ${name}, Your OTP for Password Recovery is ${OTP}`,
     };
 
-    transporter.sendMail(mailOptions, function (error, info) {
+    transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         console.log(error);
       } else {
@@ -70,12 +66,16 @@ const login = async (req, res) => {
   });
 };
 
-loginRouter.patch("/modify/:id", async (req, res) => {
+loginRouter.patch("/modify/:username", async (req, res) => {
   try {
-    const { id } = req.params.id;
+    const username = req.params.username;
     const updatedData = req.body;
     const options = { new: true };
-    const result = await UserModel.findByIdAndUpdate(id, updatedData, options);
+    const result = await UserModel.findOneAndUpdate(
+      username,
+      updatedData,
+      options
+    );
     res.send(result);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -94,39 +94,33 @@ loginRouter.delete("/delete", async (req, res) => {
 });
 
 const forgetPassword = async (req, res) => {
+  const username = req.params.username;
+  const OTP = req.body.OTP;
   try {
-    const email = req.body.email;
-    const userData = await UserModel.findOne({ email: email });
-
-    if (userData) {
-      const randomString = randomstring.generate();
-      const data = await UserModel.updateOne(
-        { email: email },
-        { $set: { token: randomString } }
-      );
-
-      SendResetPasswordMail(userData.username, userData.email, randomString);
-      res.status(200).send({
-        success: true,
-        msg: "please check your mail inbox and reset the password.",
-      });
-    } else {
-      res
-        .status(200)
-        .send({ success: true, msg: "This email does not exists." });
+    // const email = req.body.email;
+    const userData = await UserModel.findOne({ username: username });
+    if (!userData) {
+      res.status(401).json("Invalid Username");
     }
+    SendResetPasswordMail(userData.username, userData.email, OTP);
+    res.status(200).send({
+      success: true,
+      msg: "Please check your mail inbox and reset the password.",
+    });
   } catch (error) {
     res.status(400).send({ success: false, msg: error.message });
   }
 };
 
 const resetpassword = async (req, res) => {
+  const username = req.params.username;
   try {
-    const token = req.query.token;
-    console.log(token);
-    const tokenData = await UserModel.findOne({ token: token });
-    console.log(tokenData);
-    if (tokenData) {
+    // const token = req.query.token;
+    // console.log(token);
+    // const tokenData = await UserModel.findOne({ token: token });
+    // console.log(tokenData);
+    const userData = await UserModel.findOne({ username: username });
+    if (userData) {
       const password = req.body.password;
       const passwordRegex =
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()])(.{8,20})$/;
@@ -148,9 +142,9 @@ const resetpassword = async (req, res) => {
           // Store the hash in your database securely
           try {
             // const dataToSave = await data.save();
-            const data = await UserModel.findByIdAndUpdate(
-              { _id: tokenData._id },
-              { $set: { password: newpassword, token: "" } },
+            const data = await UserModel.findOneAndUpdate(
+              { _id: userData._id },
+              { $set: { password: newpassword } },
               { new: true }
             );
             console.log(data);
@@ -177,8 +171,8 @@ const generateAccessToken = async (user) => {
 
 loginRouter.post("/", login);
 
-loginRouter.post("/forgetpassword", forgetPassword);
+loginRouter.post("/forgetpassword/:username", forgetPassword);
 
-loginRouter.get("/resetpassword", resetpassword);
+loginRouter.post("/resetpassword/:username", resetpassword);
 
 module.exports = loginRouter;

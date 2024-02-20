@@ -4,18 +4,25 @@ import ContentEditable from "react-contenteditable";
 // import sanitizeHTML from "sanitize-html";
 import { useDispatch, useSelector } from "react-redux";
 import { updateNotes } from "../App/reducers/notesSlice";
+import axios from "axios";
 import "../Style/InsertNote.css";
+import { endpoints } from "../utils/Constants";
 
 export default function InsertNote(props) {
   const [title, setTitle] = useState(
     props.title ? props.title : "Untitled Note"
   );
+  const url = props.url;
   const inputRef = useRef();
   const dispatch = useDispatch();
+  const username = localStorage.getItem("username");
+  const [_id, set_id] = useState(props._id ? props._id : "");
+  const [selectedText, setSelectedText] = useState("");
+  const typingTimer = useRef(null);
 
   // const notes = useSelector((state) => state.notes);
 
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState(props.content ? props.content : "");
 
   // const [sanitizeConf, setSanitizeConf] = useState({
   //   allowedTags: [
@@ -36,6 +43,12 @@ export default function InsertNote(props) {
   // });
 
   const handleInput = (e) => {
+    if (typingTimer.current) {
+      clearTimeout(typingTimer.current);
+    }
+    typingTimer.current = setTimeout(() => {
+      handleUpdate(); // Call the update API here
+    }, 3000);
     switch (e.currentTarget.id) {
       case "title":
         setTitle(e.currentTarget.value);
@@ -69,25 +82,73 @@ export default function InsertNote(props) {
 
   const handleBoldClick = (e) => {
     e.preventDefault();
-    let cursorStart = inputRef.current;
-    let cursorEnd = inputRef.selectionEnd;
-    console.log(cursorStart, cursorEnd);
     // inputRef.
     // const selectedText = this.state.inputRef.substring(cursorStart, cursorEnd);
-    const selectedText = content.substring(cursorStart, cursorEnd);
-    const prevText = content.substring(0, cursorStart);
-    const nextText = content.substring(cursorEnd, content.length);
-    console.log(content, "content");
-    const newContent = `<b>${selectedText}</b>`;
-    setContent(prevText + newContent + nextText);
-    dispatch(
-      updateNotes({
-        title: title,
-        content: `${prevText}${newContent}${nextText}`,
-      })
-    );
-    console.log(selectedText);
+    // const fontWeightRegex = /font-weight:\s*700\s*;/i;
+    // const isFontWeight700 = fontWeightRegex.test(selectedText);
+    // console.log(isFontWeight700);
+    // setSelectedText(`<span class="fw-bold">${selectedText}</span>`)
+    // if(isFontWeight700){
+    //   setSelectedText(selectedText)
+    // }
+    // const newContent = `<b>${selectedText}</b>`;
+    // setContent(prevText + newContent + nextText);
+    // dispatch(
+    //   updateNotes({
+    //     title: title,
+    //     content: `${prevText}${newContent}${nextText}`,
+    //   })
+    // );
+    // console.log(selectedText);
   };
+
+  const handleInsert = async (e) => {
+    e.preventDefault();
+    try {
+      const reqBody = {
+        username: username,
+        title: title,
+        content: content,
+        location: "main",
+        collaborator: "",
+      };
+      const response = await axios.post(endpoints.insertNote, reqBody);
+      alert("Note Saved");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // console.log(inputRef.current.select());
+
+  const handleUpdate = async () => {
+    try {
+      const updatedData = {
+        title: title,
+        content: content,
+      };
+      const response = await axios.patch(
+        `${endpoints.updateNotes}/${_id}`,
+        updatedData
+      );
+      alert("Note Updated");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleSelectedText = () => {
+    console.log(window.getSelection().toString());
+    if (window.getSelection().toString())
+      return setSelectedText(window.getSelection().toString());
+    else return null;
+  };
+
+  const handleSelect = (e) => {
+    console.log(e);
+  };
+
+  //"<div class=\"border border-1 rounded editable border-light text-light\" id=\"content\" contenteditable=\"true\">Chirag</div>"
 
   // const sanitizeInput = () => {
   //   setContent(sanitizeHTML(content, sanitizeConf));
@@ -115,7 +176,7 @@ export default function InsertNote(props) {
         <SettingsBar handleBoldClick={handleBoldClick} isDark={props.isDark} />
       </div>
       <div className="row m-0 p-0">
-        <form>
+        <form onSubmit={handleInsert}>
           <div className="row m-0 p-0 mt-5">
             <input
               type="text"
@@ -133,15 +194,24 @@ export default function InsertNote(props) {
           </div>
           <div className="row m-0 p-0 mt-5 mh-100">
             <ContentEditable
-              className={"border border-1 rounded editable " + (props.isDark ? "border-light text-light" : "text-dark border-dark")}
+              className={
+                "border border-1 rounded editable " +
+                (props.isDark
+                  ? "border-light text-light"
+                  : "text-dark border-dark")
+              }
               ref={inputRef}
               onChange={handleInput}
               html={content}
               id="content"
               suppressContentEditableWarning={true}
               onKeyDown={handleTabPress}
+              onMouseUpCapture={handleSelectedText}
             />
           </div>
+          {url.includes("newnote") && (
+            <button className="btn mt-2 btn-warning float-right"></button>
+          )}
         </form>
       </div>
     </>

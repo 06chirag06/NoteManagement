@@ -8,4 +8,5 @@ export const endpoints = {
   insertNote: `${backendHost}/notes/Add`,
   updateNotes: `${backendHost}/notes/modify`,
   deleteNotes: `${backendHost}/notes/delete`,
+  getNote: `${backendHost}/notes/get`,
 };

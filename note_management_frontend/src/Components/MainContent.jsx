@@ -1,11 +1,33 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import backgroundNote from "../images/backgoundHomeNote.jpg";
 import Lottie from "lottie-react";
 import loginAnimation from "../images/login-left-animation.json";
+import { FaArrowCircleUp } from "react-icons/fa";
 import addButton from "../images/addButton.json";
-import chiragProfile from "../images/profile pic.jpeg";
+// import chiragProfile from "../images/profile pic.jpeg";
 
 export default function MainContent() {
+  const [visible, setVisible] = useState(false);
+
+  const handleScroll = () => {
+    // Check if user scrolled past a threshold (e.g., 50px)
+    if (window.scrollY > 50) {
+      setVisible(true);
+    } else {
+      setVisible(false);
+    }
+  };
+  const handleClick = () => {
+    // Smoothly scroll to top with animation
+    // scrollRef.current.scrollIntoView({ behavior: "smooth" });
+    window.scrollTo({ top: "0", behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+  
   return (
     <>
       <div
@@ -73,6 +95,14 @@ export default function MainContent() {
           </div>
         </div> */}
       </div>
+      {visible && (
+        <FaArrowCircleUp
+          onClick={handleClick}
+          className="text-warning scroll-to-top z-3 float-end"
+          size={20}
+          role="button"
+        />
+      )}
     </>
   );
 }

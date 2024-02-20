@@ -8,7 +8,7 @@ export default function Login() {
   const bgColor = "#283044";
 
   useEffect(() => {
-    setBodyColor({ color: bgColor });
+    setBodyColor(bgColor);
   }, [bgColor]);
 
   return (

@@ -1,5 +1,5 @@
-const setBodyColor = ({ color }) => {
-  document.documentElement.style.setProperty("--body-color", color);
+const setBodyColor = (color) => {
+  document.body.style.backgroundColor = color;
   console.log(color);
 };
 

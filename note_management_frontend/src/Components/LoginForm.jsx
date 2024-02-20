@@ -4,10 +4,12 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 // import UserPass from "./UserPass";
 import axios from "axios";
-import { FaLock, FaUser } from "react-icons/fa6";
+import { FaEye, FaEyeSlash, FaLock, FaUser } from "react-icons/fa6";
 import { useDispatch } from "react-redux";
 import { login } from "../App/reducers/usernameSlice";
 import { endpoints } from "../utils/Constants";
+import Lottie from "lottie-react";
+import loginLeft from "../images/login-left.json";
 // import { GoogleLogin } from "@react-oauth/google";
 
 export default function LoginForm() {
@@ -16,8 +18,13 @@ export default function LoginForm() {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isVisible, setIsVisible] = useState(false);
   const usernamePlaceholder = "Enter Username";
   const passwordPlaceholder = "Enter Password";
+
+  const handleTogglePassword = () => {
+    setIsVisible(!isVisible);
+  };
 
   const handleInput = (e) => {
     switch (e.target.id) {
@@ -46,10 +53,14 @@ export default function LoginForm() {
       console.log(response);
       if (response.data.accessToken) {
         dispatch(
-          login({ username: reqBody.username, token: response.data.accessToken })
+          login({
+            username: reqBody.username,
+            token: response.data.accessToken,
+          })
         );
         // if(data.)
         localStorage.setItem("JWTToken", response.data.accessToken);
+        localStorage.setItem("username", reqBody.username);
         navigate("/userid/home", { replace: true });
       } else {
         const err = { Error: "Internal Server Error" };
@@ -74,7 +85,9 @@ export default function LoginForm() {
   return (
     <form onSubmit={handleSubmit}>
       <div className="row p-0 m-0">
-        <div className="col-lg-4 col-0 p-0 m-0 login-side-image"></div>
+        <div className="d-lg-flex d-none col-lg-4 col-0 p-0 m-0 login-side-image justify-contents-center">
+          <Lottie animationData={loginLeft} loop={true} />
+        </div>
         <div className="col-12 col-lg-8 p-3">
           <div className="row">
             <div className="col-12 fw-bold fs-1 text-center">Welcome Back</div>
@@ -115,13 +128,21 @@ export default function LoginForm() {
               </div>
               <input
                 className="form-control"
-                type="password"
+                type={isVisible ? "text" : "password"}
                 id="password"
                 name="password"
                 onChange={handleInput}
                 value={password}
                 placeholder={passwordPlaceholder}
               />
+              <span
+                className="input-group-btn p-2 bg-light rounded-end"
+                role="button"
+                title="View Password"
+                onClick={handleTogglePassword}
+              >
+                {isVisible ? <FaEye /> : <FaEyeSlash />}
+              </span>
             </div>
           </div>
           <div className="row">
@@ -138,7 +159,10 @@ export default function LoginForm() {
               </div>
             </div>
             <div className="col-sm-6 fs-6 mt-3">
-              <a href="#" className="float-end text-primary">
+              <a
+                href="http://localhost:3000/forgotpassword"
+                className="float-end text-primary"
+              >
                 Forgot Password?
               </a>
             </div>

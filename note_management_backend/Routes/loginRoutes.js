@@ -99,6 +99,7 @@ const forgetPassword = async (req, res) => {
   try {
     // const email = req.body.email;
     const userData = await UserModel.findOne({ username: username });
+    console.log(userData);
     if (!userData) {
       res.status(401).json("Invalid Username");
     }
@@ -173,6 +174,6 @@ loginRouter.post("/", login);
 
 loginRouter.post("/forgetpassword/:username", forgetPassword);
 
-loginRouter.post("/resetpassword/:username", resetpassword);
+loginRouter.patch("/resetpassword/:username", resetpassword);
 
 module.exports = loginRouter;

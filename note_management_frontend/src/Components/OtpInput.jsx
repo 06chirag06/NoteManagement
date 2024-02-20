@@ -5,28 +5,42 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 const OtpInput = () => {
   const { state } = useLocation();
-  const [OTPInput, setOTPInput] = useState([0, 0, 0, 0]);
+  // const [OTPInput, setOTPInput] = useState([0, 0, 0, 0]);
+  const [OTPInput1, setOTPInput1] = useState(0);
+  const [OTPInput2, setOTPInput2] = useState(0);
+  const [OTPInput3, setOTPInput3] = useState(0);
+  const [OTPInput4, setOTPInput4] = useState(0);
   const navigate = useNavigate();
 
-  const handleComplete = (otp) => {
-    console.log("Entered OTP: ", otp);
-  };
+  // const handleComplete = (otp) => {
+  //   console.log("Entered OTP: ", otp);
+  // };
+
+  // const handleChange = (index, value) => {
+  //   setOTPInput(...OTPInput, [index]: value);
+  // }
 
   const handleSubmit = (e) => {
+    console.log(state.OTP);
     e.preventDefault();
-    if (state.otp === null) {
+    if (state.OTP === null) {
       alert(`No OTP generated!`);
       navigate("/forgotpassword", { replace: true });
     }
-    if (parseInt(OTPInput.join("")) === state.otp) {
+    console.log(OTPInput1, OTPInput2, OTPInput3, OTPInput4);
+    console.log(OTPInput1 + "" + OTPInput2 + "" + OTPInput3 + "" + OTPInput4);
+    const userOTP =
+      OTPInput1 + "" + OTPInput2 + "" + OTPInput3 + "" + OTPInput4;
+    if (userOTP == state.OTP) {
       navigate(
         "/resetpassword",
         { state: { username: state.username } },
         { replace: true }
       );
+    } else {
+      alert("The code you have entered is not correct");
+      return;
     }
-    alert("The code you have entered is not correct");
-    return;
   };
 
   return (
@@ -36,68 +50,59 @@ const OtpInput = () => {
         <div className="form-group border border-4 border-dark rounded rounded-2 bg-light-blue">
           <form onSubmit={handleSubmit}>
             <div className="col-12 offset-lg-2 col-lg-8 p-3">
+              <div className="row">
+                <div className="col-12 fw-bold fs-1 text-center">Enter OTP</div>
+              </div>
               <div className="row mb-3">
                 {/* <OtpComponent onComplete={handleComplete} /> */}
-                <input
-                  maxLength="1"
-                  className="w-full h-full flex flex-col items-center justify-center text-center px-5"
-                  type="text"
-                  name=""
-                  id=""
-                  onChange={(e) => {
-                    setOTPInput([
-                      e.target.value,
-                      OtpInput[1],
-                      OtpInput[2],
-                      OtpInput[3],
-                    ]);
-                  }}
-                />
-                <input
-                  maxLength="1"
-                  className="w-full h-full flex flex-col items-center justify-center text-center px-5"
-                  type="text"
-                  name=""
-                  id=""
-                  onChange={(e) => {
-                    setOTPInput([
-                      OtpInput[0],
-                      e.target.value,
-                      OtpInput[2],
-                      OtpInput[3],
-                    ]);
-                  }}
-                />
-                <input
-                  maxLength="1"
-                  className="w-full h-full flex flex-col items-center justify-center text-center px-5"
-                  type="text"
-                  name=""
-                  id=""
-                  onChange={(e) => {
-                    setOTPInput([
-                      OtpInput[0],
-                      OtpInput[1],
-                      e.target.value,
-                      OtpInput[3],
-                    ]);
-                  }}
-                />
-                <input
-                  maxLength="1"
-                  className="w-full h-full flex flex-col items-center justify-center text-center px-5"
-                  type="text"
-                  name=""
-                  id=""
-                  onChange={(e) => {
-                    setOTPInput([
-                      OtpInput[0],
-                      OtpInput[1],
-                      OtpInput[2],
-                      e.target.value,
-                    ]);
-                  }}
-                />
+                <div className="col">
+                  <input
+                    maxLength="1"
+                    className="m-2 text-center form-control rounded"
+                    type="text"
+                    name=""
+                    id=""
+                    onChange={(e) => {
+                      setOTPInput1(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="col">
+                  <input
+                    maxLength="1"
+                    className="m-2 text-center form-control rounded"
+                    type="text"
+                    name=""
+                    id=""
+                    onChange={(e) => {
+                      setOTPInput2(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="col">
+                  <input
+                    maxLength="1"
+                    className="m-2 text-center form-control rounded"
+                    type="text"
+                    name=""
+                    id=""
+                    onChange={(e) => {
+                      setOTPInput3(e.target.value);
+                    }}
+                  />
+                </div>
+                <div className="col">
+                  <input
+                    maxLength="1"
+                    className="m-2 text-center form-control rounded"
+                    type="text"
+                    name=""
+                    id=""
+                    onChange={(e) => {
+                      setOTPInput4(e.target.value);
+                    }}
+                  />
+                </div>
               </div>
               <button type="submit" className="btn btn-primary">
                 Verify Account

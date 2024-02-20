@@ -16,7 +16,7 @@ import "../index.css";
 
 export default function Users() {
   const url = window.location.pathname;
-  let container = useRef(null); //to access the DOM element
+  let container = useRef(null);
   const darkBackground = "#000000";
   const lightBackground = "#ffffff";
 
@@ -84,9 +84,6 @@ export default function Users() {
   // isDark ? setBodyColor(darkBackground) : setBodyColor(lightBackground);
 
   useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
     isDark ? setBgColor(darkBackground) : setBgColor(lightBackground);
     document.body.style.backgroundColor = bgColor;
     console.log(bgColor);
@@ -101,95 +98,99 @@ export default function Users() {
 
   return (
     <>
-      {isLoading && <div className="loading">Loading...</div>}
-      {!isLoading && (
-        <div
-          className={
-            "container-fluid " + isDark
-              ? "bg-viridian-green"
-              : "bg-viridian-green-light"
-          }
-          // style={{ "background-color": isDark ? "#000" : "#fff" }}
-          // data-theme={isDark}
-        >
-          {/* style={{ minHeight: height + container.current.offsetHeight }} */}
-          <div className="row m-0 p-0" ref={container}>
-            <NotesHomeNavbar
-              handleToggle={handleToggle}
-              isDark={isDark}
-              setIsDark={setIsDark}
-            />
-          </div>
-          <div className="row m-0 p-0" style={{ minHeight: height }}>
-            {toggleSidebar && (
+      {/* {isLoading && <div className="loading">Loading...</div>} */}
+      <div
+        className={
+          "container-fluid " + isDark
+            ? "bg-viridian-green"
+            : "bg-viridian-green-light"
+        }
+        // style={{ "background-color": isDark ? "#000" : "#fff" }}
+        // data-theme={isDark}
+      >
+        {/* style={{ minHeight: height + container.current.offsetHeight }} */}
+        <div className="row m-0 p-0" ref={container}>
+          <NotesHomeNavbar
+            handleToggle={handleToggle}
+            isDark={isDark}
+            setIsDark={setIsDark}
+          />
+        </div>
+        <div className="row m-0 p-0" style={{ minHeight: height }}>
+          {toggleSidebar && (
+            <div
+              className={
+                "col-2 m-0 p-0 border-end border-1 " +
+                (isDark ? "border-light" : "border-dark")
+              }
+            >
+              <NotesHomeSidebar isDark={isDark} url={url} />
+            </div>
+          )}
+          {/* {isTrash && <TrashBar isDark={isDark} toggleSidebar={toggleSidebar} />} */}
+          {(isHome || isArchive || isTrash) && (
+            <>
               <div
                 className={
-                  "col-2 m-0 p-0 border-end border-1 " +
-                  (isDark ? "border-light" : "border-dark")
+                  "d-flex m-0 p-5 " +
+                  (toggleSidebar ? "col-10 " : "col-12 ") +
+                  (isDark ? "bg-viridian-green" : "bg-viridian-green-light")
                 }
+                id="note-content"
               >
-                <NotesHomeSidebar isDark={isDark} url={url} />
+                <NotesContent
+                  isDark={isDark}
+                  handleNoNote={handleNoNote}
+                  url={url}
+                  bgColor={bgColor}
+                />
               </div>
-            )}
-            {/* {isTrash && <TrashBar isDark={isDark} toggleSidebar={toggleSidebar} />} */}
-            {(isHome || isArchive || isTrash) && (
-              <>
-                <div
-                  className={
-                    "d-flex m-0 p-5 " +
-                    (toggleSidebar ? "col-10 " : "col-12 ") +
-                    (isDark ? "bg-viridian-green" : "bg-viridian-green-light")
-                  }
-                  id="note-content"
-                >
-                  <NotesContent
-                    isDark={isDark}
-                    handleNoNote={handleNoNote}
-                    url={url}
-                  />
-                </div>
-                {/* {noNote && (
+              {/* {noNote && (
                 <div className="col-10 m-0 p-0 pb-5">
                 <h1 className="text-center text-light">No Notes</h1>
                 </div>
               )} */}
-              </>
-            )}
-            {isNewNote && (
-              <div
-                className={
-                  "m-0 p-0 pb-5 " + (toggleSidebar ? "col-10" : "col-12")
-                }
-              >
-                <InsertNote isDark={isDark} url={url} />
-              </div>
-            )}
+            </>
+          )}
+          {isNewNote && (
+            <div
+              className={
+                "m-0 p-0 pb-5 " +
+                (toggleSidebar ? "col-10 " : "col-12 ") +
+                (isDark ? "bg-viridian-green" : "bg-viridian-green-light")
+              }
+            >
+              <InsertNote isDark={isDark} url={url} />
+            </div>
+          )}
 
-            {isUpdateNote && (
-              <div
-                className={
-                  "m-0 p-0 pb-5 " + (toggleSidebar ? "col-10" : "col-12")
-                }
-              >
-                <InsertNote
-                  isDark={isDark}
-                  title={state ? state.title : null}
-                  content={state ? state.content : null}
-                  _id={state ? state._id : null}
-                  url={url}
-                />
-              </div>
-            )}
+          {isUpdateNote && (
+            <div
+              className={
+                "m-0 p-0 pb-5 " +
+                (toggleSidebar ? "col-10 " : "col-12 ") +
+                (isDark ? "bg-viridian-green" : "bg-viridian-green-light")
+              }
+            >
+              <InsertNote
+                isDark={isDark}
+                title={state ? state.title : null}
+                content={state ? state.content : null}
+                _id={state ? state._id : null}
+                url={url}
+              />
+            </div>
+          )}
 
-            {/* {isArchive && (
+          {/* {isArchive && (
             <div
             className={
               "d-flex m-0 bg-viridian-green p-5 " +
               (toggleSidebar ? "col-10" : "col-12")
             }
           > */}
-            {/* <ArchiveNotes isDark={isDark} /> */}
-            {/* <NotesContent
+          {/* <ArchiveNotes isDark={isDark} /> */}
+          {/* <NotesContent
               isDark={isDark}
               handleNoNote={handleNoNote}
               url={url}
@@ -204,20 +205,19 @@ export default function Users() {
             (toggleSidebar ? "col-10" : "col-12")
           }
         > */}
-            {/* <Trash isDark={isDark} /> */}
-            {/* <NotesContent
+          {/* <Trash isDark={isDark} /> */}
+          {/* <NotesContent
               isDark={isDark}
               handleNoNote={handleNoNote}
               url={url}
               />
               </div>
             )} */}
-            {/* <div>
+          {/* <div>
               <span id="background-text-notes">INLINE</span>
             </div> */}
-          </div>
         </div>
-      )}
+      </div>
     </>
   );
 }

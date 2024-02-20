@@ -68,6 +68,8 @@ export default function NotesContent(props) {
   };
 
   useEffect(() => {
+    
+    document.body.style.backgroundColor = props.bgColor;
     fetchData();
   }, [location]);
 
@@ -94,11 +96,11 @@ export default function NotesContent(props) {
              <button className="">Empty Trash</button>
            </div>
          </div> */}
-         <div className="row d-block">
+         {/* <div className="row d-block">
           <div className="col-12">
             Notes will automatically delete after 7 days
           </div>
-         </div>
+         </div> */}
       {data.map((dataItems) => (
         <div
           className="m-0 p-0"

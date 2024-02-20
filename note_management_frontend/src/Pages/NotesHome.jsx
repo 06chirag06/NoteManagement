@@ -84,9 +84,6 @@ export default function Users() {
   // isDark ? setBodyColor(darkBackground) : setBodyColor(lightBackground);
 
   useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
     isDark ? setBgColor(darkBackground) : setBgColor(lightBackground);
     document.body.style.backgroundColor = bgColor;
     console.log(bgColor);
@@ -101,8 +98,7 @@ export default function Users() {
 
   return (
     <>
-      {isLoading && <div className="loading">Loading...</div>}
-      {!isLoading && (
+      (
         <div
           className={
             "container-fluid " + isDark
@@ -217,7 +213,7 @@ export default function Users() {
             </div> */}
           </div>
         </div>
-      )}
+      )
     </>
   );
 }

@@ -98,17 +98,13 @@ export default function Users() {
 
   return (
     <>
-      {/* {isLoading && <div className="loading">Loading...</div>} */}
       <div
         className={
           "container-fluid " + isDark
             ? "bg-viridian-green"
             : "bg-viridian-green-light"
         }
-        // style={{ "background-color": isDark ? "#000" : "#fff" }}
-        // data-theme={isDark}
       >
-        {/* style={{ minHeight: height + container.current.offsetHeight }} */}
         <div className="row m-0 p-0" ref={container}>
           <NotesHomeNavbar
             handleToggle={handleToggle}
@@ -127,7 +123,6 @@ export default function Users() {
               <NotesHomeSidebar isDark={isDark} url={url} />
             </div>
           )}
-          {/* {isTrash && <TrashBar isDark={isDark} toggleSidebar={toggleSidebar} />} */}
           {(isHome || isArchive || isTrash) && (
             <>
               <div
@@ -145,11 +140,6 @@ export default function Users() {
                   bgColor={bgColor}
                 />
               </div>
-              {/* {noNote && (
-                <div className="col-10 m-0 p-0 pb-5">
-                <h1 className="text-center text-light">No Notes</h1>
-                </div>
-              )} */}
             </>
           )}
           {isNewNote && (
@@ -181,41 +171,6 @@ export default function Users() {
               />
             </div>
           )}
-
-          {/* {isArchive && (
-            <div
-            className={
-              "d-flex m-0 bg-viridian-green p-5 " +
-              (toggleSidebar ? "col-10" : "col-12")
-            }
-          > */}
-          {/* <ArchiveNotes isDark={isDark} /> */}
-          {/* <NotesContent
-              isDark={isDark}
-              handleNoNote={handleNoNote}
-              url={url}
-            />
-            </div>
-        )}
-        
-        {isTrash && (
-          <div
-          className={
-            "d-flex m-0 bg-viridian-green p-5 " +
-            (toggleSidebar ? "col-10" : "col-12")
-          }
-        > */}
-          {/* <Trash isDark={isDark} /> */}
-          {/* <NotesContent
-              isDark={isDark}
-              handleNoNote={handleNoNote}
-              url={url}
-              />
-              </div>
-            )} */}
-          {/* <div>
-              <span id="background-text-notes">INLINE</span>
-            </div> */}
         </div>
       </div>
     </>

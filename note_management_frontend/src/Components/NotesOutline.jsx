@@ -5,6 +5,8 @@ import { FaCopy, FaPalette, FaTrash, FaUserPlus } from "react-icons/fa6";
 import { BiSolidArchiveIn, BiSolidArchiveOut } from "react-icons/bi";
 import axios from "axios";
 import { endpoints } from "../utils/Constants";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "../Style/NotesHome.css";
 
 export default function NotesOutline(props) {
@@ -28,9 +30,10 @@ export default function NotesOutline(props) {
         location: "archive",
       });
       console.log(response.data);
-      alert(`Note with title ${response.data.title} archived.`);
+      toast.success(`Note with title ${response.data.title} archived.`);
     } catch (err) {
       console.log(err.message);
+      toast.error(err.message);
     }
     // props.fetchData();
   };
@@ -46,15 +49,14 @@ export default function NotesOutline(props) {
         }
       );
       console.log(response.data);
-      alert(`Note with title ${response.data.title} moved to notes`);
+      toast.success(`Note with title ${response.data.title} moved to notes`);
     } catch (err) {
-      console.log(err.message);
+      toast.error(err.message);
     }
   };
 
   const handleCollaboratorClick = (e) => {
     e.stopPropagation();
-    
   };
 
   const handleTrashClick = async (e) => {
@@ -67,9 +69,9 @@ export default function NotesOutline(props) {
         }
       );
       console.log(response.data);
-      alert(`Note with title ${response.data.title} moved to trash`);
+      toast.success(`Note with title ${response.data.title} moved to trash`);
     } catch (err) {
-      console.log(err.message);
+      toast.error(err.message);
     }
   };
 
@@ -83,9 +85,9 @@ export default function NotesOutline(props) {
         }
       );
       console.log(response.data);
-      alert(`Note with title ${response.data.title} moved to notes`);
+      toast.success(`Note with title ${response.data.title} moved to notes`);
     } catch (err) {
-      console.log(err.message);
+      toast.error(err.message);
     }
   };
 
@@ -95,10 +97,10 @@ export default function NotesOutline(props) {
       const response = await axios.delete(
         `http://localhost:8000/notes/delete/${id}`
       );
-      alert(`Note Deleted`);
+      toast.success(`Note Deleted`);
       console.log(response.data);
     } catch (err) {
-      console.log(err.message);
+      toast.error(err.message);
     }
   };
 
@@ -107,101 +109,97 @@ export default function NotesOutline(props) {
   // }, [handleArchiveClick]);
 
   return (
-    <div
-      className={
-        "p-2 border border-1 position-relative " +
-        (props.isDark
-          ? "text-light note-dimensions"
-          : "text-dark note-dimensions-light")
-      }
-      onMouseOver={handleMouseOver}
-      onMouseOut={handleMouseOut}
-      // onClick={props.handleNoteClick(id)}
-    >
-      <div className="row notes-title">
-        <div className="col-12">{props.title}</div>
-      </div>
-      <div className="row">
-        <div className="col-12">{props.content}</div>
-      </div>
-      {isHovering && (
-        <div className="row position-absolute placement-icons">
-          {/* {notesHomeIcons.map((icons) => (
-              <div className="col-2" key={icons.title} onClick={`handle${icons.method}Click`}>
-                {icons.icon}
-              </div>
-            ))} */}
-          {props.location === "archive" && (
-            <div className="col text-center">
-              <BiSolidArchiveOut
-                size={20}
-                onClick={handleNonArchiveClick}
-                role="button"
-                data-bs-toggle="tooltip"
-                data-bs-placement="bottom"
-                title="Remove From Archive"
-              />
-            </div>
-          )}
-          {props.location === "main" && (
-            <div className="col text-center">
-              <BiSolidArchiveIn
-                size={20}
-                onClick={handleArchiveClick}
-                role="button"
-                data-bs-toggle="tooltip"
-                data-bs-placement="bottom"
-                title="Add To Archive"
-              />
-            </div>
-          )}
-          {props.location !== "trash" && (
-            <div className="col text-center">
-              <FaUserPlus
-                size={20}
-                onClick={handleCollaboratorClick}
-                role="button"
-                data-bs-toggle="tooltip"
-                data-bs-placement="bottom"
-                title="Add Collaborator"
-              />
-            </div>
-          )}
-          {props.location === "trash" && (
-            <div className="col text-center">
-              <FaTrash
-                size={20}
-                onClick={handleDeleteClick}
-                role="button"
-                data-bs-toggle="tooltip"
-                data-bs-placement="bottom"
-                title="Delete Permanently"
-              />
-            </div>
-          )}
-          <div className="col text-center">
-            {props.location !== "trash" ? (
-              <FaTrash
-                size={20}
-                onClick={handleTrashClick}
-                role="button"
-                data-bs-toggle="tooltip"
-                data-bs-placement="bottom"
-                title="Move to Trash"
-              />
-            ) : (
-              <FaTrashRestore
-                size={20}
-                onClick={handleNonTrashClick}
-                role="button"
-                data-bs-toggle="tooltip"
-                data-bs-placement="bottom"
-                title="Restore Note"
-              />
-            )}
-          </div>
+    <>
+      <div
+        className={
+          "p-2 border border-1 position-relative " +
+          (props.isDark
+            ? "text-light note-dimensions"
+            : "text-dark note-dimensions-light")
+        }
+        onMouseOver={handleMouseOver}
+        onMouseOut={handleMouseOut}
+      >
+        <div className="row notes-title">
+          <div className="col-12">{props.title}</div>
         </div>
-      )}
-    </div>
+        <div className="row">
+          <div className="col-12">{props.content}</div>
+        </div>
+        {isHovering && (
+          <div className="row position-absolute placement-icons">
+            {props.location === "archive" && (
+              <div className="col text-center">
+                <BiSolidArchiveOut
+                  size={20}
+                  onClick={handleNonArchiveClick}
+                  role="button"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="bottom"
+                  title="Remove From Archive"
+                />
+              </div>
+            )}
+            {props.location === "main" && (
+              <div className="col text-center">
+                <BiSolidArchiveIn
+                  size={20}
+                  onClick={handleArchiveClick}
+                  role="button"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="bottom"
+                  title="Add To Archive"
+                />
+              </div>
+            )}
+            {props.location !== "trash" && (
+              <div className="col text-center">
+                <FaUserPlus
+                  size={20}
+                  onClick={handleCollaboratorClick}
+                  role="button"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="bottom"
+                  title="Add Collaborator"
+                />
+              </div>
+            )}
+            {props.location === "trash" && (
+              <div className="col text-center">
+                <FaTrash
+                  size={20}
+                  onClick={handleDeleteClick}
+                  role="button"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="bottom"
+                  title="Delete Permanently"
+                />
+              </div>
+            )}
+            <div className="col text-center">
+              {props.location !== "trash" ? (
+                <FaTrash
+                  size={20}
+                  onClick={handleTrashClick}
+                  role="button"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="bottom"
+                  title="Move to Trash"
+                />
+              ) : (
+                <FaTrashRestore
+                  size={20}
+                  onClick={handleNonTrashClick}
+                  role="button"
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="bottom"
+                  title="Restore Note"
+                />
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    </>
   );
 }

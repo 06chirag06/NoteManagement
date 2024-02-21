@@ -65,26 +65,13 @@ export default function NotesHomeNavbar(props) {
           </Nav.Item>
           <Nav.Item>
             <Navbar.Brand>
-              {props.isDark ? (
-                <img
-                  src={logo}
-                  height="30%"
-                  width="20%"
-                  alt=""
-                  className="ms-0"
-                />
-              ) : (
-                <>
-                  <img
-                    fluid
-                    src={logoLight}
-                    height="30%"
-                    width="20%"
-                    alt=""
-                    className="ms-0 img-fluid"
-                  />
-                </>
-              )}
+              <img
+                src={props.isDark ? logo : logoLight}
+                height="30%"
+                width="20%"
+                alt=""
+                className="ms-0"
+              />
             </Navbar.Brand>
           </Nav.Item>
           <Nav.Item

@@ -16,7 +16,7 @@ signUpRouter.post("/Add", async (req, res) => {
   const user = await UserModel.findOne({ username: data.username });
 
   if (user) {
-    return res.status(400).json({ error: "username already exists" });
+    return res.status(400).json({ error: "Username already exists" });
   }
 
   const usernameRegex = /^(?=.{6,20}$)[a-zA-Z0-9]+$/;

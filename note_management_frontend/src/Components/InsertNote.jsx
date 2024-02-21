@@ -7,6 +7,8 @@ import { updateNotes } from "../App/reducers/notesSlice";
 import axios from "axios";
 import "../Style/InsertNote.css";
 import { endpoints } from "../utils/Constants";
+import {toast} from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 export default function InsertNote(props) {
   const [title, setTitle] = useState(
@@ -19,10 +21,12 @@ export default function InsertNote(props) {
   const [_id, set_id] = useState(props._id ? props._id : "");
   const [selectedText, setSelectedText] = useState("");
   const typingTimer = useRef(null);
+  const [content, setContent] = useState(props.content ? props.content : "");
+  const [isUpdate, setIsUpdate] = useState(
+    url.includes("updatenote") ? true : false
+  );
 
   // const notes = useSelector((state) => state.notes);
-
-  const [content, setContent] = useState(props.content ? props.content : "");
 
   // const [sanitizeConf, setSanitizeConf] = useState({
   //   allowedTags: [
@@ -43,20 +47,16 @@ export default function InsertNote(props) {
   // });
 
   const handleInput = (e) => {
-    if (typingTimer.current) {
-      clearTimeout(typingTimer.current);
-    }
-    typingTimer.current = setTimeout(() => {
-      handleUpdate(); // Call the update API here
-    }, 3000);
+    // e.preventDefault();
     switch (e.currentTarget.id) {
       case "title":
-        setTitle(e.currentTarget.value);
-        dispatch(
-          updateNotes({ title: e.currentTarget.value, content: content })
-        );
+        setTitle(e.target.value);
+        console.log(e);
+        // dispatch(
+        //   updateNotes({ title: e.currentTarget.value, content: content })
+        // );
         // console.log("content title");
-        console.log(e.currentTarget.value);
+        console.log(title);
         break;
       case "content":
         dispatch(
@@ -69,6 +69,10 @@ export default function InsertNote(props) {
       default:
         break;
     }
+    console.log(title, content);
+    // typingTimer.current = setTimeout((e) => {
+    //   handleUpdate(); // Call the update API here
+    // }, 2000);
   };
 
   //Try to add tab space
@@ -113,7 +117,9 @@ export default function InsertNote(props) {
         collaborator: "",
       };
       const response = await axios.post(endpoints.insertNote, reqBody);
-      alert("Note Saved");
+      set_id(response.data._id);
+      setIsUpdate(true);
+      toast.success("Note Saved");
     } catch (err) {
       console.log(err);
     }
@@ -121,7 +127,8 @@ export default function InsertNote(props) {
 
   // console.log(inputRef.current.select());
 
-  const handleUpdate = async () => {
+  const handleUpdate = async (e) => {
+    e.preventDefault();
     try {
       const updatedData = {
         title: title,
@@ -131,10 +138,10 @@ export default function InsertNote(props) {
         `${endpoints.updateNotes}/${_id}`,
         updatedData
       );
-      alert("Note Updated");
+      toast.success("Note Updated");
     } catch (err) {
       console.log(err);
-    }
+          }
   };
 
   const handleSelectedText = () => {
@@ -176,7 +183,11 @@ export default function InsertNote(props) {
         <SettingsBar handleBoldClick={handleBoldClick} isDark={props.isDark} />
       </div>
       <div className="row m-0 p-0">
-        <form onSubmit={handleInsert}>
+        <form
+          onSubmit={
+            isUpdate || url.includes("updatenote") ? handleUpdate : handleInsert
+          }
+        >
           <div className="row m-0 p-0 mt-5">
             <input
               type="text"
@@ -209,18 +220,19 @@ export default function InsertNote(props) {
               onMouseUpCapture={handleSelectedText}
             />
           </div>
-          {url.includes("newnote") && (
-            <button
-              className={
-                "btn mt-2 float-end " +
-                (props.isDark ? "btn-warning" : "btn-primary")
-              }
-            >
-              Save Note
-            </button>
-          )}
+
+          <button
+            className={
+              "btn mt-2 float-end " +
+              (props.isDark ? "btn-warning" : "btn-primary")
+            }
+          >
+            {isUpdate || url.includes("updatenote")
+              ? "Update Note"
+              : "Save Note"}
+          </button>
         </form>
       </div>
-    </>
+          </>
   );
 }

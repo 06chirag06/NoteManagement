@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./Style/App.css";
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
 import NotesHome from "./Pages/NotesHome";
-// import InsertNote from './Pages/InsertNote';
 import UserProfile from "./Pages/UserProfile";
 import PrivateRoutes from "./utils/PrivateRoutes";
 import NavigateHome from "./utils/NavigateHome";
-import UpdateNote from "./Components/UpdateNote";
 import ForgotPassword from "./Components/ForgotPassword";
 import OtpInput from "./Components/OtpInput";
 import ResetPassword from "./Components/ResetPassword";

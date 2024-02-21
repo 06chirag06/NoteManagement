@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import HomeNavbar from "./HomeNavbar";
 import OtpComponent from "./OtpComponent";
 import { useLocation, useNavigate } from "react-router-dom";
+import {toast} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"
 
 const OtpInput = () => {
   const { state } = useLocation();
@@ -24,7 +26,7 @@ const OtpInput = () => {
     console.log(state.OTP);
     e.preventDefault();
     if (state.OTP === null) {
-      alert(`No OTP generated!`);
+      toast.success(`No OTP generated!`);
       navigate("/forgotpassword", { replace: true });
     }
     console.log(OTPInput1, OTPInput2, OTPInput3, OTPInput4);
@@ -38,7 +40,7 @@ const OtpInput = () => {
         { replace: true }
       );
     } else {
-      alert("The code you have entered is not correct");
+      toast.error("The code you have entered is not correct");
       return;
     }
   };
@@ -111,7 +113,7 @@ const OtpInput = () => {
           </form>
         </div>
       </div>
-    </>
+          </>
   );
 };
 

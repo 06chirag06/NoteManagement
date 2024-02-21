@@ -13,22 +13,22 @@ const NotesSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  label: {
-    type: String,
-    required: false,
-  },
+  // label: {
+  //   type: String,
+  //   required: false,
+  // },
   location: {
     type: String,
     required: true,
   },
-  image: {
-    type: String,
-    required: false,
-  },
-  theme: {
-    type: String,
-    required: false,
-  },
+  // image: {
+  //   type: String,
+  //   required: false,
+  // },
+  // theme: {
+  //   type: String,
+  //   required: false,
+  // },
   collaborator: {
     type: String,
     required: false,

@@ -3,11 +3,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
 const Connection = require("./database/db");
-// const UserModel = require('./models/Users');
 const Router = require("./Routes/router");
-// const session = require("express-session");
-// const passport = require("passport");
-// const MongoStore = require("connect-mongo");
 
 const app = express();
 app.use(bodyParser.json());
@@ -21,12 +17,9 @@ const password = process.env.DB_PASSWORD;
 
 Connection(username, password);
 
-// Connection();
 app.use(Router);
 
 const port = 8000;
-// app.use(passport.initialize());
-// app.use(passport.session());
 
 app.listen(port, () => {
   console.log(`server is running on ${port}`);

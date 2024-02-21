@@ -1,74 +1,92 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaLock, FaUser } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
 import { BsCalendar2DateFill } from "react-icons/bs";
-// import { Form } from "react-router-dom";
-
-// Try to use Form from react-router-dom
+import { endpoints } from "../utils/Constants";
+import {toast} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"
 
 export default function SignupForm() {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  // const [formData, setFormData] = useState({
-  //   userInfo: {},
-  // });
-  const [rePassword, setRePassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [dob, setDob] = useState("");
+  const initialValues = {
+    username: "",
+    email: "",
+    password: "",
+    dob: "",
+    rePassword: "",
+  };
+  const [formValues, setFormValues] = useState(initialValues);
+  // const [formErrors, setFormErrors] = useState({});
+  // const [isSubmit, setIsSubmit] = useState(false);
+  const getFormattedDate = (date) => {
+    const year = date.getFullYear() - 5;
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+  
+  const [maxDate, setMaxDate] = useState(getFormattedDate(new Date()));
 
   const handleInput = (e) => {
-    switch (e.target.id) {
-      case "username":
-        setUsername(e.target.value);
-        console.log(e.target.value);
-        break;
-      case "password":
-        setPassword(e.target.value);
-        console.log(e.target.value);
-        break;
-      case "rePassword":
-        setRePassword(e.target.value);
-        break;
-      case "email":
-        setEmail(e.target.value);
-        break;
-      case "dob":
-        setDob(e.target.value);
-        break;
-      default:
-        break;
-    }
+    const { name, value } = e.target;
+    setFormValues({ ...formValues, [name]: value });
   };
+
+  // const validate = (formValues) => {
+  //   const errors = {};
+  //   const usernameRegex = /^(?=.{6,20}$)[a-zA-Z0-9]+$/;
+  //   const passwordRegex =
+  //     /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()])(.{8,20})$/;
+  //   if (!formValues.username) {
+  //     errors.username = "Username is required";
+  //   } else if (formValues.username.length < 6) {
+  //     errors.username = "Username must be more than 6 characters";
+  //   } else if (!usernameRegex.test(formValues.username)) {
+  //     errors.username = "Username cannot contain any special characters";
+  //   } else if (formValues.username.length > 20) {
+  //     errors.username = "Username cannot exceed more than 20 characters";
+  //   }
+  //   if (!formValues.password) {
+  //     errors.password = "Password is required";
+  //   } else if (formValues.password.length < 8) {
+  //     errors.password = "Password must be more than 8 characters";
+  //   } else if (!passwordRegex.test(formValues.password)) {
+  //     errors.password =
+  //       "Password must contain a capital letter, a small letter, a number and a special character";
+  //   } else if (formValues.password.length > 20) {
+  //     errors.password = "Password cannot exceed more than 20 characters";
+  //   }
+  //   if (!formValues.email) {
+  //     errors.password = "Email is required";
+  //   }
+  //   if (!formValues.dob) {
+  //     errors.dob = "Date of Birth is required";
+  //   }
+  //   return errors;
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const reqBody = {
-      username: username,
-      password: password,
-      email: email,
-      dob: dob,
-    };
-
+    // setFormErrors(validate(formValues));
+    // setIsSubmit(true);
+    console.log(formValues);
+    let response;
     try {
-      const response = await axios.post(
-        "http://[::1]:8000/signUp/Add",
-        reqBody
-      );
+      response = await axios.post(endpoints.signup, formValues);
+      console.log(response);
       if (response.statusText) {
         // localStorage.setItem("token", response.data.token);
         navigate("/login", { replace: true });
       } else {
-        const err = { Error: "Invalid Credentials" };
+        const err = { Error: response.statusText.error };
         throw err;
       }
     } catch (err) {
-      // eslint-disable-next-line no-alert
-      alert("Invalid Credentials");
+      console.log(err);
+      toast.error(err.response.data.error);
     }
   };
 
@@ -78,6 +96,8 @@ export default function SignupForm() {
       className="form-group border border-4 border-dark rounded rounded-4 p-3 bg-light-blue mt-4"
     >
       <div className="text-center fw-bold fs-2 mt-2">Become A Member</div>
+      <div className="row">
+      </div>
       <div className="row">
         <label htmlFor="u1sername" className="form-label mt-2 fs-5">
           Username<span className="text-danger">*</span>
@@ -91,11 +111,13 @@ export default function SignupForm() {
             type="text"
             id="username"
             name="username"
-            value={username}
+            value={formValues.username}
             onChange={handleInput}
             placeholder="Enter Username"
           />
         </div>
+      </div>
+      <div className="row">
       </div>
       <div className="row">
         <label htmlFor="password" className="form-label mt-2 fs-5">
@@ -112,12 +134,13 @@ export default function SignupForm() {
             type="password"
             id="password"
             name="password"
-            value={password}
+            value={formValues.password}
             onChange={handleInput}
           />
         </div>
       </div>
-      {/* <UserPass onChange={handleUserPassChange} /> */}
+      <div className="row">
+      </div>
       <div className="row">
         <label htmlFor="rePassword" className="form-label mt-2 fs-5">
           Re-Type Password<span className="text-danger">*</span>
@@ -132,10 +155,12 @@ export default function SignupForm() {
             type="password"
             id="rePassword"
             name="rePassword"
-            value={rePassword}
+            value={formValues.rePassword}
             onChange={handleInput}
           />
         </div>
+      </div>
+      <div className="row">
       </div>
       <div className="row">
         <label htmlFor="email" className="form-label mt-2 fs-5">
@@ -151,10 +176,12 @@ export default function SignupForm() {
             type="email"
             id="email"
             name="email"
-            value={email}
+            value={formValues.email}
             onChange={handleInput}
           />
         </div>
+      </div>
+      <div className="row">
       </div>
       <div className="row">
         <label htmlFor="dob" className="form-label mt-2 fs-5">
@@ -169,8 +196,9 @@ export default function SignupForm() {
             type="date"
             id="dob"
             name="dob"
-            value={dob}
+            value={formValues.dob}
             onChange={handleInput}
+            max={maxDate}
           />
         </div>
       </div>

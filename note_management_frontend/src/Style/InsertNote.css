@@ -9,6 +9,11 @@ input:focus, textarea:focus{
     border-bottom: 1px solid white;
 }
 
-textarea{
+/* textarea{
+    resize: none;
+} */
+
+.text-area-input{
+    min-height: auto;
     resize: none;
 }

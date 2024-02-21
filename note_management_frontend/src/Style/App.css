@@ -34,6 +34,21 @@
   color: #333741;
 }
 
+.bg-very-light-blue {
+  background-color: #d6e3e4;
+}
+
+.pic {
+  overflow: hidden;
+  border-radius: 50%;
+  height: 250px;
+  width: 450px;
+}
+
+/* .background-note{
+  background-image: url("../images/backgroundHomeNote.jpg");
+} */
+
 /* body::-webkit-scrollbar {
   width: 0.35rem;
   height: 1rem;

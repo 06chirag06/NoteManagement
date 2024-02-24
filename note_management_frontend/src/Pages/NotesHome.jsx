@@ -5,12 +5,11 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import NotesHomeNavbar from "../Components/NotesHomeNavbar";
 import NotesHomeSidebar from "../Components/NotesHomeSidebar";
 import NotesContent from "../Components/NotesContent";
 import InsertNote from "../Components/InsertNote";
-import setBodyColor from "../utils/setBodyColor";
 import "../Style/NotesHome.css";
 import "../index.css";
 
@@ -31,12 +30,12 @@ export default function Users() {
 
   const [height, setHeight] = useState(0); // to find height of component except navbar
   const [toggleSidebar, setToggleSidebar] = useState(true);
-  const [noNote, setNoNote] = useState(true);
+  // const [noNote, setNoNote] = useState(true);
 
   const [isDark, setIsDark] = useState(true);
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleToggle = () => {
     setToggleSidebar(!toggleSidebar);
@@ -77,9 +76,9 @@ export default function Users() {
     }
   }, [url]);
 
-  const handleNoNote = () => {
-    setNoNote(false);
-  };
+  // const handleNoNote = () => {
+  //   setNoNote(false);
+  // };
 
   // isDark ? setBodyColor(darkBackground) : setBodyColor(lightBackground);
 
@@ -135,7 +134,7 @@ export default function Users() {
               >
                 <NotesContent
                   isDark={isDark}
-                  handleNoNote={handleNoNote}
+                  // handleNoNote={handleNoNote}
                   url={url}
                   bgColor={bgColor}
                 />

@@ -5,6 +5,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { FaLock } from "react-icons/fa6";
 import {toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"
+import { endpoints } from "../utils/Constants";
 
 const ResetPassword = () => {
   const [password, setPassword] = useState("");
@@ -37,8 +38,8 @@ const ResetPassword = () => {
         const updatedData = {
           password: password,
         };
-        const response = await axios.patch(
-          `http://localhost:8000/login/resetpassword/${state.username}`,
+        await axios.patch(
+          `${endpoints.resetPassword}/${state.username}`,
           updatedData
         );
         toast.success("Password changed successfully");

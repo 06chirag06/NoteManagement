@@ -1,13 +1,13 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaLock, FaUser } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
 import { BsCalendar2DateFill } from "react-icons/bs";
 import { endpoints } from "../utils/Constants";
-import {toast} from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function SignupForm() {
   const navigate = useNavigate();
@@ -27,8 +27,8 @@ export default function SignupForm() {
     const day = date.getDate().toString().padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
-  
-  const [maxDate, setMaxDate] = useState(getFormattedDate(new Date()));
+
+  const maxDate = useState(getFormattedDate(new Date()));
 
   const handleInput = (e) => {
     const { name, value } = e.target;
@@ -96,8 +96,7 @@ export default function SignupForm() {
       className="form-group border border-4 border-dark rounded rounded-4 p-3 bg-light-blue mt-4"
     >
       <div className="text-center fw-bold fs-2 mt-2">Become A Member</div>
-      <div className="row">
-      </div>
+      <div className="row"></div>
       <div className="row">
         <label htmlFor="u1sername" className="form-label mt-2 fs-5">
           Username<span className="text-danger">*</span>
@@ -117,8 +116,7 @@ export default function SignupForm() {
           />
         </div>
       </div>
-      <div className="row">
-      </div>
+      <div className="row"></div>
       <div className="row">
         <label htmlFor="password" className="form-label mt-2 fs-5">
           Password<span className="text-danger">*</span>
@@ -139,8 +137,7 @@ export default function SignupForm() {
           />
         </div>
       </div>
-      <div className="row">
-      </div>
+      <div className="row"></div>
       <div className="row">
         <label htmlFor="rePassword" className="form-label mt-2 fs-5">
           Re-Type Password<span className="text-danger">*</span>
@@ -160,8 +157,7 @@ export default function SignupForm() {
           />
         </div>
       </div>
-      <div className="row">
-      </div>
+      <div className="row"></div>
       <div className="row">
         <label htmlFor="email" className="form-label mt-2 fs-5">
           Email<span className="text-danger">*</span>
@@ -181,8 +177,7 @@ export default function SignupForm() {
           />
         </div>
       </div>
-      <div className="row">
-      </div>
+      <div className="row"></div>
       <div className="row">
         <label htmlFor="dob" className="form-label mt-2 fs-5">
           Date of Birth<span className="text-danger">*</span>

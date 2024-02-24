@@ -144,12 +144,12 @@ export default function InsertNote(props) {
           }
   };
 
-  const handleSelectedText = () => {
-    console.log(window.getSelection().toString());
-    if (window.getSelection().toString())
-      return setSelectedText(window.getSelection().toString());
-    else return null;
-  };
+  // const handleSelectedText = () => {
+  //   console.log(window.getSelection().toString());
+  //   if (window.getSelection().toString())
+  //     return setSelectedText(window.getSelection().toString());
+  //   else return null;
+  // };
 
   // const handleSelect = (e) => {
   //   console.log(e);
@@ -217,7 +217,7 @@ export default function InsertNote(props) {
               id="content"
               suppressContentEditableWarning={true}
               onKeyDown={handleTabPress}
-              onMouseUpCapture={handleSelectedText}
+              // onMouseUpCapture={handleSelectedText}
             />
           </div>
 

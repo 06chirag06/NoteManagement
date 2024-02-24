@@ -57,10 +57,10 @@ export default function NotesContent(props) {
         `${endpoints.getAllNotes}/${username}/${location}`
       );
       setData(response.data);
-      props.handleNoNote(false);
+      // props.handleNoNote(false);
       console.log(data);
     } catch (err) {
-      props.handleNoNote(true);
+      // props.handleNoNote(true);
       console.log(err);
     }
   };

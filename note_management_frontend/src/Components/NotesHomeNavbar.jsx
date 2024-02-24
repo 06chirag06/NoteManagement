@@ -17,7 +17,6 @@ export default function NotesHomeNavbar(props) {
   const username = localStorage.getItem("username");
   // const isDark = useSelector((state) => state.theme);
   // const [toggle, setToggle] = useState(true);
-  const dispatch = useDispatch();
 
   const handleLogout = () => {
     localStorage.removeItem("JWTToken");

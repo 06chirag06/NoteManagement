@@ -5,7 +5,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import NotesHomeNavbar from "../Components/NotesHomeNavbar";
 import NotesHomeSidebar from "../Components/NotesHomeSidebar";
 import NotesContent from "../Components/NotesContent";
@@ -76,9 +76,9 @@ export default function Users() {
     }
   }, [url]);
 
-  const handleNoNote = () => {
-    setNoNote(false);
-  };
+  // const handleNoNote = () => {
+  //   setNoNote(false);
+  // };
 
   // isDark ? setBodyColor(darkBackground) : setBodyColor(lightBackground);
 
@@ -134,7 +134,7 @@ export default function Users() {
               >
                 <NotesContent
                   isDark={isDark}
-                  handleNoNote={handleNoNote}
+                  // handleNoNote={handleNoNote}
                   url={url}
                   bgColor={bgColor}
                 />

@@ -1,8 +1,8 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import SettingsBar from "./SettingsBar";
 import ContentEditable from "react-contenteditable";
 // import sanitizeHTML from "sanitize-html";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { updateNotes } from "../App/reducers/notesSlice";
 import axios from "axios";
 import "../Style/InsertNote.css";
@@ -19,8 +19,8 @@ export default function InsertNote(props) {
   const dispatch = useDispatch();
   const username = localStorage.getItem("username");
   const [_id, set_id] = useState(props._id ? props._id : "");
-  const [selectedText, setSelectedText] = useState("");
-  const typingTimer = useRef(null);
+  // const [selectedText, setSelectedText] = useState("");
+  // const typingTimer = useRef(null);
   const [content, setContent] = useState(props.content ? props.content : "");
   const [isUpdate, setIsUpdate] = useState(
     url.includes("updatenote") ? true : false
@@ -134,7 +134,7 @@ export default function InsertNote(props) {
         title: title,
         content: content,
       };
-      const response = await axios.patch(
+      await axios.patch(
         `${endpoints.updateNotes}/${_id}`,
         updatedData
       );
@@ -151,9 +151,9 @@ export default function InsertNote(props) {
     else return null;
   };
 
-  const handleSelect = (e) => {
-    console.log(e);
-  };
+  // const handleSelect = (e) => {
+  //   console.log(e);
+  // };
 
   //"<div class=\"border border-1 rounded editable border-light text-light\" id=\"content\" contenteditable=\"true\">Chirag</div>"
 

@@ -1,4 +1,5 @@
-const backendHost = `http://localhost:8000`;
+const backendHost = `https://inline-note-management.onrender.com`;
+const frontendHost = `http://localhost:3000`;
 
 export const endpoints = {
   login: `${backendHost}/login`,
@@ -9,4 +10,7 @@ export const endpoints = {
   updateNotes: `${backendHost}/notes/modify`,
   deleteNotes: `${backendHost}/notes/delete`,
   getNote: `${backendHost}/notes/get`,
+  resetPassword: `${backendHost}/login/resetpassword`,
+
+  forgotPassword: `${frontendHost}/forgotpassword`,
 };

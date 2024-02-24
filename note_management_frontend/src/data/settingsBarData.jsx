@@ -3,7 +3,6 @@ import {
   FaUnderline,
   FaItalic,
 } from "react-icons/fa6";
-import { AiOutlineFontSize } from "react-icons/ai";
 
 export const settingsBar = [
   {

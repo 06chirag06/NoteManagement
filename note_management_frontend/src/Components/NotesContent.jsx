@@ -1,18 +1,10 @@
-import React, {
-  useCallback,
-  useEffect,
-  useState,
-  useLayoutEffect,
-} from "react";
-import { fakeNotesRepo } from "../data/fakeNotesRepo";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+// import { fakeNotesRepo } from "../data/fakeNotesRepo";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
 import NotesOutline from "./NotesOutline";
 import { endpoints } from "../utils/Constants";
-import { updateNotesId } from "../App/reducers/notesIdSlice";
 import AddNoteButton from "./AddNoteButton";
-import TrashBar from "./TrashBar";
 
 export default function NotesContent(props) {
   // const _id = useSelector((state) => state.notesId.value);
@@ -76,7 +68,7 @@ export default function NotesContent(props) {
   useEffect(() => {
     document.body.style.backgroundColor = props.bgColor;
     fetchData();
-  }, [location]);
+  }, [location, props.bgColor]);
 
   return (
     <>

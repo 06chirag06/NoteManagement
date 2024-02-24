@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import HomeNavbar from "./HomeNavbar";
-import OtpComponent from "./OtpComponent";
 import { useLocation, useNavigate } from "react-router-dom";
 import {toast} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"
@@ -33,7 +32,7 @@ const OtpInput = () => {
     console.log(OTPInput1 + "" + OTPInput2 + "" + OTPInput3 + "" + OTPInput4);
     const userOTP =
       OTPInput1 + "" + OTPInput2 + "" + OTPInput3 + "" + OTPInput4;
-    if (userOTP == state.OTP) {
+    if (userOTP === state.OTP) {
       navigate(
         "/resetpassword",
         { state: { username: state.username } },

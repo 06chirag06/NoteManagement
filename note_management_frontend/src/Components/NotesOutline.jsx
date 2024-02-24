@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { notesHomeIcons } from "../data/notesHomeIcons";
-import { FaArchive, FaTrashRestore } from "react-icons/fa";
-import { FaCopy, FaPalette, FaTrash, FaUserPlus } from "react-icons/fa6";
+import React, { useState } from "react";
+import { FaTrashRestore } from "react-icons/fa";
+import { FaTrash, FaUserPlus } from "react-icons/fa6";
 import { BiSolidArchiveIn, BiSolidArchiveOut } from "react-icons/bi";
 import axios from "axios";
 import { endpoints } from "../utils/Constants";
@@ -12,7 +11,7 @@ import "../Style/NotesHome.css";
 export default function NotesOutline(props) {
   const url = window.location.pathname;
   const [isHovering, setIsHovering] = useState(false);
-  const [id, setId] = useState(props.id);
+  const id = useState(props.id);
   // const [data, setData] = useState(props.);
 
   const handleMouseOver = () => {
@@ -43,7 +42,7 @@ export default function NotesOutline(props) {
     try {
       console.log(url);
       const response = await axios.patch(
-        `http://[::1]:8000/notes/modify/${id}`,
+        `${endpoints.updateNotes}/${id}`,
         {
           location: "main",
         }
@@ -63,7 +62,7 @@ export default function NotesOutline(props) {
     e.stopPropagation();
     try {
       const response = await axios.patch(
-        `http://[::1]:8000/notes/modify/${id}`,
+        `${endpoints.updateNotes}/${id}`,
         {
           location: "trash",
         }
@@ -79,7 +78,7 @@ export default function NotesOutline(props) {
     e.stopPropagation();
     try {
       const response = await axios.patch(
-        `http://[::1]:8000/notes/modify/${id}`,
+        `${endpoints.updateNotes}/${id}`,
         {
           location: "main",
         }
@@ -95,7 +94,7 @@ export default function NotesOutline(props) {
     e.stopPropagation();
     try {
       const response = await axios.delete(
-        `http://localhost:8000/notes/delete/${id}`
+        `${endpoints.deleteNotes}/${id}`
       );
       toast.success(`Note Deleted`);
       console.log(response.data);

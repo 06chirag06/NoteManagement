@@ -1,4 +1,4 @@
-import { FaCopy, FaPalette, FaTrash, FaUserPlus } from "react-icons/fa6";
+import { FaTrash, FaUserPlus } from "react-icons/fa6";
 import { FaArchive } from "react-icons/fa";
 
 export const notesHomeIcons = [

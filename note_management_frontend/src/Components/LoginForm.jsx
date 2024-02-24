@@ -153,7 +153,7 @@ export default function LoginForm() {
               </div>
               <div className="col-sm-6 fs-6 mt-3">
                 <Link
-                  to="http://localhost:3000/forgotpassword"
+                  to={endpoints.forgotPassword}
                   className="float-end text-primary"
                 >
                   Forgot Password?

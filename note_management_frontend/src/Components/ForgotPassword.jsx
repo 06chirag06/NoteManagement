@@ -3,6 +3,7 @@ import HomeNavbar from "./HomeNavbar";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaUser } from "react-icons/fa6";
+import { endpoints } from "../utils/Constants";
 
 const ForgotPassword = () => {
   const [username, setUsername] = useState("");
@@ -23,12 +24,9 @@ const ForgotPassword = () => {
     try {
       if (username) {
         const OTP = Math.floor(Math.random() * 9000 + 1000);
-        const response = await axios.post(
-          `http://localhost:8000/login/forgetpassword/${username}`,
-          {
-            OTP: OTP,
-          }
-        );
+        const response = await axios.post(`${endpoints.forgetPassword}/${username}`, {
+          OTP: OTP,
+        });
         console.log(OTP);
         if (response.data) {
           navigate("/otp", { state: { OTP, username } }, { replace: true });

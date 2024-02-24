@@ -1,11 +1,11 @@
 // import { Link } from "react-router-dom";
-import React, { useEffect, useState } from "react";
-import { FaBars, FaMoon } from "react-icons/fa6";
+import React from "react";
+import { FaBars } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import { IoIosSunny, IoIosMoon } from "react-icons/io";
 import { Nav, Navbar, NavDropdown } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 // import toggleTheme from "../App/reducers/themeSlice";
 import logo from "../images/navLogo.jpg";
 import logoLight from "../images/lightLogo.jpg";

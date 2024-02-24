@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { IoAddCircleOutline } from "react-icons/io5";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 // import { useState } from "react";
 
 const AddNoteButton = (props) => {
-  const navigate = useNavigate();
 
   const plusStyle = {
     position: "fixed",

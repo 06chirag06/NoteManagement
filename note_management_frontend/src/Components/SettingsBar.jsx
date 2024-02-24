@@ -1,5 +1,5 @@
 import React from "react";
-import { Nav, NavDropdown, Navbar } from "react-bootstrap";
+import { Nav, Navbar } from "react-bootstrap";
 import { settingsBar } from "../data/settingsBarData";
 import "../Style/NotesHome.css";
 

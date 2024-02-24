@@ -1,5 +1,5 @@
 const backendHost = `https://inline-note-management.onrender.com`;
-const frontendHost = `http://localhost:3000`;
+const frontendHost = `https://65da4208a23aec000859a2c1--tiny-mochi-9ffbbb.netlify.app/`;
 
 export const endpoints = {
   login: `${backendHost}/login`,

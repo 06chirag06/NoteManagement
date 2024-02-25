@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import Lottie from "lottie-react";
 import loginLeft from "../images/login-left.json";
 import loadingAnimation from "../images/loading-animation.json";
+import accountCreated from "../images/account-crated.json"
 import "react-toastify/dist/ReactToastify.css";
 
 export default function LoginForm() {
@@ -85,7 +86,7 @@ export default function LoginForm() {
     <>
       <div id="loading" style={{ display: "none" }}>
         <Lottie
-          animationData={loadingAnimation}
+          animationData={accountCreated}
           loop={true}
           lottieRef={lottieRef}
         />

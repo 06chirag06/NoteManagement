@@ -86,7 +86,7 @@ export default function LoginForm() {
     <>
       <div id="loading" style={{ display: "none" }}>
         <Lottie
-          animationData={accountCreated}
+          animationData={loadingAnimation}
           loop={true}
           lottieRef={lottieRef}
         />

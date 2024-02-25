@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import { IoIosSunny, IoIosMoon } from "react-icons/io";
 import { Nav, Navbar, NavDropdown } from "react-bootstrap";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 // import toggleTheme from "../App/reducers/themeSlice";
 import logo from "../images/navLogo.jpg";
 import logoLight from "../images/lightLogo.jpg";

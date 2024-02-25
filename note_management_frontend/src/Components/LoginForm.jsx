@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaEye, FaEyeSlash, FaLock, FaUser } from "react-icons/fa6";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 import { login } from "../App/reducers/usernameSlice";
 import { endpoints } from "../utils/Constants";
 import { toast } from "react-toastify";
@@ -12,7 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function LoginForm() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -50,12 +50,12 @@ export default function LoginForm() {
       const response = await axios.post(endpoints.login, reqBody);
       console.log(response);
       if (response.data.accessToken) {
-        dispatch(
-          login({
-            username: reqBody.username,
-            token: response.data.accessToken,
-          })
-        );
+        // dispatch(
+        //   login({
+        //     username: reqBody.username,
+        //     token: response.data.accessToken,
+        //   })
+        // );
         localStorage.setItem("JWTToken", response.data.accessToken);
         localStorage.setItem("username", reqBody.username);
         navigate("/userid/home", { replace: true });

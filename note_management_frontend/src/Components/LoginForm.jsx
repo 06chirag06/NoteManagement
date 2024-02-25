@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FaEye, FaEyeSlash, FaLock, FaUser } from "react-icons/fa6";
@@ -8,6 +8,7 @@ import { endpoints } from "../utils/Constants";
 import { toast } from "react-toastify";
 import Lottie from "lottie-react";
 import loginLeft from "../images/login-left.json";
+import loadingAnimation from "../images/loading-animation.json";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function LoginForm() {
@@ -17,6 +18,7 @@ export default function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isVisible, setIsVisible] = useState(false);
+  const lottieRef = useRef();
   const usernamePlaceholder = "Enter Username";
   const passwordPlaceholder = "Enter Password";
 
@@ -43,7 +45,9 @@ export default function LoginForm() {
       username: username,
       password: password,
     };
-
+    document.getElementById("loginForm").style.display = "none";
+    lottieRef.current.setSpeed(0.6);
+    document.getElementById("loading").style.display = "block";
     try {
       console.log(reqBody);
       console.log(endpoints.login);
@@ -60,10 +64,14 @@ export default function LoginForm() {
         localStorage.setItem("username", reqBody.username);
         navigate("/userid/home", { replace: true });
       } else {
+        document.getElementById("loading").style.display = "none";
+        document.getElementById("loginForm").style.display = "block";
         const err = { Error: "Internal Server Error" };
         throw err;
       }
     } catch (err) {
+      document.getElementById("loading").style.display = "none";
+      document.getElementById("loginForm").style.display = "block";
       console.log(err);
       toast.error(err.response.data);
     }
@@ -75,7 +83,19 @@ export default function LoginForm() {
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <div id="loading" style={{ display: "none" }}>
+        <Lottie
+          animationData={loadingAnimation}
+          loop={true}
+          lottieRef={lottieRef}
+        />
+      </div>
+      <form
+        onSubmit={handleSubmit}
+        id="loginForm"
+        style={{ display: "block" }}
+        className="form-group border border-4 border-dark rounded rounded-2 bg-light-blue"
+      >
         <div className="row p-0 m-0">
           <div className="d-lg-flex d-none col-lg-4 col-0 p-0 m-0 login-side-image justify-contents-center">
             <Lottie animationData={loginLeft} loop={true} />

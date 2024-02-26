@@ -1,7 +1,7 @@
 import {useEffect, React, useState} from "react";
-import { Link } from "react-router-dom";
-import { IoAddCircleOutline } from "react-icons/io5";
-import { useSelector } from "react-redux";
+// import { Link } from "react-router-dom";
+// import { IoAddCircleOutline } from "react-icons/io5";
+// import { useSelector } from "react-redux";
 import axios from "axios";
 import AddNoteButton from "./AddNoteButton";
 import { endpoints } from "../utils/Constants";

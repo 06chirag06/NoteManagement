@@ -77,8 +77,9 @@ export default function SignupForm() {
     try {
       response = await axios.post(endpoints.signup, formValues);
       console.log(response);
-      if (response.statusText) {
+      if (response.status === 200) {
         // localStorage.setItem("token", response.data.token);
+        toast.success(`Account Created`);
         navigate("/login", { replace: true });
       } else {
         const err = { Error: response.statusText.error };

@@ -1,32 +1,25 @@
-const crypto = require("crypto");
-const loginRouter = require("express").Router(); //
+const loginRouter = require("express").Router();
 const UserModel = require("../models/Users");
 const bcrypt = require("bcryptjs");
 const nodemailer = require("nodemailer");
-const randomstring = require("randomstring");
-const config = require("../config/config");
-// const { isJWT } = require("validator");
 const jwt = require("jsonwebtoken");
+const config = require("../config/config");
 
 const SendResetPasswordMail = async (name, email, OTP) => {
   try {
     const transporter = nodemailer.createTransport({
-      // host: "smtp.gmail.com",
       service: "gmail",
       auth: {
         user: config.emailUser,
         pass: config.emailPassword,
       },
-      // port: 587,
-      // secure: false,
-      // requireTLs: true,
     });
 
     const mailOptions = {
       from: config.emailUser,
       to: email,
       subject: "InLine Password Recovery",
-      html: `<p>Hi ${name}, Your OTP for Password Recovery is ${OTP}`,
+      html: `<p>Hi ${name}, your OTP for Password Recovery is ${OTP}`,
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -116,10 +109,6 @@ const forgetPassword = async (req, res) => {
 const resetpassword = async (req, res) => {
   const username = req.params.username;
   try {
-    // const token = req.query.token;
-    // console.log(token);
-    // const tokenData = await UserModel.findOne({ token: token });
-    // console.log(tokenData);
     const userData = await UserModel.findOne({ username: username });
     if (userData) {
       const password = req.body.password;
@@ -128,21 +117,18 @@ const resetpassword = async (req, res) => {
       if (!passwordRegex.test(password)) {
         return res.status(400).json({ error: "Invalid password format" });
       }
-      const saltRounds = 10; // Adjust as needed
+      const saltRounds = 10;
 
       bcrypt.genSalt(saltRounds, (err, salt) => {
         bcrypt.hash(password, salt, async (err, hash) => {
           if (err) {
             console.error("Error hashing password:", err);
-            // Handle error gracefully (e.g., log, inform user)
             return;
           }
 
           const newpassword = hash;
           console.log("Hashed password:", hash);
-          // Store the hash in your database securely
           try {
-            // const dataToSave = await data.save();
             const data = await UserModel.findOneAndUpdate(
               { _id: userData._id },
               { $set: { password: newpassword } },
@@ -157,7 +143,7 @@ const resetpassword = async (req, res) => {
       });
     } else {
       return res
-        .status(200)
+        .status(400)
         .send({ success: false, msg: "This Link has been expired" });
     }
   } catch (error) {

@@ -5,12 +5,11 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import NotesHomeNavbar from "../Components/NotesHomeNavbar";
 import NotesHomeSidebar from "../Components/NotesHomeSidebar";
 import NotesContent from "../Components/NotesContent";
 import InsertNote from "../Components/InsertNote";
-import setBodyColor from "../utils/setBodyColor";
 import "../Style/NotesHome.css";
 import "../index.css";
 
@@ -31,12 +30,12 @@ export default function Users() {
 
   const [height, setHeight] = useState(0); // to find height of component except navbar
   const [toggleSidebar, setToggleSidebar] = useState(true);
-  const [noNote, setNoNote] = useState(true);
+  // const [noNote, setNoNote] = useState(true);
 
   const [isDark, setIsDark] = useState(true);
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleToggle = () => {
     setToggleSidebar(!toggleSidebar);
@@ -77,9 +76,9 @@ export default function Users() {
     }
   }, [url]);
 
-  const handleNoNote = () => {
-    setNoNote(false);
-  };
+  // const handleNoNote = () => {
+  //   setNoNote(false);
+  // };
 
   // isDark ? setBodyColor(darkBackground) : setBodyColor(lightBackground);
 
@@ -98,17 +97,13 @@ export default function Users() {
 
   return (
     <>
-      {/* {isLoading && <div className="loading">Loading...</div>} */}
       <div
         className={
           "container-fluid " + isDark
             ? "bg-viridian-green"
             : "bg-viridian-green-light"
         }
-        // style={{ "background-color": isDark ? "#000" : "#fff" }}
-        // data-theme={isDark}
       >
-        {/* style={{ minHeight: height + container.current.offsetHeight }} */}
         <div className="row m-0 p-0" ref={container}>
           <NotesHomeNavbar
             handleToggle={handleToggle}
@@ -127,7 +122,6 @@ export default function Users() {
               <NotesHomeSidebar isDark={isDark} url={url} />
             </div>
           )}
-          {/* {isTrash && <TrashBar isDark={isDark} toggleSidebar={toggleSidebar} />} */}
           {(isHome || isArchive || isTrash) && (
             <>
               <div
@@ -140,16 +134,11 @@ export default function Users() {
               >
                 <NotesContent
                   isDark={isDark}
-                  handleNoNote={handleNoNote}
+                  // handleNoNote={handleNoNote}
                   url={url}
                   bgColor={bgColor}
                 />
               </div>
-              {/* {noNote && (
-                <div className="col-10 m-0 p-0 pb-5">
-                <h1 className="text-center text-light">No Notes</h1>
-                </div>
-              )} */}
             </>
           )}
           {isNewNote && (
@@ -181,41 +170,6 @@ export default function Users() {
               />
             </div>
           )}
-
-          {/* {isArchive && (
-            <div
-            className={
-              "d-flex m-0 bg-viridian-green p-5 " +
-              (toggleSidebar ? "col-10" : "col-12")
-            }
-          > */}
-          {/* <ArchiveNotes isDark={isDark} /> */}
-          {/* <NotesContent
-              isDark={isDark}
-              handleNoNote={handleNoNote}
-              url={url}
-            />
-            </div>
-        )}
-        
-        {isTrash && (
-          <div
-          className={
-            "d-flex m-0 bg-viridian-green p-5 " +
-            (toggleSidebar ? "col-10" : "col-12")
-          }
-        > */}
-          {/* <Trash isDark={isDark} /> */}
-          {/* <NotesContent
-              isDark={isDark}
-              handleNoNote={handleNoNote}
-              url={url}
-              />
-              </div>
-            )} */}
-          {/* <div>
-              <span id="background-text-notes">INLINE</span>
-            </div> */}
         </div>
       </div>
     </>

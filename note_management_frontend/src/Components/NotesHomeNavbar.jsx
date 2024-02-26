@@ -1,11 +1,11 @@
 // import { Link } from "react-router-dom";
-import React, { useEffect, useState } from "react";
-import { FaBars, FaMoon } from "react-icons/fa6";
+import React from "react";
+import { FaBars } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import { IoIosSunny, IoIosMoon } from "react-icons/io";
 import { Nav, Navbar, NavDropdown } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
+// import { useDispatch } from "react-redux";
 // import toggleTheme from "../App/reducers/themeSlice";
 import logo from "../images/navLogo.jpg";
 import logoLight from "../images/lightLogo.jpg";
@@ -17,7 +17,6 @@ export default function NotesHomeNavbar(props) {
   const username = localStorage.getItem("username");
   // const isDark = useSelector((state) => state.theme);
   // const [toggle, setToggle] = useState(true);
-  const dispatch = useDispatch();
 
   const handleLogout = () => {
     localStorage.removeItem("JWTToken");
@@ -65,26 +64,13 @@ export default function NotesHomeNavbar(props) {
           </Nav.Item>
           <Nav.Item>
             <Navbar.Brand>
-              {props.isDark ? (
-                <img
-                  src={logo}
-                  height="30%"
-                  width="20%"
-                  alt=""
-                  className="ms-0"
-                />
-              ) : (
-                <>
-                  <img
-                    fluid
-                    src={logoLight}
-                    height="30%"
-                    width="20%"
-                    alt=""
-                    className="ms-0 img-fluid"
-                  />
-                </>
-              )}
+              <img
+                src={props.isDark ? logo : logoLight}
+                height="30%"
+                width="20%"
+                alt=""
+                className="ms-0"
+              />
             </Navbar.Brand>
           </Nav.Item>
           <Nav.Item

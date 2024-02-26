@@ -3,6 +3,9 @@ import HomeNavbar from "./HomeNavbar";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import { FaLock } from "react-icons/fa6";
+import {toast} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"
+import { endpoints } from "../utils/Constants";
 
 const ResetPassword = () => {
   const [password, setPassword] = useState("");
@@ -27,7 +30,7 @@ const ResetPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (state.username === null) {
-      alert(`Please generate an OTP first`);
+      toast.error(`Please generate an OTP first`);
       navigate("/forgotpassword", { replace: true });
     }
     if (password === rePassword) {
@@ -35,17 +38,17 @@ const ResetPassword = () => {
         const updatedData = {
           password: password,
         };
-        const response = await axios.patch(
-          `http://localhost:8000/login/resetpassword/${state.username}`,
+        await axios.patch(
+          `${endpoints.resetPassword}/${state.username}`,
           updatedData
         );
-        alert("Password changed successfully");
+        toast.success("Password changed successfully");
         navigate("/login", { replace: true });
       } catch (err) {
         console.log(err.message);
       }
     } else {
-      alert("Passwords do not match");
+      toast.error("Passwords do not match");
     }
   };
 

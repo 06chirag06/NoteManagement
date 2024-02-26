@@ -1,12 +1,14 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import SettingsBar from "./SettingsBar";
 import ContentEditable from "react-contenteditable";
 // import sanitizeHTML from "sanitize-html";
-import { useDispatch, useSelector } from "react-redux";
+// import { useDispatch } from "react-redux";
 import { updateNotes } from "../App/reducers/notesSlice";
 import axios from "axios";
 import "../Style/InsertNote.css";
 import { endpoints } from "../utils/Constants";
+import {toast} from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 export default function InsertNote(props) {
   const [title, setTitle] = useState(
@@ -14,15 +16,17 @@ export default function InsertNote(props) {
   );
   const url = props.url;
   const inputRef = useRef();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const username = localStorage.getItem("username");
   const [_id, set_id] = useState(props._id ? props._id : "");
-  const [selectedText, setSelectedText] = useState("");
-  const typingTimer = useRef(null);
+  // const [selectedText, setSelectedText] = useState("");
+  // const typingTimer = useRef(null);
+  const [content, setContent] = useState(props.content ? props.content : "");
+  const [isUpdate, setIsUpdate] = useState(
+    url.includes("updatenote") ? true : false
+  );
 
   // const notes = useSelector((state) => state.notes);
-
-  const [content, setContent] = useState(props.content ? props.content : "");
 
   // const [sanitizeConf, setSanitizeConf] = useState({
   //   allowedTags: [
@@ -43,25 +47,21 @@ export default function InsertNote(props) {
   // });
 
   const handleInput = (e) => {
-    if (typingTimer.current) {
-      clearTimeout(typingTimer.current);
-    }
-    typingTimer.current = setTimeout(() => {
-      handleUpdate(); // Call the update API here
-    }, 3000);
+    // e.preventDefault();
     switch (e.currentTarget.id) {
       case "title":
-        setTitle(e.currentTarget.value);
-        dispatch(
-          updateNotes({ title: e.currentTarget.value, content: content })
-        );
+        setTitle(e.target.value);
+        console.log(e);
+        // dispatch(
+        //   updateNotes({ title: e.currentTarget.value, content: content })
+        // );
         // console.log("content title");
-        console.log(e.currentTarget.value);
+        console.log(title);
         break;
       case "content":
-        dispatch(
-          updateNotes({ content: e.currentTarget.innerHTML, title: title })
-        );
+        // dispatch(
+        //   updateNotes({ content: e.currentTarget.innerHTML, title: title })
+        // );
         setContent(e.currentTarget.innerHTML);
         // console.log("content");
         console.log(content);
@@ -69,6 +69,10 @@ export default function InsertNote(props) {
       default:
         break;
     }
+    console.log(title, content);
+    // typingTimer.current = setTimeout((e) => {
+    //   handleUpdate(); // Call the update API here
+    // }, 2000);
   };
 
   //Try to add tab space
@@ -76,7 +80,7 @@ export default function InsertNote(props) {
     if (e.key === "Tab") {
       e.preventDefault();
       e.currentTarget.focus();
-      dispatch(updateNotes({ title: title, content: content }));
+      // dispatch(updateNotes({ title: title, content: content }));
     }
   };
 
@@ -113,7 +117,9 @@ export default function InsertNote(props) {
         collaborator: "",
       };
       const response = await axios.post(endpoints.insertNote, reqBody);
-      alert("Note Saved");
+      set_id(response.data._id);
+      setIsUpdate(true);
+      toast.success("Note Saved");
     } catch (err) {
       console.log(err);
     }
@@ -121,32 +127,33 @@ export default function InsertNote(props) {
 
   // console.log(inputRef.current.select());
 
-  const handleUpdate = async () => {
+  const handleUpdate = async (e) => {
+    e.preventDefault();
     try {
       const updatedData = {
         title: title,
         content: content,
       };
-      const response = await axios.patch(
+      await axios.patch(
         `${endpoints.updateNotes}/${_id}`,
         updatedData
       );
-      alert("Note Updated");
+      toast.success("Note Updated");
     } catch (err) {
       console.log(err);
-    }
+          }
   };
 
-  const handleSelectedText = () => {
-    console.log(window.getSelection().toString());
-    if (window.getSelection().toString())
-      return setSelectedText(window.getSelection().toString());
-    else return null;
-  };
+  // const handleSelectedText = () => {
+  //   console.log(window.getSelection().toString());
+  //   if (window.getSelection().toString())
+  //     return setSelectedText(window.getSelection().toString());
+  //   else return null;
+  // };
 
-  const handleSelect = (e) => {
-    console.log(e);
-  };
+  // const handleSelect = (e) => {
+  //   console.log(e);
+  // };
 
   //"<div class=\"border border-1 rounded editable border-light text-light\" id=\"content\" contenteditable=\"true\">Chirag</div>"
 
@@ -176,7 +183,11 @@ export default function InsertNote(props) {
         <SettingsBar handleBoldClick={handleBoldClick} isDark={props.isDark} />
       </div>
       <div className="row m-0 p-0">
-        <form onSubmit={handleInsert}>
+        <form
+          onSubmit={
+            isUpdate || url.includes("updatenote") ? handleUpdate : handleInsert
+          }
+        >
           <div className="row m-0 p-0 mt-5">
             <input
               type="text"
@@ -206,21 +217,22 @@ export default function InsertNote(props) {
               id="content"
               suppressContentEditableWarning={true}
               onKeyDown={handleTabPress}
-              onMouseUpCapture={handleSelectedText}
+              // onMouseUpCapture={handleSelectedText}
             />
           </div>
-          {url.includes("newnote") && (
-            <button
-              className={
-                "btn mt-2 float-end " +
-                (props.isDark ? "btn-warning" : "btn-primary")
-              }
-            >
-              Save Note
-            </button>
-          )}
+
+          <button
+            className={
+              "btn mt-2 float-end " +
+              (props.isDark ? "btn-warning" : "btn-primary")
+            }
+          >
+            {isUpdate || url.includes("updatenote")
+              ? "Update Note"
+              : "Save Note"}
+          </button>
         </form>
       </div>
-    </>
+          </>
   );
 }

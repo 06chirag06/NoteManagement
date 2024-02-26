@@ -172,7 +172,8 @@ div.dropdown-menu.show {
 
 .notes-title {
   position: relative;
-  font-size: 3rem;
+  font-size: 2rem;
+  font-weight: 500;
 }
 
 .note-icon-hover {

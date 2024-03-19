@@ -22,7 +22,7 @@ export default function Login() {
             <img src={logo} height="30%" width="70%" className="" alt="" />
             </Link>
           </div> */}
-            <div className="form-group border border-4 border-dark rounded rounded-2 bg-light-blue">
+            <div>
               <LoginForm />
             </div>
           </div>

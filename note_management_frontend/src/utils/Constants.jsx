@@ -1,5 +1,5 @@
 const backendHost = `https://inline-note-management.onrender.com`;
-const frontendHost = `https://65da4208a23aec000859a2c1--tiny-mochi-9ffbbb.netlify.app/`;
+const frontendHost = `https://notemanagement.onrender.com`;
 
 export const endpoints = {
   login: `${backendHost}/login`,
@@ -11,6 +11,5 @@ export const endpoints = {
   deleteNotes: `${backendHost}/notes/delete`,
   getNote: `${backendHost}/notes/get`,
   resetPassword: `${backendHost}/login/resetpassword`,
-
   forgotPassword: `${frontendHost}/forgotpassword`,
 };

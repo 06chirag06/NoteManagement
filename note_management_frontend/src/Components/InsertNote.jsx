@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import SettingsBar from "./SettingsBar";
 import ContentEditable from "react-contenteditable";
 // import sanitizeHTML from "sanitize-html";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 import { updateNotes } from "../App/reducers/notesSlice";
 import axios from "axios";
 import "../Style/InsertNote.css";
@@ -16,7 +16,7 @@ export default function InsertNote(props) {
   );
   const url = props.url;
   const inputRef = useRef();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const username = localStorage.getItem("username");
   const [_id, set_id] = useState(props._id ? props._id : "");
   // const [selectedText, setSelectedText] = useState("");
@@ -59,9 +59,9 @@ export default function InsertNote(props) {
         console.log(title);
         break;
       case "content":
-        dispatch(
-          updateNotes({ content: e.currentTarget.innerHTML, title: title })
-        );
+        // dispatch(
+        //   updateNotes({ content: e.currentTarget.innerHTML, title: title })
+        // );
         setContent(e.currentTarget.innerHTML);
         // console.log("content");
         console.log(content);
@@ -80,7 +80,7 @@ export default function InsertNote(props) {
     if (e.key === "Tab") {
       e.preventDefault();
       e.currentTarget.focus();
-      dispatch(updateNotes({ title: title, content: content }));
+      // dispatch(updateNotes({ title: title, content: content }));
     }
   };
 
